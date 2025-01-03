@@ -2,13 +2,14 @@ import React from "react";
 import Header from "../../components/Header";
 import TopBar from "../../components/TopBar";
 import Footer from "../../components/Footer";
+import LeftSideBar from "../../components/HomeMenuBar";
 
 
 const Home = () => {
   return (
     <>
       <Header />
-      <TopBar />
+      <LeftSideBar />
       <section
         id="home"
         className="bg-bannerImg bg-no-repeat bg-cover bg-bottom"
