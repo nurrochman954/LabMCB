@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 
-const BeritaTerbaru: React.FC = () => {
+const Berita: React.FC = () => {
   // State untuk melacak slide gambar aktif
   const [currentSlide, setCurrentSlide] = useState(0);
 
@@ -45,7 +45,7 @@ const BeritaTerbaru: React.FC = () => {
     <section className="py-16 bg-white flex justify-center items-center" id="berita-terbaru">
       <div className="container mx-auto flex flex-col md:flex-row justify-center items-center space-x-8">
         {/* Slider Gambar */}
-        <div className="relative w-1/2 h-64 md:h-80 flex justify-center items-center overflow-hidden">
+        <div className="relative w-[45%] h-64 md:h-80 flex justify-center items-center overflow-hidden">
           {/* Wrapper untuk gambar slider */}
           <div className="relative w-full h-full flex justify-center items-center">
             {gambarSlider.map((imgSrc, index) => (
@@ -99,7 +99,7 @@ const BeritaTerbaru: React.FC = () => {
         </div>
 
         {/* Teks Deskripsi */}
-        <div className="w-1/2 flex flex-col justify-center text-left">
+        <div className="w-[45%] flex flex-col justify-center text-left">
           <h2 className="text-3xl font-bold">Berita Terbaru</h2>
           <p className="mt-4">
             Klik berita untuk membaca lebih lanjut tentang aktivitas terbaru.
@@ -121,4 +121,4 @@ const BeritaTerbaru: React.FC = () => {
   );
 };
 
-export default BeritaTerbaru;
+export default Berita;

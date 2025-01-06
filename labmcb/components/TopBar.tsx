@@ -1,133 +1,110 @@
-import React from "react";
-import Image from "next/image";
+"use client";
+
+import { useEffect, useState } from "react";
+import Link from "next/link";  // Impor Link dari Next.js
+
+const menus = [
+  { name: "beranda", href: "" },
+  { name: "pengenalan", href: "/pengenalan" },
+  { name: "daftar peralatan", href: "/daftar-peralatan" },
+  { name: "panduan", href: "/panduan" },
+  { name: "halaman saya", href: "/halaman-saya" },
+];
 
 const TopBar = () => {
+  const [activeSection, setActiveSection] = useState(null);
+  const [toggleMenu, setToggleMenu] = useState(false);
+  const [isSticky, setIsSticky] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const headerHeight = 50; // Tinggi header "FAQ" dan "Masuk"
+      setIsSticky(window.scrollY > headerHeight);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  useEffect(() => {
+    const options = {
+      root: null,
+      rootMargin: "0px",
+      threshold: 0.4,
+    };
+
+    const observer = new IntersectionObserver((entries: any) => {
+      entries.forEach((entry: any) => {
+        if (entry.isIntersecting) {
+          setActiveSection(entry.target.id);
+        }
+      });
+    }, options);
+
+    menus.forEach((menu) => {
+      const element = document.getElementById(menu.name);
+      if (element) observer.observe(element);
+    });
+
+    return () => observer.disconnect();
+  }, [menus]);
+
   return (
     <header
-      style={{
-        display: "flex",
-        flexDirection: "row",
-        justifyContent: "space-between",
-        alignItems: "center",
-        padding: "10px 20px",
-        //borderBottom: "2px solid #007bff",
-      }}
+      className={`z-50 fixed left-0 right-0 transition-all duration-300 ${
+        isSticky ? "top-0 bg-black bg-opacity-75 py-4" : "top-[50px] bg-transparent"
+      }`}
     >
-      {/* Logo dan Judul */}
-      <div style={{ display: "flex", alignItems: "center" }}>
-        <Image
-          src="/assets/kemdikbud.svg" // Path to your logo.svg
-          alt="Logo"
-          width={60}
-          height={60}
-          style={{ marginRight: "10px" }}
-        />
-        <div>
-          <h1 style={{ fontSize: "18px", margin: 0 }}>
-            Laboratorium Museum dan Cagar Budaya
-          </h1>
-          <p style={{ fontSize: "14px", margin: 0 }}>
-            Kementerian Pendidikan, Kebudayaan, Riset, dan Teknologi
-          </p>
-        </div>
+      <div className="px-4 flex justify-end sm:hidden">
+        <button
+          className="cursor-pointer"
+          onClick={() => setToggleMenu(!toggleMenu)}
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 246.42 246.04"
+            className="fill-white w-8 h-8"
+          >
+            <rect
+              x="0.79"
+              y="30.22"
+              width="245.63"
+              height="23.36"
+              rx="11.68"
+            />
+            <rect
+              x="0.39"
+              y="111.32"
+              width="245.63"
+              height="23.36"
+              rx="11.68"
+            />
+            <rect
+              y="192.42"
+              width="245.63"
+              height="23.36"
+              rx="11.68"
+            />
+          </svg>
+        </button>
       </div>
-
-      {/* Navigation Links */}
       <nav
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          gap: "20px",
-        }}
+        className={`${
+          toggleMenu ? "flex" : "hidden sm:flex"
+        } justify-center items-center gap-3 sm:gap-5 lg:gap-10 sm:flex-row flex-col mt-2 sm:mt-0`}
       >
-        <a
-          href="/pengenalan"
-          style={{
-            textDecoration: "none",
-            color: "#000",
-            fontWeight: "bold",
-          }}
-        >
-          Pengenalan
-        </a>
-        <a
-          href="/panduan"
-          style={{
-            textDecoration: "none",
-            color: "#000",
-            fontWeight: "bold",
-          }}
-        >
-          Panduan
-        </a>
-        <a
-          href="/daftar-peralatan"
-          style={{
-            textDecoration: "none",
-            color: "#000",
-            fontWeight: "bold",
-          }}
-        >
-          Daftar Peralatan
-        </a>
-        <a
-          href="/komunitas"
-          style={{
-            textDecoration: "none",
-            color: "#000",
-            fontWeight: "bold",
-          }}
-        >
-          Komunitas
-        </a>
-        <a
-          href="/halaman-saya"
-          style={{
-            textDecoration: "none",
-            color: "#000",
-            fontWeight: "bold",
-          }}
-        >
-          Halaman Saya
-        </a>
-      </nav>
-
-      {/* Right Side Navigation */}
-      <nav
-        style={{
-          display: "flex",
-          alignItems: "center",
-          gap: "15px",
-          justifyContent: "flex-start", // Shift navigation links to the left
-        }}
-      >
-        <a
-          href="/"
-          style={{
-            textDecoration: "none",
-            color: "#007bff", // Blue color
-            fontWeight: "bold",
-          }}
-        >
-          Beranda
-        </a>
-        <a
-          href="/sign-in"
-          style={{
-            textDecoration: "none",
-            color: "#007bff", // Blue color
-            fontWeight: "bold",
-          }}
-        >
-          Masuk
-        </a>
-        <Image
-          src="/assets/search.svg" // Path to your search.svg
-          alt="Search Icon"
-          width={30} // Increased size
-          height={30} // Increased size
-          style={{ cursor: "pointer" }}
-        />
+        {menus.map((menu, i) => (
+          <Link key={i} href={menu.href} passHref>
+            <div
+              className={`w-full sm:w-auto uppercase font-semibold text-base text-white text-center sm:px-3 lg:px-5 py-2 sm:py-1 rounded-2xl transition-all ease-linear hover:bg-green hover:shadow-md ${
+                activeSection === menu.name ? "bg-green shadow-md" : ""
+              }`}
+            >
+              {menu.name}
+            </div>
+          </Link>
+        ))}
       </nav>
     </header>
   );
