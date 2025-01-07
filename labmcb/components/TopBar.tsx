@@ -1,10 +1,10 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Link from "next/link";  // Impor Link dari Next.js
+import Link from "next/link";
 
 const menus = [
-  { name: "beranda", href: "" },
+  { name: "beranda", href: "/" },
   { name: "pengenalan", href: "/pengenalan" },
   { name: "daftar peralatan", href: "/daftar-peralatan" },
   { name: "panduan", href: "/panduan" },
@@ -18,12 +18,11 @@ const TopBar = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      const headerHeight = 50; // Tinggi header "FAQ" dan "Masuk"
+      const headerHeight = 40; // Mengurangi headerHeight untuk menempel lebih ke atas
       setIsSticky(window.scrollY > headerHeight);
     };
 
     window.addEventListener("scroll", handleScroll);
-
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
@@ -52,9 +51,9 @@ const TopBar = () => {
 
   return (
     <header
-      className={`z-50 fixed left-0 right-0 transition-all duration-300 ${
-        isSticky ? "top-0 bg-black bg-opacity-75 py-4" : "top-[50px] bg-transparent"
-      }`}
+      className={`z-50 fixed left-0 right-0 bg-black transition-all duration-300 ${
+        isSticky ? "top-0 bg-opacity-40" : "top-[40px] bg-opacity-25"
+      } py-1`}
     >
       <div className="px-4 flex justify-end sm:hidden">
         <button
@@ -92,14 +91,13 @@ const TopBar = () => {
       <nav
         className={`${
           toggleMenu ? "flex" : "hidden sm:flex"
-        } justify-center items-center gap-3 sm:gap-5 lg:gap-10 sm:flex-row flex-col mt-2 sm:mt-0`}
+        } justify-center items-center gap-3 sm:gap-5 lg:gap-10 sm:flex-row flex-col mt-1 sm:mt-0`}
       >
         {menus.map((menu, i) => (
           <Link key={i} href={menu.href} passHref>
             <div
-              className={`w-full sm:w-auto uppercase font-semibold text-base text-white text-center sm:px-3 lg:px-5 py-2 sm:py-1 rounded-2xl transition-all ease-linear hover:bg-green hover:shadow-md ${
-                activeSection === menu.name ? "bg-green shadow-md" : ""
-              }`}
+              className={`w-full sm:w-auto uppercase font-semibold text-base text-white text-center sm:px-3 lg:px-5 py-1 sm:py-1 rounded-2xl transition-all ease-linear 
+              ${activeSection === menu.name ? "bg-green-500 shadow-md" : "hover:bg-green-500 hover:shadow-md active:bg-green-600"}`}
             >
               {menu.name}
             </div>
