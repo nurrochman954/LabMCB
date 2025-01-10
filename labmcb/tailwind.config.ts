@@ -11,6 +11,8 @@ export default {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
+        primary: "#0089AA",
+        secondary: "#00AFB9",
       },
       backgroundImage: {
         bannerImg: "url('/assets/borobudur.svg')",

@@ -15,16 +15,16 @@ const PendaftaranAnalisis = () => {
           </div>
           {/* Konten Teks */}
           <div className="md:order-2">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">
+            <h2 className="text-white md:text-4xl font-bold mb-4">
               Pendaftaran Analisis
             </h2>
-            <p className="text-gray-700 text-sm md:text-base leading-relaxed mb-4">
+            <p className="text-white text-sm md:text-base leading-relaxed mb-4">
               Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
               eiusmod tempor incididunt ut labore et dolore magna aliqua.
             </p>
             <a
               href="#"
-              className="mt-6 inline-block bg-blue-500 text-white px-6 py-3 rounded-md font-semibold transition-transform transform hover:scale-105"
+              className="mt-6 inline-block bg-secondary text-white px-6 py-3 rounded-md font-semibold transition-transform transform hover:scale-105"
             >
               Read More
             </a>

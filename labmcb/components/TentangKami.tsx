@@ -16,7 +16,7 @@ const TentangKami = () => {
         </p>
         <Link
           href="/pengenalan"
-          className="mt-6 inline-block bg-blue-500 text-white px-6 py-3 rounded-md font-semibold transition-transform transform hover:scale-105"
+          className="mt-6 inline-block bg-secondary text-white px-6 py-3 rounded-md font-semibold transition-transform transform hover:scale-105"
         >
           Read More
         </Link>

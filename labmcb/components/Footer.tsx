@@ -1,8 +1,6 @@
-import React from "react";
-
 const Footer = () => {
   return (
-    <footer className="bg-blue-900 text-white py-1">
+    <footer className="gradient-footer text-white py-1">
       <div className="container mx-auto px-4 flex flex-col md:flex-row justify-between items-center">
         {/* Logo dan Institusi */}
         <div className="flex items-center space-x-4">
@@ -29,7 +27,6 @@ const Footer = () => {
           <span className="block font-semibold" style={{ color: "#F3C7A0" }}>
             Contact:
           </span>
-          {/* Garis dengan warna baru */}
           <div
             className="w-35 h-px mx-auto mt-1 mb-2"
             style={{
@@ -37,14 +34,14 @@ const Footer = () => {
             }}
           ></div>
           <a
-            href="mail:bkbborobudur@gmail.com"
+            href="mailto:bkbborobudur@gmail.com"
             className="block hover:underline"
             style={{ color: "#F3C7A0" }}
           >
             bkbborobudur@gmail.com
           </a>
           <a
-            href="telp:+6281234567890"
+            href="tel:+6281234567890"
             className="hover:underline"
             style={{ color: "#F3C7A0" }}
           >
