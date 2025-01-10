@@ -15,10 +15,11 @@ const TopBar = () => {
   const [activeSection, setActiveSection] = useState(null);
   const [toggleMenu, setToggleMenu] = useState(false);
   const [isSticky, setIsSticky] = useState(false);
+  const [hoveringMenu, setHoveringMenu] = useState<string | null>(null);
 
   useEffect(() => {
     const handleScroll = () => {
-      const headerHeight = 40; // Mengurangi headerHeight untuk menempel lebih ke atas
+      const headerHeight = 40;
       setIsSticky(window.scrollY > headerHeight);
     };
 
@@ -51,9 +52,13 @@ const TopBar = () => {
 
   return (
     <header
-      className={`z-50 fixed left-0 right-0 bg-black transition-all duration-300 ${
-        isSticky ? "top-0 bg-opacity-40" : "top-[40px] bg-opacity-25"
-      } py-1`}
+      className={`z-50 fixed left-0 right-0 transition-all duration-300 ${
+        isSticky ? "top-0" : "top-[40px]"
+      } py-1 ${
+        hoveringMenu
+          ? "bg-white bg-opacity-100"
+          : "bg-black bg-opacity-25"
+      }`}
     >
       <div className="px-4 flex justify-end sm:hidden">
         <button
@@ -96,8 +101,15 @@ const TopBar = () => {
         {menus.map((menu, i) => (
           <Link key={i} href={menu.href} passHref>
             <div
-              className={`w-full sm:w-auto uppercase font-semibold text-base text-white text-center sm:px-3 lg:px-5 py-1 sm:py-1 rounded-2xl transition-all ease-linear 
-              ${activeSection === menu.name ? "bg-green-500 shadow-md" : "hover:bg-green-500 hover:shadow-md active:bg-green-600"}`}
+              onMouseEnter={() => setHoveringMenu(menu.name)}
+              onMouseLeave={() => setHoveringMenu(null)}
+              className={`w-full sm:w-auto capitalize text-base text-center sm:px-3 lg:px-5 py-1 sm:py-1 rounded-2xl transition-all ease-linear ${
+                activeSection === menu.name
+                  ? "bg-gray-800 text-white shadow-md"
+                  : hoveringMenu === menu.name
+                  ? "font-bold underline text-black"
+                  : `text-${hoveringMenu ? 'black' : 'white'}`
+              }`}
             >
               {menu.name}
             </div>
