@@ -1,37 +1,68 @@
 "use client";
 
+import { useRouter } from "next/navigation";
+
 const PendaftaranAnalisis = () => {
+  const router = useRouter();
+
+  const handleNavigateToPanduan = () => {
+    router.push('/panduan');
+  };
+
   return (
-    <section id="pendaftaran-analisis" className="py-20">
-      <div className="container mx-auto px-4">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-          {/* Gambar */}
-          <div className="relative md:order-1 flex justify-center">
-            <img
-              src="/assets/3dlaser.png"
-              alt="Pendaftaran Analisis"
-              className="rounded-lg shadow-lg max-w-sm md:max-w-md w-full h-auto"
-            />
-          </div>
-          {/* Konten Teks */}
-          <div className="md:order-2">
-            <h2 className="text-white md:text-4xl font-bold mb-4">
-              Pendaftaran Analisis
-            </h2>
-            <p className="text-white text-sm md:text-base leading-relaxed mb-4">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua.
-            </p>
-            <a
-              href="#"
-              className="mt-6 inline-block bg-secondary text-white px-6 py-3 rounded-md font-semibold transition-transform transform hover:scale-105"
-            >
-              Read More
-            </a>
+    <div className="w-full py-12 bg-white">
+      <div className="container mx-auto px-4 max-w-6xl">
+        {/* Content Container */}
+        <div className="flex flex-col gap-8">
+          {/* Title - Left Aligned */}
+          <h2 className="text-3xl font-bold text-left">
+            Permohonan Uji Sampel
+          </h2>
+
+          <div className="flex flex-col md:flex-row gap-8">
+            {/* Image Card Container - Exact Figma Size */}
+            <div className="w-full md:w-[493px]">
+              <div className="relative rounded-lg overflow-hidden h-[248px]">
+                {/* Image */}
+                <img
+                  src="/assets/UjiSampel.png"
+                  alt="Uji Sampel"
+                  className="w-full h-full object-cover rounded-lg"
+                />
+                
+                {/* Button Overlay - Exact Gradient Size */}
+                <div className="absolute bottom-0 left-0 right-0">
+                  <div className="bg-[#D9D9D9]/70 backdrop-blur-sm w-[492px] h-[77px]">
+                    <button 
+                      onClick={handleNavigateToPanduan}
+                      className="w-full h-full px-6 flex items-center justify-between cursor-pointer hover:bg-black/10 transition-colors">
+                      <span className="text-white font-medium text-xl filter drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
+                        Cek Lebih Lanjut
+                      </span>
+                      <img
+                        src="/assets/rightarrow.png"
+                        alt="arrow icon"
+                        className="ml-2 w-8 h-8 filter drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]"
+                      />
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Text Content */}
+            <div className="flex-1 flex items-center">
+              <p className="text-gray-600 text-base leading-relaxed">
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
+                sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
+                Ut enim ad minim veniam, quis nostrud exercitation ullamco 
+                laboris nisi ut
+              </p>
+            </div>
           </div>
         </div>
       </div>
-    </section>
+    </div>
   );
 };
 
