@@ -7,50 +7,36 @@ const Footer = () => {
           <img
             src="/assets/iha.png"
             alt="Indonesian Heritage Agency"
-            className="h-14"
+            className="h-9 pl-8"
           />
           <img
             src="/assets/kembud3.png"
             alt="Kementerian Pendidikan dan Kebudayaan"
-            className="h-14"
+            className="h-9 "
           />
           {/* Tulisan Kementerian */}
           <div className="text-left ml-4">
             <span
-              className="block text-[8px] md:text-[10px] font-semibold"
+              className="block text-[5px] md:text-[6px] font-semibold"
               style={{ color: "#F3C7A0" }}
             >
-              KEMENTERIAN
-            </span>
-            <span
-              className="block text-[8px] md:text-[10px] font-semibold"
-              style={{ color: "#F3C7A0" }}
-            >
-              KEBUDAYAAN
-            </span>
-            <span
-              className="block text-[8px] md:text-[10px] font-semibold"
-              style={{ color: "#F3C7A0" }}
-            >
-              REPUBLIK
-            </span>
-            <span
-              className="block text-[8px] md:text-[10px] font-semibold"
-              style={{ color: "#F3C7A0" }}
-            >
+              KEMENTERIAN<br />
+              KEBUDAYAAN<br />
+              REPUBLIK<br />
               INDONESIA
             </span>
           </div>
+
         </div>
         {/* Copyright */}
         <div
-          className="flex justify-center items-center text-[14px] md:text-[12px] mt-4 md:mt-0"
+          className="flex justify-center items-center text-[14px] md:text-[10px] mt-4 md:mt-0"
           style={{ color: "#F3C7A0" }}
         >
           © 2025. All Rights Reserved.
         </div>
         {/* Kontak */}
-        <div className="text-right text-[8px] md:text-[11px] mt-4 md:mt-0">
+        <div className="text-right text-[8px] md:text-[9px] mt-4 md:mt-0 pr-8">
           <span className="block font-semibold" style={{ color: "#F3C7A0" }}>
             Contact:
           </span>
