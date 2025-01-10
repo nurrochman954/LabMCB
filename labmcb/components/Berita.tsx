@@ -1,120 +1,82 @@
 "use client";
 
 import React, { useState } from "react";
+import { useRouter } from "next/navigation";
 
-const Berita: React.FC = () => {
-  // State untuk melacak slide gambar aktif
+interface Slide {
+  src: string;
+  link: string;
+}
+
+interface BeritaProps {
+  slides: Slide[];
+}
+
+const Berita: React.FC<BeritaProps> = ({ slides }) => {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const router = useRouter();
 
-  // Data dummy untuk gambar slider
-  const gambarSlider = [
-    "/assets/borobudur.svg",
-    "/assets/borobudur.svg",
-    "/assets/borobudur.svg",
-  ];
-
-  // Data dummy untuk berita
-  const berita = [
-    {
-      id: 1,
-      title: "Berita Terbaru 1",
-      link: "/berita/1",
-    },
-    {
-      id: 2,
-      title: "Berita Terbaru 2",
-      link: "/berita/2",
-    },
-    {
-      id: 3,
-      title: "Berita Terbaru 3",
-      link: "/berita/3",
-    },
-  ];
-
-  // Fungsi untuk berpindah slide gambar
   const nextSlide = () => {
-    setCurrentSlide((prev) => (prev + 1) % gambarSlider.length);
+    setCurrentSlide((prev) => (prev + 1) % slides.length);
   };
 
   const prevSlide = () => {
-    setCurrentSlide((prev) => (prev - 1 + gambarSlider.length) % gambarSlider.length);
+    setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
+  };
+
+  const handleImageClick = (link: string) => {
+    router.push(link);
   };
 
   return (
     <section className="py-16 bg-white flex justify-center items-center" id="berita-terbaru">
-      <div className="container mx-auto flex flex-col md:flex-row justify-center items-center space-x-8">
-        {/* Slider Gambar */}
-        <div className="relative w-[45%] h-64 md:h-80 flex justify-center items-center overflow-hidden">
-          {/* Wrapper untuk gambar slider */}
-          <div className="relative w-full h-full flex justify-center items-center">
-            {gambarSlider.map((imgSrc, index) => (
+      <div className="container mx-auto flex flex-col justify-center items-center space-y-8">
+        <div className="relative w-full max-w-3xl h-64 md:h-80 flex overflow-hidden">
+          <div
+            className="flex transition-transform duration-500 ease-in-out"
+            style={{ transform: `translateX(-${currentSlide * 100}%)` }}
+          >
+            {slides.map((img, index) => (
               <div
                 key={index}
-                className={`absolute w-full h-full transition-all duration-500 transform ${
-                  index === currentSlide
-                    ? "opacity-100 translate-x-0"
-                    : "opacity-0 translate-x-full"
-                }`}
+                className="w-full flex-shrink-0 cursor-pointer"
+                onClick={() => handleImageClick(img.link)}
               >
                 <img
-                  src={imgSrc}
+                  src={img.src}
                   alt={`Slide ${index + 1}`}
-                  className="w-full h-full object-cover rounded-lg"
+                  className="w-full h-full object-cover rounded-3xl"
                 />
               </div>
             ))}
           </div>
-
-          {/* Indikator & Navigasi di bawah gambar */}
-          <div className="absolute bottom-4 flex items-center justify-center space-x-4 w-full">
-            {/* Tombol Kiri */}
-            <button
-              onClick={prevSlide}
-              className="p-2 bg-white rounded-full shadow-md hover:bg-gray-200 opacity-50 hover:opacity-100"
-            >
-              &#8592;
-            </button>
-
-            {/* Titik Indikator */}
-            <div className="flex space-x-2">
-              {gambarSlider.map((_, index) => (
-                <span
-                  key={index}
-                  className={`w-3 h-3 rounded-full ${
-                    index === currentSlide ? "bg-indigo-600" : "bg-gray-300"
-                  }`}
-                ></span>
-              ))}
-            </div>
-
-            {/* Tombol Kanan */}
-            <button
-              onClick={nextSlide}
-              className="p-2 bg-white rounded-full shadow-md hover:bg-gray-200 opacity-50 hover:opacity-100"
-            >
-              &#8594;
-            </button>
-          </div>
         </div>
 
-        {/* Teks Deskripsi */}
-        <div className="w-[45%] flex flex-col justify-center text-left">
-          <h2 className="text-3xl font-bold">Berita Terbaru</h2>
-          <p className="mt-4">
-            Klik berita untuk membaca lebih lanjut tentang aktivitas terbaru.
-          </p>
-          {/* Judul berita dengan tautan */}
-          <ul className="mt-4">
-            {berita.map((item) => (
-              <li
-                key={item.id}
-                className="underline text-indigo-600 hover:text-indigo-800 mb-2"
-              >
-                <a href={item.link}>{item.title}</a>
-              </li>
+        <div className="flex items-center justify-center space-x-4">
+          <button
+            onClick={prevSlide}
+            className="p-2 bg-white rounded-full shadow-md hover:bg-gray-200 opacity-75 hover:opacity-100"
+          >
+            &#8592;
+          </button>
+
+          <div className="flex space-x-2">
+            {slides.map((_, index) => (
+              <span
+                key={index}
+                className={`w-3 h-3 rounded-full ${
+                  index === currentSlide ? "bg-indigo-600" : "bg-gray-300"
+                }`}
+              ></span>
             ))}
-          </ul>
+          </div>
+
+          <button
+            onClick={nextSlide}
+            className="p-2 bg-white rounded-full shadow-md hover:bg-gray-200 opacity-75 hover:opacity-100"
+          >
+            &#8594;
+          </button>
         </div>
       </div>
     </section>
