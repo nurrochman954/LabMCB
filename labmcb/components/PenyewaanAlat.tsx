@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 
-const PendaftaranAnalisis = () => {
+const PenyewaanAlat = () => {
   const router = useRouter();
 
   const handleNavigateToPanduan = () => {
@@ -15,17 +15,25 @@ const PendaftaranAnalisis = () => {
         {/* Content Container */}
         <div className="flex flex-col gap-8">
           {/* Title - Left Aligned */}
-          <h2 className="text-3xl font-bold text-left">
-            Permohonan Uji Sampel
+          <h2 className="text-3xl font-bold text-right">
+            Penyewaan Alat
           </h2>
 
           <div className="flex flex-col md:flex-row gap-8">
+            {/* Text Content */}
+            <div className="flex-1 flex items-center">
+              <p className="text-gray-600 text-base leading-relaxed">
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut <br />
+              <b>Peringatan! </b> Sebelum menyewakan alat, mohon pastikan terlebih dahulu ketersediaan alat melalui kontak kami.
+              </p>
+            </div>
+
             {/* Image Card Container */}
             <div className="w-full md:w-[493px]">
               <div className="relative rounded-lg overflow-hidden h-[248px]">
                 {/* Image */}
                 <img
-                  src="/assets/UjiSampel.png"
+                  src="/assets/PenyewaanAlat.png"
                   alt="Uji Sampel"
                   className="w-full h-full object-cover rounded-lg"
                 />
@@ -49,16 +57,6 @@ const PendaftaranAnalisis = () => {
                 </div>
               </div>
             </div>
-
-            {/* Text Content */}
-            <div className="flex-1 flex items-center">
-              <p className="text-gray-600 text-base leading-relaxed">
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
-                sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-                Ut enim ad minim veniam, quis nostrud exercitation ullamco 
-                laboris nisi ut
-              </p>
-            </div>
           </div>
         </div>
       </div>
@@ -66,4 +64,4 @@ const PendaftaranAnalisis = () => {
   );
 };
 
-export default PendaftaranAnalisis;
+export default PenyewaanAlat;
