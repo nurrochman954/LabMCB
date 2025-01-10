@@ -13,6 +13,8 @@ export default {
         foreground: "var(--foreground)",
         primary: "#0089AA",
         secondary: "#00AFB9",
+        accent: "#FED9B7",
+        softaccent: "#FED9B7",
       },
       backgroundImage: {
         bannerImg: "url('/assets/borobudur.svg')",
