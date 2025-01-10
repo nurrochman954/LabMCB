@@ -6,7 +6,7 @@ const PendaftaranAnalisis = () => {
   const router = useRouter();
 
   const handleNavigateToPanduan = () => {
-    router.push('/panduan');
+    router.push('/formulir-uji-sampel');
   };
 
   return (
