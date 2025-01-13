@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 
 interface Slide {
   src: string;
-  link: string;
+  link: string;  
 }
 
 interface BeritaProps {

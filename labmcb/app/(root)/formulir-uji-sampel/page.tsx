@@ -6,6 +6,21 @@ import React, { useState } from 'react';
 
 const SampleRequestForm: React.FC = () => {
   const [sampleCount, setSampleCount] = useState(0); // State untuk menyimpan jumlah sampel
+  const [selectedMethod, setSelectedMethod] = useState('');
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      console.log(`File yang dipilih: ${file.name}`);
+    }
+  };
+
+  const handleSubmit = () => {
+    // Logika untuk mengirim file
+    console.log('File dikirim');
+  };
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSelectedMethod(event.target.value);
+  };
 
   const increaseCount = () => {
     setSampleCount(sampleCount + 1); // Menambah jumlah sampel
@@ -16,6 +31,8 @@ const SampleRequestForm: React.FC = () => {
       setSampleCount(sampleCount - 1); // Mengurangi jumlah sampel jika lebih dari 0
     }
   };
+
+  
 
   return (
     <>
@@ -100,6 +117,48 @@ const SampleRequestForm: React.FC = () => {
           }}
         />
         
+        <div>
+          <h3>Metode Pengiriman Sampel</h3>
+          <label>
+            <input 
+              type="radio" 
+              name="sampleShape" 
+              value="Diantar sendiri" 
+              onChange={handleChange} 
+              style={{ marginRight: '5px' }} 
+            />
+            Diantar sendiri
+          </label>
+          <br />
+          <label>
+            <input 
+              type="radio" 
+              name="sampleShape" 
+              value="Jasa ekspedisi" 
+              onChange={handleChange} 
+              style={{ marginRight: '5px' }} 
+            />
+            Jasa ekspedisi
+          </label>
+          <br />
+          {selectedMethod === 'Jasa ekspedisi' && (
+            <input
+            type="text"
+            placeholder="masukkan Nomor Resi"
+            style={{
+              width: '713px',
+              height: '52px',
+              padding: '10px',
+              marginBottom: '15px',
+              marginTop:'15px',
+              borderRadius: '10px',
+              border: '1px solid #C6C6C6',
+              boxShadow: '0 2px 5px rgba(0, 0, 0, 0.5)',
+            }}
+          />
+      )}
+    </div>
+       
         <div style={{ borderBottom: '1px solid #C6C6C6', margin: '20px 0', width: '720px' }} />
 
         <h2 style={{ fontSize: '30px', marginBottom: '10px', fontWeight: 'bold' }}>Deskripsi Sampel</h2>
@@ -278,8 +337,63 @@ const SampleRequestForm: React.FC = () => {
         /> 
           <div style={{ borderBottom: '1px solid #C6C6C6', margin: '20px 0', width: '720px' }} />
       <h2 style={{ fontSize: '30px', marginBottom: '10px', fontWeight: 'bold'}}>Unggah berkas</h2>
-      </div>
 
+      <input
+        type="file"
+        id="file-upload"
+        onChange={handleFileChange}
+        style={{ display: 'none' }} // Menyembunyikan input file asli
+      />
+      <label htmlFor="file-upload">
+        <button
+          style={{
+            backgroundImage: `url(/assets/unggah.png)`,
+            backgroundSize: 'contain',
+            backgroundRepeat: 'no-repeat',
+            backgroundPosition: 'left',
+            color: '#00AFB9',
+            padding: '10px 0px 10px 20px',
+            border: '1px solid #00AFB9',
+            borderRadius: '10px',
+            cursor: 'pointer',
+            fontSize: '20px',
+            width: '150px',
+            height: '50px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          Pilih File
+        </button>
+      </label>
+      <div style={{ marginBottom: '20px', fontSize: '14px', color: '#555' }}>
+        *Template file dapat diunduh pada Halaman Panduan
+      </div>
+      <div style={{ display: 'flex', justifyContent: 'center' }}>
+      <button
+        onClick={handleSubmit}
+        style={{
+          backgroundColor: '#00AFB9',
+          color: 'white',
+          padding: '5px 20px',
+          border: 'none',
+          borderRadius: '10px',
+          cursor: 'pointer',
+          fontSize: '30px',
+          width : '200px', 
+          height : '50px',
+          textAlign: 'center', // Memastikan teks berada di tengah
+          lineHeight: '30px',
+          boxShadow: '0 2px 5px rgba(0, 0, 0, 0.5)',
+        }}
+      >
+        Kirim
+      </button>
+      </div>
+      </div>
+          
+          
    
 
       <Footer />
