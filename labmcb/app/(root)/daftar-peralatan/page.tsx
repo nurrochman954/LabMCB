@@ -9,7 +9,10 @@ const DaftarPeralatan = () => {
     <>
       <Header />
       <TopBar />
-      
+      <div className="max-w-6xl mx-auto p-4">
+        <h1 className="text-4xl font-bold text-center mb-0 mt-10">Daftar Peralatan</h1>
+      </div>
+
       {/* Gambar-Gambar Alat */}
       <div className= "container mx-5 px-10">
         <div className="grid grid-cols-1 sm:grid-cols-4 lg:grid-cols-4 gap-10 p-20">
