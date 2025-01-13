@@ -6,7 +6,7 @@ const PenyewaanAlat = () => {
   const router = useRouter();
 
   const handleNavigateToPanduan = () => {
-    router.push('/panduan');
+    router.push('/formulir-penyewaan-alat');
   };
 
   return (
