@@ -2,29 +2,86 @@ import React from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import TopBar from "@/components/TopBar";
-import Table from "@/components/Table";
+import PeralatanCard from "@/components/DaftarPeralatan";
 
 const DaftarPeralatan = () => {
-  const sampleHeaders = ['Jenis', 'Harga per Sampel', 'Syarat Sampel'];
-  const sampleData = [
-    ['Benchtop', 'Rp350.000,00/sampel', '• Sampel dapat berupa serbuk, padatan, gel maupun cairan\n• Dimensi maksimal sampel: padatan 3x3x3cm\n• Berat sampel minimal: padatan 2 gram, cair 50 ml.'],
-    ['Handheld', 'Rp250.000,00/sampel', '• Khusus untuk sampel utuh/non-destructive\n• Sampel kering total.\n• Maksimal pengukuran dalam 1 sampel adalah 3 titik.'],
-    ['Preparasi sampel', 'Rp250.000,00/sampel', ''],
-  ];
-
-  const rentalHeaders = ['Jenis', 'Harga per Hari', 'Keterangan'];
-  const rentalData = [
-    ['XRF handheld', 'Rp700.000,00/hari', 'Harga belum termasuk biaya packaging dan lungsump operator.'],
-  ];
-
   return (
     <>
       <Header />
       <TopBar />
-
-      <div style={{ padding: "20px", backgroundColor: "#f0f0f0" }}>
-        <Table title="Informasi Uji Sampel" headers={sampleHeaders} data={sampleData} />
-        <Table title="Informasi Penyewaan Peralatan" headers={rentalHeaders} data={rentalData} />
+      
+      {/* Gambar-Gambar Alat */}
+      <div className= "container mx-5 px-10">
+        <div className="grid grid-cols-1 sm:grid-cols-4 lg:grid-cols-4 gap-10 p-20">
+          <PeralatanCard 
+            imageSrc="/assets/XRD.jpg" 
+            title="XRD (X-Ray Diffraction)" 
+          />
+          <PeralatanCard 
+            imageSrc="/assets/XRF_benchtop.jpg" 
+            title="XRF Benchtop" 
+          />
+          <PeralatanCard 
+            imageSrc="/assets/SEM.jpg" 
+            title="SEM EDS " 
+          />
+          <PeralatanCard 
+            imageSrc="/assets/UV_vis.jpg" 
+            title="UV-Vis (Ultraviolet-Visible)" 
+          />
+          <PeralatanCard 
+            imageSrc="/assets/UTM.jpg" 
+            title="UTM (Universal Testing Machine)" 
+          />
+          <PeralatanCard 
+            imageSrc="/assets/FTIR.jpg" 
+            title="FTIR " 
+          />
+          <PeralatanCard 
+            imageSrc="/assets/TGDSC.jpg" 
+            title="TG/DSC" 
+          />
+          <PeralatanCard 
+            imageSrc="/assets/raman.jpg" 
+            title="Raman" 
+          />
+          <PeralatanCard 
+            imageSrc="/assets/NMR_X_pulse.jpg" 
+            title="NMR " 
+          />
+          <PeralatanCard 
+            imageSrc="/assets/GCMS.jpg" 
+            title="GC–MS" 
+          />
+          <PeralatanCard 
+            imageSrc="/assets/UPLC.jpg" 
+            title="UPLC–MSMS " 
+          />
+          <PeralatanCard 
+            imageSrc="/assets/CPC.jpg" 
+            title="CPC" 
+          />
+          <PeralatanCard 
+            imageSrc="/assets/freeze_dryer.jpg" 
+            title="Freeze Dryer" 
+          />
+          <PeralatanCard 
+            imageSrc="/assets/" 
+            title="Microdrill/DRMS" 
+          />
+          <PeralatanCard 
+            imageSrc="/assets/coloni_counter.jpg" 
+            title="Colony Counter" 
+          />
+          <PeralatanCard 
+            imageSrc="/assets/mikroskop_trinokuler.jpg" 
+            title="Mikroskop Trinokuler" 
+          />
+          <PeralatanCard 
+            imageSrc="/assets/" 
+            title="Rotary Vacuum Evaporator" 
+          />
+        </div>
       </div>
 
       <Footer />
