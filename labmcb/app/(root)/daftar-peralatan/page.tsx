@@ -25,7 +25,7 @@ const DaftarPeralatan = () => {
           />
           <PeralatanCard
             imageSrc="/assets/XRF_benchtop.jpg"
-            title="XRF Benchtop"
+            title="XRF"
             linkTo="/daftar-peralatan/XRF"
           />
           <PeralatanCard
