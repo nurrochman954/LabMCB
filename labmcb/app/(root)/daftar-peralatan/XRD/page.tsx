@@ -11,7 +11,7 @@ const DaftarPeralatan = () => {
   const sampleData = [
     ['Dengan tanpa interpretasi data', 'Rp300.000,00/sampel'],
     ['Dengan interpretasi data', 'Rp800.000,00/sampel'],
-    ['Preparasi sampel', 'Rp80.000,00/sampel', ''],
+    ['Preparasi sampel', 'Rp80.000,00/sampel'],
   ];
 
 

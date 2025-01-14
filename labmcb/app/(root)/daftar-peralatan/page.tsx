@@ -36,72 +36,72 @@ const DaftarPeralatan = () => {
           <PeralatanCard
             imageSrc="/assets/UV_vis.jpg"
             title="UV-Vis (Ultraviolet-Visible)"
-            linkTo=""
+            linkTo="/daftar-peralatan/UV-VIS"
           />
           <PeralatanCard
             imageSrc="/assets/UTM.jpg"
             title="UTM (Universal Testing Machine)"
-            linkTo=""
+            linkTo="/daftar-peralatan/UTM"
           />
           <PeralatanCard
             imageSrc="/assets/FTIR.jpg"
             title="FTIR"
-            linkTo=""
+            linkTo="/daftar-peralatan/FTIR"
           />
           <PeralatanCard
             imageSrc="/assets/TGDSC.jpg"
             title="TG/DSC"
-            linkTo=""
+            linkTo="/daftar-peralatan/TGDSC"
           />
           <PeralatanCard
             imageSrc="/assets/raman.jpg"
             title="Raman"
-            linkTo=""
+            linkTo="/daftar-peralatan/raman"
           />
           <PeralatanCard
             imageSrc="/assets/NMR_X_pulse.jpg"
             title="NMR"
-            linkTo=""
+            linkTo="/daftar-peralatan/NMR_X_pulse"
           />
           <PeralatanCard
             imageSrc="/assets/GCMS.jpg"
             title="GC–MS"
-            linkTo=""
+            linkTo="/daftar-peralatan/GCMS"
           />
           <PeralatanCard
             imageSrc="/assets/UPLC.jpg"
             title="UPLC–MSMS"
-            linkTo=""
+            linkTo="/daftar-peralatan/UPLC"
           />
           <PeralatanCard
             imageSrc="/assets/CPC.jpg"
             title="CPC"
-            linkTo=""
+            linkTo="/daftar-peralatan/CPC"
           />
           <PeralatanCard
             imageSrc="/assets/freeze_dryer.jpg"
             title="Freeze Dryer"
-            linkTo=""
+            linkTo="/daftar-peralatan/freeze_dryer"
           />
           <PeralatanCard
             imageSrc="/assets/"
             title="Microdrill/DRMS"
-            linkTo=""
+            linkTo="/daftar-peralatan/Microdrill"
           />
           <PeralatanCard
             imageSrc="/assets/coloni_counter.jpg"
             title="Colony Counter"
-            linkTo=""
+            linkTo="/daftar-peralatan/coloni_counter"
           />
           <PeralatanCard
             imageSrc="/assets/mikroskop_trinokuler.jpg"
             title="Mikroskop Trinokuler"
-            linkTo=""
+            linkTo="/daftar-peralatan/mikroskop_trinokuler"
           />
           <PeralatanCard
             imageSrc="/assets/"
             title="Rotary Vacuum Evaporator"
-            linkTo=""
+            linkTo="/daftar-peralatan/rotary_vacuum_evaporator"
           />
         </div>
       </div>

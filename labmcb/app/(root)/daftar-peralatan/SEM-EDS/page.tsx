@@ -12,7 +12,7 @@ const DaftarPeralatan = () => {
     ['SEM-EDS', 'Rp600.000,00/sampel'],
     ['SEM', 'Rp300.000,00/sampel'],
     ['SEM multiply image', 'Rp50.000,00/image'],
-    ['Preparasi sampel', 'Rp100.000,00/sampel', ''],
+    ['Preparasi sampel', 'Rp100.000,00/sampel'],
   ];
 
 

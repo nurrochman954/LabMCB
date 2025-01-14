@@ -4,88 +4,60 @@ interface InfoSectionProps {
   imageUrl: string;
   leftText: string;
   rightText: string;
-  mainTitle?: string; // Judul besar di awal komponen
-  specTitle?: string; // Judul untuk spesifikasi
-  descTitle?: string; // Judul untuk deskripsi
+  mainTitle?: string;
+  specTitle?: string;
+  descTitle?: string;
 }
 
 const DeskripsiPeralatan: React.FC<InfoSectionProps> = ({
   imageUrl,
   leftText,
   rightText,
-  mainTitle, // Default judul besar jika tidak disediakan
-  specTitle = "Spesifikasi", // Default judul spesifikasi
-  descTitle = "Deskripsi", // Default judul deskripsi
+  mainTitle = "XRD (X-Ray Diffraction)",
+  specTitle = "Spesifikasi",
+  descTitle = "Deskripsi",
 }) => {
   return (
-    <div
-    >
-      {/* Judul Besar */}
-      {mainTitle && (
-        <h1
-          style={{
-            fontSize: "36px",
-            fontWeight: "bold",
-            textAlign: "center",
-            marginTop: "40px",
-            marginBottom: "20px",
-          }}
-        >
+    <div style={{ display: "flex", justifyContent: "center", margin: "20px" }}>
+      <div style={{ width: "60%", display: "flex", flexDirection: "column", alignItems: "center" }}>
+        {/* Judul Besar */}
+        <h1 style={{ textAlign: "center", fontSize: "24px", fontWeight: "bold", marginTop: "20px" }}>
           {mainTitle}
         </h1>
-      )}
 
-      {/* Konten */}
-      <div style={{ display: "flex" }}>
-        {/* Gambar */}
-        <div style={{ flex: "0 0 400px", paddingRight: "20px" }}>
-          <img
-            src={imageUrl}
-            alt="Info"
-            style={{
-              width: "400px",
-              height: "400px",
-              objectFit: "cover",
-              borderRadius: "8px",
-            }}
-          />
-        </div>
-
-        {/* Teks */}
-        <div
-          style={{
-            flex: "1",
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "space-between",
-          }}
-        >
-          {/* Deskripsi */}
-          <div>
-            <h2
+        {/* Konten */}
+        <div style={{ display: "flex", width: "100%", marginTop: "20px" }}>
+          {/* Gambar */}
+          <div style={{ width: "50%", paddingRight: "20px" }}>
+            <img
+              src={imageUrl}
+              alt="Info"
               style={{
-                fontSize: "32px",
-                fontWeight: "bold",
-                margin: "0 0 10px 0",
+                width: "100%",
+                height: "auto",
+                objectFit: "cover",
+                borderRadius: "8px",
               }}
-            >
-              {descTitle}
-            </h2>
-            <p style={{ margin: "0", whiteSpace: "pre-wrap" }}>{rightText}</p>
+            />
           </div>
 
-          {/* Spesifikasi */}
-          <div>
-            <h2
-              style={{
-                fontSize: "32px",
-                fontWeight: "bold",
-                margin: "20px 0 10px 0",
-              }}
-            >
-              {specTitle}
-            </h2>
-            <p style={{ margin: "0", whiteSpace: "pre-wrap" }}>{leftText}</p>
+          {/* Teks */}
+          <div style={{ width: "50%", paddingLeft: "20px" }}>
+            {/* Deskripsi */}
+            <div>
+              <h2 style={{ fontSize: "20px", fontWeight: "bold" }}>
+                {descTitle}
+              </h2>
+              <p style={{ textAlign: "justify", whiteSpace: "pre-wrap"}}>{rightText}</p>
+            </div>
+
+            {/* Spesifikasi */}
+            <div style={{ marginTop: "20px" }}>
+              <h2 style={{ fontSize: "20px", fontWeight: "bold" }}>
+                {specTitle}
+              </h2>
+              <p style={{ textAlign: "justify", whiteSpace: "pre-wrap"}}>{leftText}</p>
+            </div>
           </div>
         </div>
       </div>
