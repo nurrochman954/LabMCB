@@ -21,7 +21,7 @@ const DaftarPeralatan = () => {
           <PeralatanCard
             imageSrc="/assets/XRD.jpg"
             title="XRD (X-Ray Diffraction)"
-            linkTo=""
+            linkTo="/daftar-peralatan/XRD"
           />
           <PeralatanCard
             imageSrc="/assets/XRF_benchtop.jpg"
@@ -31,7 +31,7 @@ const DaftarPeralatan = () => {
           <PeralatanCard
             imageSrc="/assets/SEM.jpg"
             title="SEM EDS"
-            linkTo=""
+            linkTo="/daftar-peralatan/SEM-EDS"
           />
           <PeralatanCard
             imageSrc="/assets/UV_vis.jpg"

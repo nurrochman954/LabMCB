@@ -7,17 +7,14 @@ import KontakKami from "@/components/KontakKami";
 import DeskripsiPeralatan from "@/components/DeksripsiPeralatan";
 
 const DaftarPeralatan = () => {
-  const sampleHeaders = ['Jenis', 'Harga per Sampel', 'Syarat Sampel'];
+  const sampleHeaders = ['Jenis', 'Harga per Sampel'];
   const sampleData = [
-    ['Benchtop', 'Rp350.000,00/sampel', '• Sampel dapat berupa serbuk, padatan, gel maupun cairan\n• Dimensi maksimal sampel: padatan 3x3x3cm\n• Berat sampel minimal: padatan 2 gram, cair 50 ml.'],
-    ['Handheld', 'Rp250.000,00/sampel', '• Khusus untuk sampel utuh/non-destructive\n• Sampel kering total.\n• Maksimal pengukuran dalam 1 sampel adalah 3 titik.'],
-    ['Preparasi sampel', 'Rp250.000,00/sampel', ''],
+    ['SEM-EDS', 'Rp600.000,00/sampel'],
+    ['SEM', 'Rp300.000,00/sampel'],
+    ['SEM multiply image', 'Rp50.000,00/image'],
+    ['Preparasi sampel', 'Rp100.000,00/sampel', ''],
   ];
 
-  const rentalHeaders = ['Jenis', 'Harga per Hari', 'Keterangan'];
-  const rentalData = [
-    ['XRF handheld', 'Rp700.000,00/hari', 'Harga belum termasuk biaya packaging dan lungsump operator.'],
-  ];
 
   return (
     <>  
@@ -27,9 +24,14 @@ const DaftarPeralatan = () => {
       <div style={{ padding: "20px", backgroundColor: "#f0f0f0" }}>
       <DeskripsiPeralatan
         mainTitle="XRF (X-ray Fluorescence)"
-        imageUrl="https://www.tawada-ndt.com/wp-content/uploads/2023/06/Handheld-XRF-Jan.png"
+        imageUrl="https://instanano.com/wp-content/uploads/2022/07/sem-instrument.jpg"
         rightText={
-          "Metode XRF digunakan untuk menentukan komposisi unsur suatu material.Output berupa komposisi unsur dan oksida.\n" 
+            "Scanning Electron Microscope (SEM) adalah jenis mikroskop elektron yang menghasilkan gambar sampel dengan memindai permukaan dengan sinar elektron yang terfokus dengan perbesaran hingga skala besar. Energy Dispersive X-Ray (EDX) digunakan untuk analisis unsur kimia bahan. Dengan EDS maka komposisi unsur dapat diketahui pada titik yang dianalisis.\n" +
+            "Syarat sampel:\n" +
+            "• Sampel berupa padatan, bongkahan, lapis tipis (ukuran sampel maksimal diameter 25,4 mm)\n" +
+            "• Sampel harus dalam kondisi kering\n" +
+            "• Sampel tidak mengandung gas\n" +
+            "• Jika sampel membutuhkan preparasi akan dikenakan biaya tambahan\n" 
         }
         leftText={
           "XRF\n" +
@@ -40,7 +42,7 @@ const DaftarPeralatan = () => {
             "Tipe : DPO-2000-CC"        }
             />
         <Table title="Informasi Uji Sampel" headers={sampleHeaders} data={sampleData} />
-        <Table title="Informasi Penyewaan Peralatan" headers={rentalHeaders} data={rentalData} />
+
       </div>
         <KontakKami/>
       <Footer />
