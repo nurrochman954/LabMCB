@@ -7,6 +7,7 @@ import TentangKami from "../../components/TentangKami";
 import Fasilitas from "../../components/Fasilitas";
 import PendaftaranAnalisis from "../../components/PendaftaranAnalisis";
 import PenyewaanAlat from "../../components/PenyewaanAlat";
+import Berita from "@/components/Berita";
 
 const Home = () => {
   const slides = [
@@ -20,6 +21,7 @@ const Home = () => {
       <Header />
       <TopBar />
       <Hero />
+      <Berita slides={slides}/>
       <Fasilitas />
       <PendaftaranAnalisis />
       <PenyewaanAlat />
