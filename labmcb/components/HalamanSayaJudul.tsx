@@ -8,7 +8,7 @@ const HalamanSayaJudul = () => {
             style={{
                 padding: '20px',
                 width: '750px',
-                margin: '50px auto', // Centers the container with top/bottom margin
+                margin: '10px auto', // Centers the container with top/bottom margin
                 maxWidth: '900px', // Memastikan konten tidak melebihi lebar
                 display: 'flex', // Menggunakan flexbox
                 flexDirection: 'column', // Mengatur arah elemen dalam kolom

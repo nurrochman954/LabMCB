@@ -16,7 +16,7 @@ const Tracking: React.FC = () => {
             border: '1px solid #ccc',
             width: '750px',
             height: isOpen ? 'auto' : '74px', // Adjust height based on state
-            margin: '50px auto',
+            margin: '10px auto',
             transition: 'height 0.3s ease', // Smooth transition
         }}>
             <h2

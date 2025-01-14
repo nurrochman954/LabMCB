@@ -35,7 +35,7 @@ const ProfileBox: React.FC<ProfileBoxProps> = ({ text, imageUrl }) => {
 
   return (
     <div style={gradientStyle}>
-      <div style={containerStyle}>
+      <div style={containerStyle}  className="w-[900px] justify-center">
         {imageUrl && <img src={imageUrl} alt="Profile" style={imageStyle} />}
         <h1>{text}</h1>
       </div>
