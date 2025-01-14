@@ -8,7 +8,10 @@ const StrukturOrganisasi = () => {
       <section className="mb-0">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* Text Content - Takes 1 column */}
-          <div>
+          <div 
+          style = {{
+              marginTop :'50px'
+          }} >
             <h2 className="text-3xl font-bold mb-4">
               Struktur
               <br />
