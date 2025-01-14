@@ -75,9 +75,11 @@ body {
 
   .gradient-box {
     width: 100%;
-    height: 200px; /* Adjust height as needed */
-    background: radial-gradient(circle at 120% 50%, #f48fb1, #ffe0b2); /* Radial gradient with center outside horizontally */
-    border-radius: 10px; /* Optional rounded corners */
+    height: 100%;
+    background: radial-gradient(circle, #FED9B7 0%, #F8AD96 45%, #F7A38E 57%, #F59986 63%, #F17C6F 84%, #F07167 100%); /* Radial gradient with center outside horizontally */
+    background-position: 0% 100%;
+    background-size: 200% 150%;
+    background-repeat: no-repeat;
   }
   
   .gradient-footer {
