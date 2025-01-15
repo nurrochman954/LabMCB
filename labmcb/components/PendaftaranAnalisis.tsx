@@ -52,11 +52,8 @@ const PendaftaranAnalisis = () => {
 
             {/* Text Content */}
             <div className="flex-1 flex items-center">
-              <p className="text-gray-600 text-base leading-relaxed">
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
-                sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-                Ut enim ad minim veniam, quis nostrud exercitation ullamco 
-                laboris nisi ut
+              <p className="text-gray-600 text-base leading-relaxed"> 
+                Kami menyediakan fasilitas analisis sampel untuk hasil yang akurat dan terpercaya. Kami berkomitmen untuk memberikan layanan pengujian yang profesional, tepat waktu, dan sesuai dengan standar yang berlaku.
               </p>
             </div>
           </div>

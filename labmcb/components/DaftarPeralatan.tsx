@@ -18,7 +18,7 @@ const PeralatanCard: React.FC<PeralatanCardProps> = ({ imageSrc, title, linkTo }
   };
 
   return (
-    <div className="w-[200px] h-[200px]">
+    <div className="w-[200px] h-[200px]  cursor-pointer" onClick={handleNavigate} >
       <div className="relative rounded-lg overflow-hidden w-full h-full">
         {/* Image */}
         <img
@@ -29,7 +29,6 @@ const PeralatanCard: React.FC<PeralatanCardProps> = ({ imageSrc, title, linkTo }
 
         {/* Overlay */}
         <div
-          onClick={handleNavigate} // Add click behavior
           className="absolute top-0 left-0 right-0 bg-[#FED9B7]/80 p-2 cursor-pointer hover:bg-[#FED9B7]/90 transition-colors"
         >
           <span className="text-black font-semibold text-sm">

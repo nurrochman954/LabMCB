@@ -23,8 +23,8 @@ const PenyewaanAlat = () => {
             {/* Text Content */}
             <div className="flex-1 flex items-center">
               <p className="text-gray-600 text-base leading-relaxed">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut <br />
-              <b>Peringatan! </b> Sebelum menyewakan alat, mohon pastikan terlebih dahulu ketersediaan alat melalui kontak kami.
+              Kami menyediakan layanan penyewaan alat berbasis proyek. Untuk melihat alat yang kami sediakan anda dapat memeriksa halaman daftar peralatan. <br /><br />
+              <b>Penting! </b> Sebelum menyewakan alat, mohon pastikan terlebih dahulu ketersediaannya melalui kontak kami.
               </p>
             </div>
 
