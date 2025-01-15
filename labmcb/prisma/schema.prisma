@@ -77,7 +77,6 @@ model Payment {
  paymentStatus    PaymentStatus @default(UNPAID)
  invoiceFile      String?
  paymentProof     String?
- paymentDueDate   DateTime
  paymentCreatedAt DateTime      @default(now())
  paymentUpdatedAt DateTime      @updatedAt
  rental           Rental?       @relation(fields: [rentalId], references: [id])

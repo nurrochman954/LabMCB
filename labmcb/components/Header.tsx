@@ -1,22 +1,36 @@
+'use client'
+
 import React from "react";
+import { useUser, SignOutButton } from "@clerk/nextjs";
+import Link from "next/link";
 
 const Header = () => {
-  return (
-    <header className="bg-primary text-white relative">
-      <div className="flex items-center justify-between">
-        {/* Navigasi Kiri */}
-        <div></div> {/* Kosongkan area ini untuk sisi kiri */}
+ const { user } = useUser();
 
-        {/* Navigasi Kanan */}
-        <a
-          href="/sign-in"
-          className="font-semibold bg-secondary text-white px-4 py-2 hover:bg-green-500"
-        >
-          Masuk
-        </a>
-      </div>
-    </header>
-  );
+ return (
+   <header className="bg-primary text-white relative">
+     <div className="flex items-center justify-between">
+       {/* Navigasi Kiri */}
+       <div></div>
+
+       {/* Navigasi Kanan */}
+       {user ? (
+         <SignOutButton>
+           <button className="font-semibold bg-red-500 text-white px-4 py-2 hover:bg-red-600">
+             Keluar
+           </button>
+         </SignOutButton>
+       ) : (
+         <Link 
+           href="/sign-in" 
+           className="font-semibold bg-green-500 text-white px-4 py-2 hover:bg-green-600"
+         >
+           Masuk
+         </Link>
+       )}
+     </div>
+   </header>
+ );
 };
 
 export default Header;
