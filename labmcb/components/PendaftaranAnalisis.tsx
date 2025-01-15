@@ -10,7 +10,7 @@ const PendaftaranAnalisis = () => {
   };
 
   return (
-    <div className="w-full py-12 bg-white">
+    <div className="w-full py-6 bg-white">
       <div className="container mx-auto px-4 max-w-4xl">
         {/* Content Container */}
         <div className="flex flex-col gap-8">
