@@ -9,7 +9,7 @@ const EquipmentRentalForm: React.FC = () => {
      const [orders, setOrders] = useState([{ id: 1, quantity: 1 }]); // State to hold orders
      const [showPopup, setShowPopup] = useState(false); // State to manage popup visibility
      const [orderToDelete, setOrderToDelete] = useState<number | null>(null); // Track which order to delete
-    const [selectedMethod, setSelectedMethod] = useState('');
+     const [selectedAlat, setSelectedAlat] = useState<string>("");
      const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];
         if (file) {
@@ -21,8 +21,8 @@ const EquipmentRentalForm: React.FC = () => {
         // Logika untuk mengirim file
         console.log('File dikirim');
       };
-      const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setSelectedMethod(event.target.value);
+      const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        setSelectedAlat(event.target.value); // Mengupdate state dengan nilai yang dipilih
       };
 
      const addOrder = () => {
@@ -197,8 +197,10 @@ const EquipmentRentalForm: React.FC = () => {
               border: '1px solid #C6C6C6',
               boxShadow: '0 2px 5px rgba(0, 0, 0, 0.5)',
             }}
+            value={selectedAlat} // Menggunakan value untuk mengatur nilai yang dipilih
+            onChange={handleSelectChange} // Menangani perubahan nilai
           >
-            <option value="" disabled selected>Pilih Alat</option>
+            <option value="" disabled >Pilih Alat</option>
             <option value="alat1">XRF Handheld</option>
             <option value="alat2">Microdrill/DRMS</option>
             <option value="alat3">UPV (Ultrasonic Pulse Velocity)</option>
