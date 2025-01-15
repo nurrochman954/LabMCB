@@ -18,7 +18,7 @@ const DeskripsiPeralatan: React.FC<InfoSectionProps> = ({
   descTitle = "Deskripsi",
 }) => {
   return (
-    <div style={{ display: "flex", justifyContent: "center", margin: "20px" }}>
+    <div style={{ display: "flex", justifyContent: "center", margin: "40px" }}>
       <div style={{ width: "60%", display: "flex", flexDirection: "column", alignItems: "center" }}>
         {/* Gambar dan Spesifikasi */}
         <div style={{ display: "flex", flexDirection: "row", maxWidth: "800px", width: "100%", marginBottom: "20px" }}>

@@ -27,7 +27,7 @@ const DaftarPeralatan = () => {
         leftText={
             "Merk : Novotest"}
             />
-
+    
         <Table title="Informasi Penyewaan Peralatan" headers={rentalHeaders} data={rentalData} />
       </div>
         <KontakKami/>
