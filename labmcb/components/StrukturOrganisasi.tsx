@@ -5,7 +5,7 @@ const StrukturOrganisasi = () => {
   return (
     <div className="max-w-6xl mx-auto p-6">
       {/* Struktur Organisasi Section */}
-      <section className="mb-0">
+      <section className="mb-0 mt-10">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* Text Content - Takes 1 column */}
           <div 
@@ -24,7 +24,7 @@ const StrukturOrganisasi = () => {
           </div>
           
           {/* Image Content - Takes 2 columns */}
-          <div className="relative w-full h-[600px] md:col-span-2">
+          <div className="relative w-full h-[300px] md:col-span-2">
             <Image
               src="/assets/StrukturOrganisasi.png"
               alt="Struktur Organisasi"
@@ -37,7 +37,7 @@ const StrukturOrganisasi = () => {
       </section>
 
       {/* Visi & Misi Section */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 pt-20">
         {/* Visi */}
         <section className="rounded-lg">
           <h2 className="text-2xl font-bold mb-4">Visi</h2>

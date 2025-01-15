@@ -32,6 +32,16 @@ const SampleRequestForm: React.FC = () => {
     }
   };
 
+   const [phoneNumber, setPhoneNumber] = useState('');
+        
+          const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+            const value = e.target.value;
+            // Mengizinkan hanya angka
+            if (/^[0-9]*$/.test(value)) {
+              setPhoneNumber(value);
+            }
+          };
+
   
 
   return (
@@ -40,18 +50,18 @@ const SampleRequestForm: React.FC = () => {
       <TopBar />
 
       <div style={{ padding: '80px', maxWidth: '900px', margin: 'auto', fontFamily: 'Lato, sans-serif' }}>
-        <h1 style={{ fontSize: '50px', fontWeight: 'bold', marginBottom: '20px', textAlign: 'center' }}>
+        <h1 style={{ fontSize: '36px', fontWeight: 'bold', marginBottom: '20px', textAlign: 'center' }}>
           Formulir Permohonan Uji Sampel
         </h1>
 
-        <h2 style={{ fontSize: '30px', marginBottom: '10px', fontWeight: 'semibold' }}>Isi Data Diri</h2>
+        <h2 style={{ fontSize: '22px', marginBottom: '10px', fontWeight: 'bold' }}>Isi Data Diri</h2>
         
-        <label style={{ fontSize: '22px',display: 'block', marginBottom: '10px', marginTop: '20px' }}>Nama Lengkap</label>
+        <label style={{ fontSize: '18px',display: 'block', marginBottom: '10px', marginTop: '20px' }}>Nama Lengkap</label>
         <input
           type="text"
           style={{
             width: '713px',
-            height: '52px',
+            height: '45px',
             padding: '10px',
             marginBottom: '15px',
             borderRadius: '10px',
@@ -60,12 +70,12 @@ const SampleRequestForm: React.FC = () => {
           }}
         />
 
-        <label style={{fontSize: '22px', display: 'block', marginBottom: '10px', marginTop: '20px' }}>Email</label>
+        <label style={{fontSize: '18px', display: 'block', marginBottom: '10px', marginTop: '20px' }}>Email</label>
         <input
           type="text"
           style={{
             width: '713px',
-            height: '52px',
+            height: '45px',
             padding: '10px',
             marginBottom: '15px',
             borderRadius: '10px',
@@ -74,12 +84,14 @@ const SampleRequestForm: React.FC = () => {
           }}
         />
 
-        <label style={{ fontSize: '22px', display: 'block', marginBottom: '10px', marginTop: '20px' }}>No Telepon</label>
+        <label style={{ fontSize: '18px', display: 'block', marginBottom: '10px', marginTop: '20px' }}>No Telepon</label>
         <input
           type="text"
+          value={phoneNumber}
+          onChange={handleInputChange}
           style={{
             width: '713px',
-            height: '52px',
+            height: '45px',
             padding: '10px',
             marginBottom: '15px',
             borderRadius: '10px',
@@ -88,11 +100,11 @@ const SampleRequestForm: React.FC = () => {
           }}
         />
 
-        <label style={{fontSize: '22px', display: 'block', marginBottom: '10px', marginTop: '20px' }}>Alamat</label>
+        <label style={{fontSize: '18px', display: 'block', marginBottom: '10px', marginTop: '20px' }}>Alamat</label>
         <textarea
           style={{
             width: '713px',
-            minHeight: '52px',
+            minHeight: '45px',
             padding: '10px',
             marginBottom: '15px',
             borderRadius: '10px',
@@ -103,12 +115,12 @@ const SampleRequestForm: React.FC = () => {
           }}
         />
 
-        <label style={{ fontSize: '22px',display: 'block', marginBottom: '10px', marginTop: '20px' }}>Asal Instansi</label>
+        <label style={{ fontSize: '18px',display: 'block', marginBottom: '10px', marginTop: '20px' }}>Asal Instansi</label>
         <input
           type="text"
           style={{
             width: '713px',
-            height: '52px',
+            height: '45px',
             padding: '10px',
             marginBottom: '15px',
             borderRadius: '10px',
@@ -118,7 +130,7 @@ const SampleRequestForm: React.FC = () => {
         />
         
         <div>
-          <h3>Metode Pengiriman Sampel</h3>
+          <h3 style={{ fontSize: '18px',display: 'block', marginBottom: '10px', marginTop: '20px' }}>Metode Pengiriman Sampel</h3>
           <label>
             <input 
               type="radio" 
@@ -161,14 +173,14 @@ const SampleRequestForm: React.FC = () => {
        
         <div style={{ borderBottom: '1px solid #C6C6C6', margin: '20px 0', width: '720px' }} />
 
-        <h2 style={{ fontSize: '30px', marginBottom: '10px', fontWeight: 'bold' }}>Deskripsi Sampel</h2>
+        <h2 style={{ fontSize: '18px', marginBottom: '10px', fontWeight: 'bold' }}>Deskripsi Sampel</h2>
 
-        <label style={{ fontSize: '22px', display: 'block', marginBottom: '5px', marginTop: '20px' }}>Nama Sampel</label>
+        <label style={{ fontSize: '18px', display: 'block', marginBottom: '5px', marginTop: '20px' }}>Nama Sampel</label>
         <input
           type="text"
           style={{
             width: '713px',
-            height: '52px',
+            height: '45px',
             padding: '10px',
             marginBottom: '15px',
             borderRadius: '10px',
@@ -178,7 +190,7 @@ const SampleRequestForm: React.FC = () => {
           }}
         />
 
-        <label style={{fontSize: '22px', display: 'block', marginBottom: '5px', marginTop: '20px' }}>Jumlah Sampel</label>
+        <label style={{fontSize: '18px', display: 'block', marginBottom: '5px', marginTop: '20px' }}>Jumlah Sampel</label>
         <div style={{ display: 'flex', alignItems: 'center', marginBottom: '15px' }}>
           <button
             onClick={decreaseCount}
@@ -192,7 +204,7 @@ const SampleRequestForm: React.FC = () => {
           >
             -
           </button>
-          <span style={{ fontSize: '20px', marginRight: '10px' }}>{sampleCount}</span>
+          <span style={{ fontSize: '18px', marginRight: '10px' }}>{sampleCount}</span>
           <button
             onClick={increaseCount}
             style={{
@@ -206,8 +218,8 @@ const SampleRequestForm: React.FC = () => {
           </button>
         </div>
 
-        <h2 style={{ fontSize: '22px', marginTop: '20px' }}>Bentuk Sampel</h2>
-        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '15px' }}>
+        <h2 style={{ fontSize: '18px', marginTop: '20px' }}>Bentuk Sampel</h2>
+        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '15px', fontSize : "14px" }}>
        <div style={{ display: 'flex', flexDirection: 'column' }}>
         <label>
        <input type="radio" name="sampleShape" value="Cair" style={{ marginRight: '5px' }} />
@@ -237,9 +249,9 @@ const SampleRequestForm: React.FC = () => {
 
 
 
-        <h2 style={{ fontSize: '22px', marginTop: '20px' }}>Jenis Analisis yang Digunakan</h2>
-        <p style={{ fontSize: '14px', marginBottom: '5px' }}>*Bisa memilih beberapa Jenis Analisis</p>
-        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '15px' }}>
+        <h2 style={{ fontSize: '18px', marginTop: '20px' }}>Jenis Analisis yang Digunakan</h2>
+        <p style={{ fontSize: '12px', marginBottom: '5px' }}>*Bisa memilih beberapa Jenis Analisis</p>
+        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '15px', fontSize: '14px' }}>
         <div style={{ display: 'flex', flexDirection: 'column', marginRight: '50px'}}>
         <label>
           <input type="checkbox" value="XRF" />
@@ -322,11 +334,11 @@ const SampleRequestForm: React.FC = () => {
         
         
 
-        <label style={{fontSize: '22px', display: 'block', marginTop: '20px', marginBottom: '5px' }}>Catatan Tambahan</label>
+        <label style={{fontSize: '18px', display: 'block', marginTop: '20px', marginBottom: '5px' }}>Catatan Tambahan</label>
         <textarea
           style={{
             width: '713px',
-            minHeight: '52px',
+            minHeight: '45px',
             padding: '10px',
             borderRadius: '10px',
             marginBottom: '15px',
@@ -336,7 +348,7 @@ const SampleRequestForm: React.FC = () => {
           }}
         /> 
           <div style={{ borderBottom: '1px solid #C6C6C6', margin: '20px 0', width: '720px' }} />
-      <h2 style={{ fontSize: '30px', marginBottom: '10px', fontWeight: 'bold'}}>Unggah berkas</h2>
+      <h2 style={{ fontSize: '22px', marginBottom: '10px', fontWeight: 'bold'}}>Unggah berkas</h2>
 
       <input
         type="file"
@@ -348,7 +360,7 @@ const SampleRequestForm: React.FC = () => {
         <button
           style={{
             backgroundImage: `url(/assets/unggah.png)`,
-            backgroundSize: 'contain',
+            backgroundSize: '36px 38px',
             backgroundRepeat: 'no-repeat',
             backgroundPosition: 'left',
             color: '#00AFB9',
@@ -356,9 +368,9 @@ const SampleRequestForm: React.FC = () => {
             border: '1px solid #00AFB9',
             borderRadius: '10px',
             cursor: 'pointer',
-            fontSize: '20px',
-            width: '150px',
-            height: '50px',
+            fontSize: '18px',
+            width: '130px',
+            height: '43px',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
@@ -367,7 +379,7 @@ const SampleRequestForm: React.FC = () => {
           Pilih File
         </button>
       </label>
-      <div style={{ marginBottom: '20px', fontSize: '14px', color: '#555' }}>
+      <div style={{ marginBottom: '16px', fontSize: '14px', color: '#555' }}>
         *Template file dapat diunduh pada Halaman Panduan
       </div>
       <div style={{ display: 'flex', justifyContent: 'center' }}>
@@ -380,8 +392,8 @@ const SampleRequestForm: React.FC = () => {
           border: 'none',
           borderRadius: '10px',
           cursor: 'pointer',
-          fontSize: '30px',
-          width : '200px', 
+          fontSize: '20px',
+          width : '150px', 
           height : '50px',
           textAlign: 'center', // Memastikan teks berada di tengah
           lineHeight: '30px',

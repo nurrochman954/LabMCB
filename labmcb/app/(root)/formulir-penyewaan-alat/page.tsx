@@ -56,24 +56,35 @@ const EquipmentRentalForm: React.FC = () => {
         setOrderToDelete(null);
       };
 
+      
+        const [phoneNumber, setPhoneNumber] = useState('');
+      
+        const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+          const value = e.target.value;
+          // Mengizinkan hanya angka
+          if (/^[0-9]*$/.test(value)) {
+            setPhoneNumber(value);
+          }
+        };
+
     return (
         <>
           <Header />
           <TopBar />
     
           <div style={{ padding: '80px', maxWidth: '900px', margin: 'auto', fontFamily: 'Lato, sans-serif' }}>
-            <h1 style={{ fontSize: '50px', fontWeight: 'bold', marginBottom: '20px', textAlign: 'center' }}>
+            <h1 style={{ fontSize: '36px', fontWeight: 'bold', marginBottom: '20px', textAlign: 'center' }}>
               Formulir Penyewaan Alat
             </h1>
     
-            <h2 style={{ fontSize: '30px', marginBottom: '10px', fontWeight: 'semibold' }}>Isi Data Diri</h2>
+            <h2 style={{ fontSize: '22px', marginBottom: '10px', fontWeight: 'bold' }}>Isi Data Diri</h2>
             
-            <label style={{ fontSize: '22px',display: 'block', marginBottom: '10px', marginTop: '20px' }}>Nama Lengkap</label>
+            <label style={{ fontSize: '18px',display: 'block', marginBottom: '10px', marginTop: '20px' }}>Nama Lengkap</label>
             <input
               type="text"
               style={{
                 width: '713px',
-                height: '52px',
+                height: '45px',
                 padding: '10px',
                 marginBottom: '15px',
                 borderRadius: '10px',
@@ -82,12 +93,12 @@ const EquipmentRentalForm: React.FC = () => {
               }}
             />
     
-            <label style={{fontSize: '22px', display: 'block', marginBottom: '10px', marginTop: '20px' }}>Email</label>
+            <label style={{fontSize: '18px', display: 'block', marginBottom: '10px', marginTop: '20px' }}>Email</label>
             <input
               type="text"
               style={{
                 width: '713px',
-                height: '52px',
+                height: '45px',
                 padding: '10px',
                 marginBottom: '15px',
                 borderRadius: '10px',
@@ -96,25 +107,28 @@ const EquipmentRentalForm: React.FC = () => {
               }}
             />
     
-            <label style={{ fontSize: '22px', display: 'block', marginBottom: '10px', marginTop: '20px' }}>No Telepon</label>
-            <input
-              type="text"
-              style={{
-                width: '713px',
-                height: '52px',
-                padding: '10px',
-                marginBottom: '15px',
-                borderRadius: '10px',
-                border: '1px solid #C6C6C6',
-                boxShadow: '0 2px 5px rgba(0, 0, 0, 0.5)',
-              }}
-            />
+            <label style={{ fontSize: '18px', display: 'block', marginBottom: '10px', marginTop: '20px' }}>No Telepon</label>
+              <input
+                type="text"
+                value={phoneNumber}
+                onChange={handleInputChange}
+                style={{
+                  width: '713px',
+                  height: '45px',
+                  padding: '10px',
+                  marginBottom: '15px',
+                  borderRadius: '10px',
+                  border: '1px solid #C6C6C6',
+                  boxShadow: '0 2px 5px rgba(0, 0, 0, 0.5)',
+                }}
+              />
+
     
-            <label style={{fontSize: '22px', display: 'block', marginBottom: '10px', marginTop: '20px' }}>Alamat</label>
+            <label style={{fontSize: '18px', display: 'block', marginBottom: '10px', marginTop: '20px' }}>Alamat</label>
             <textarea
               style={{
                 width: '713px',
-                minHeight: '52px',
+                minHeight: '45px',
                 padding: '10px',
                 marginBottom: '15px',
                 borderRadius: '10px',
@@ -125,12 +139,12 @@ const EquipmentRentalForm: React.FC = () => {
               }}
             />
     
-            <label style={{ fontSize: '22px',display: 'block', marginBottom: '10px', marginTop: '20px' }}>Asal Instansi</label>
+            <label style={{ fontSize: '18px',display: 'block', marginBottom: '10px', marginTop: '20px' }}>Asal Instansi</label>
             <input
               type="text"
               style={{
                 width: '713px',
-                height: '52px',
+                height: '45px',
                 padding: '10px',
                 marginBottom: '15px',
                 borderRadius: '10px',
@@ -139,13 +153,13 @@ const EquipmentRentalForm: React.FC = () => {
               }}
             />
 
-<label style={{ fontSize: '22px', display: 'block', marginBottom: '10px' , marginTop: '20px'}}>Tanggal Penyewaan</label>
+<label style={{ fontSize: '18px', display: 'block', marginBottom: '10px' , marginTop: '20px'}}>Tanggal Penyewaan</label>
           <div style={{ display: 'flex', alignItems: 'center' }}>
             <input
               type="date"
               style={{
                 width: '325px',
-                height: '52px',
+                height: '45px',
                 padding: '5px',
                 marginRight: '20px',
                 borderRadius: '10px',
@@ -158,7 +172,7 @@ const EquipmentRentalForm: React.FC = () => {
               type="date"
               style={{
                 width: '325px',
-                height: '52px',
+                height: '45px',
                 padding: '5px',
                 borderRadius: '10px',
                 border: '1px solid #C6C6C6',
@@ -168,15 +182,15 @@ const EquipmentRentalForm: React.FC = () => {
           </div>
 
                 <div style={{ borderBottom: '1px solid #C6C6C6', margin: '20px 0', width: '720px' }} />
-                <h2 style={{ fontSize: '30px', marginBottom: '10px', fontWeight: 'bold' }}>Order Penyewaan Alat</h2>
+                <h2 style={{ fontSize: '22px', marginBottom: '10px', fontWeight: 'bold' }}>Order Penyewaan Alat</h2>
                 
                 {orders.map(order => (
         <div key={order.id} style={{ marginBottom: '20px' }}>
-          <label style={{ fontSize: '22px', display: 'block', marginBottom: '5px', marginTop: '20px' }}>Nama Alat</label>
+          <label style={{ fontSize: '18px', display: 'block', marginBottom: '5px', marginTop: '20px' }}>Nama Alat</label>
           <select
             style={{
               width: '713px',
-              height: '52px',
+              height: '45px',
               padding: '10px',
               marginBottom: '15px',
               borderRadius: '10px',
@@ -192,7 +206,7 @@ const EquipmentRentalForm: React.FC = () => {
             <option value="alat5">Schmidt Hammer</option>
           </select>
 
-          <label style={{ fontSize: '22px', display: 'block', marginBottom: '5px', marginTop: '20px'}}>Kuantitas</label>
+          <label style={{ fontSize: '18px', display: 'block', marginBottom: '5px', marginTop: '20px'}}>Kuantitas</label>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '15px' }}>
           <div style={{ display: 'flex', alignItems: 'center', marginBottom: '15px' }}>
             <button
@@ -207,7 +221,7 @@ const EquipmentRentalForm: React.FC = () => {
             >
               -
             </button>
-            <span style={{ fontSize: '20px', marginRight: '10px' }}>{order.quantity}</span>
+            <span style={{ fontSize: '18px', marginRight: '10px' }}>{order.quantity}</span>
             <button
               onClick={() => increaseCount(order.id)}
               style={{
@@ -232,6 +246,7 @@ const EquipmentRentalForm: React.FC = () => {
                 border: '1px solid #E038B9',
                 borderRadius: '5px',
                 cursor: 'pointer',
+              fontSize: '16px'
             }}
             >
             Hapus
@@ -249,7 +264,7 @@ const EquipmentRentalForm: React.FC = () => {
           border: 'none',
           borderRadius: '5px',
           cursor: 'pointer',
-          fontSize: '20px',
+          fontSize: '16px',
           alignItems: 'center'
         }}
       >
@@ -301,7 +316,7 @@ const EquipmentRentalForm: React.FC = () => {
       )}
 
         <div style={{ borderBottom: '1px solid #C6C6C6', margin: '20px 0', width: '720px' }} />
-        <h2 style={{ fontSize: '30px', marginBottom: '10px', fontWeight: 'bold' }}>Unggah Surat Perjanjian</h2>
+        <h2 style={{ fontSize: '22px', marginBottom: '10px', fontWeight: 'bold' }}>Unggah Surat Perjanjian</h2>
         <input
         type="file"
         id="file-upload"
@@ -312,7 +327,7 @@ const EquipmentRentalForm: React.FC = () => {
         <button
           style={{
             backgroundImage: `url(/assets/unggah.png)`,
-            backgroundSize: 'contain',
+            backgroundSize: '36px 38px',
             backgroundRepeat: 'no-repeat',
             backgroundPosition: 'left',
             color: '#00AFB9',
@@ -320,9 +335,9 @@ const EquipmentRentalForm: React.FC = () => {
             border: '1px solid #00AFB9',
             borderRadius: '10px',
             cursor: 'pointer',
-            fontSize: '20px',
-            width: '150px',
-            height: '50px',
+            fontSize: '18px',
+            width: '130px',
+            height: '43px',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
@@ -342,8 +357,8 @@ const EquipmentRentalForm: React.FC = () => {
           border: 'none',
           borderRadius: '10px',
           cursor: 'pointer',
-          fontSize: '30px',
-          width : '200px', 
+          fontSize: '20px',
+          width : '150px', 
           height : '50px',
           textAlign: 'center', // Memastikan teks berada di tengah
           lineHeight: '30px',

@@ -4,7 +4,6 @@ import Footer from "../../components/Footer";
 import TopBar from "../../components/TopBar";
 import Hero from "../../components/Hero";
 import TentangKami from "../../components/TentangKami";
-import Fasilitas from "../../components/Fasilitas";
 import PendaftaranAnalisis from "../../components/PendaftaranAnalisis";
 import PenyewaanAlat from "../../components/PenyewaanAlat";
 import Berita from "@/components/Berita";
@@ -22,7 +21,6 @@ const Home = () => {
       <TopBar />
       <Hero />
       <Berita slides={slides}/>
-      <Fasilitas />
       <PendaftaranAnalisis />
       <PenyewaanAlat />
       <TentangKami />
