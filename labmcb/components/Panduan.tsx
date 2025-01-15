@@ -16,17 +16,18 @@ const BoxPanduan = () => {
         }}
       >
         <div
-          className="w-[250px] h-[250px] bg-[#FED9B7] flex items-center justify-center"
+          className="w-[400px] h-[250px] bg-[#FED9B7] flex items-center justify-center"
           style={{
             borderTopRightRadius: '150px',
             borderBottomRightRadius: '150px',
             borderTopLeftRadius: '0',
             borderBottomLeftRadius: '0',
-            fontWeight: 'bold'
+            fontWeight: 'bold',
+            boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
           }}
         >
-          <p className="text-xl text-center">
-            Panduan Analisis Permohonan
+          <p className="text-2xl text-left leading-loose">
+            Panduan <br />Analisis <br />Permohonan
           </p>
         </div>
 
@@ -56,7 +57,7 @@ const BoxPanduan = () => {
       </div>
 
       <div
-        className="w-full h-[300px] shadow-md gradient-box flex items-center"
+        className="w-full h-[340px] shadow-md gradient-box flex items-center"
         style={{
           margin: '10px auto',
           padding: '20px 20px 20px 0',
@@ -67,17 +68,18 @@ const BoxPanduan = () => {
         }}
       >
         <div
-          className="w-[250px] h-[250px] bg-[#FED9B7] flex items-center justify-center"
+          className="w-[400px] h-[250px] bg-[#FED9B7] flex items-center justify-center "
           style={{
             borderTopRightRadius: '150px',
             borderBottomRightRadius: '150px',
             borderTopLeftRadius: '0',
             borderBottomLeftRadius: '0',
-            fontWeight: 'bold'
+            fontWeight: 'bold',
+            boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
           }}
         >
-          <p className="text-xl text-center">
-            Panduan Penyewaan Alat
+          <p className="text-2xl text-left leading-loose">
+            Panduan<br />Penyewaan <br />Alat
           </p>
         </div>
 
