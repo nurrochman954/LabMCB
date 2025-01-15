@@ -15,6 +15,7 @@ export default {
         secondary: "#00AFB9",
         accent: "#FED9B7",
         softaccent: "#FED9B7",
+        softsec: "#50BCB8",
       },
       backgroundImage: {
         bannerImg: "url('/assets/borobudur.svg')",
