@@ -17,7 +17,8 @@ const Pengenalan: React.FC = () => {
       </div>
       <LabProfile
         imageUrl="https://lingkar.co/wp-content/uploads/2021/03/candi-borobudur-magelang-jawa-tengah.jpg" 
-        text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip"
+        text="Lab Konservasi Cagar Budaya Borobudur adalah pusat riset dan pelestarian yang didedikasikan untuk menjaga dan merawat warisan budaya dunia, Borobudur. Dengan menggabungkan teknologi modern dan teknik konservasi tradisional, kami berkomitmen untuk memastikan kelestarian candi ini untuk generasi yang akan datang.
+  Kami terdiri dari tim ahli yang bekerja secara kolaboratif untuk melaksanakan penelitian, pemulihan, dan pelestarian struktur serta artefak yang ada di situs yang memiliki nilai sejarah dan budaya yang tinggi. Melalui kolaborasi ini, kami berusaha untuk menerapkan praktik terbaik dalam pelestarian warisan budaya. Kami juga berfokus pada inovasi dan penggunaan teknologi digital untuk mendokumentasikan dan memetakan situs sehingga informasi dan pengetahuan tentang Borobudur dapat diakses oleh generasi mendatang. "
       />
       <StrukturOrganisasi />
       <Footer/>

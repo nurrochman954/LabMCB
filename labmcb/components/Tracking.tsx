@@ -38,7 +38,7 @@ const Tracking: React.FC = () => {
 
                     <div style={styles.status}>
                         <StatusItem color="green" text="Admin Laboratorium telah menerima surat pengantar dan sampel" />
-                        <StatusItem color="green" text="Sedang diproses oleh Supervisor" />
+                        <StatusItem color="red" text="Sedang diproses oleh Supervisor" />
                         <StatusItem color="green" text="Supervisor menyetujui analisis sampel" />
                         <StatusItem color="gray" text="Customer perlu membayar" />
                         
@@ -67,6 +67,7 @@ const Tracking: React.FC = () => {
                                         alignItems: 'center',
                                         justifyContent: 'center',
                                         boxShadow: '0 2px 5px rgba(0, 0, 0, 0.5)',
+                                        marginLeft: '25px'
                                     }}
                                 >
                                     Invoice
@@ -118,6 +119,7 @@ const Tracking: React.FC = () => {
                                     alignItems: 'center',
                                     justifyContent: 'center',
                                     boxShadow: '0 2px 5px rgba(0, 0, 0, 0.5)',
+                                    marginLeft: '25px'
                                 }}
                             >
                                 File Uji Sampel
