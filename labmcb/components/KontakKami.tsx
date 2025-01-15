@@ -1,5 +1,4 @@
 import React from 'react';
-import "./KontakKami.css";
 
 const KontakKami: React.FC = () => {
   return (

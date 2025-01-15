@@ -33,7 +33,7 @@ const DaftarPeralatan = () => {
             "• Sampel plastik atau rubber menggunakan ATR.\n" +
             "• Sampel tidak boleh mengandung pelarut asam kuat (H₂SO₄, HCl).\n" +
             "• Sampel minimal: padatan 1 gram, cairan 1 mL.\n" +
-            "• Jika sampel membutuhkan preparasi, akan dikenakan biaya tambahan.\n"
+            "• Jika sampel membutuhkan preparasi, akan dikenakan biaya tambahan."
         }
         leftText={
             "Merk : Perkin Elmer\n" + 

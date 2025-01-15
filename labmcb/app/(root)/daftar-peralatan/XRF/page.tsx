@@ -16,7 +16,7 @@ const DaftarPeralatan = () => {
 
   const rentalHeaders = ['Jenis', 'Harga per Hari', 'Keterangan'];
   const rentalData = [
-    ['XRF handheld', 'Rp700.000,00/hari', 'Harga belum termasuk biaya packaging dan lungsump operator.'],
+    ['XRF handheld', 'Rp700.000,00/hari', 'per hari max. 30 titik, dengan jeda 2 jam setelah mendapatkan 10 titik. Harga belum termasuk biaya packaging dan lungsump operator.'],
   ];
 
   return (
@@ -37,15 +37,15 @@ const DaftarPeralatan = () => {
           "Syarat sampel XRF (Handheld):\n" +
           "• khusus untuk sampel utuh/non-destructive\n" +
           "• Sampel kering total.\n" +
-          "• Maksimal pengukuran dalam 1 sampel adalah 3 titik.\n" 
+          "• Maksimal pengukuran dalam 1 sampel adalah 3 titik." 
         }
         leftText={
           "XRF\n" +
             "Merk : Malven panalytical\n" +
-            "Tipe Epsilon 1\n\n" +
+            "Tipe : Epsilon 1\n\n" +
             "XRF Handheld\n" +
             "Merk : Olympus\n" +
-            "Tipe : DPO-2000-CC"        }
+            "Tipe : DPO-2000-CC"}
             />
         <Table title="Informasi Uji Sampel" headers={sampleHeaders} data={sampleData} />
         <Table title="Informasi Penyewaan Peralatan" headers={rentalHeaders} data={rentalData} />

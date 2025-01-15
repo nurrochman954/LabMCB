@@ -27,7 +27,7 @@ const DaftarPeralatan = () => {
             "Syarat sampel:\n" +
             "• Sampel dapat berupa padatan kering atau serbuk.\n" +
             "• Kuantitas sampel berkisar antara 10-15 mg.\n" +
-            "• Suhu pengujian maksimal 1500 Celcius.\n"
+            "• Suhu pengujian maksimal 1500 Celcius."
         }
         leftText={
             "Merk : Perkin Elmer\n" + 

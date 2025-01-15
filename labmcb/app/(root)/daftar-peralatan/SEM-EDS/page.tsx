@@ -31,15 +31,11 @@ const DaftarPeralatan = () => {
             "• Sampel berupa padatan, bongkahan, lapis tipis (ukuran sampel maksimal diameter 25,4 mm)\n" +
             "• Sampel harus dalam kondisi kering\n" +
             "• Sampel tidak mengandung gas\n" +
-            "• Jika sampel membutuhkan preparasi akan dikenakan biaya tambahan\n" 
+            "• Jika sampel membutuhkan preparasi akan dikenakan biaya tambahan" 
         }
         leftText={
-          "XRF\n" +
-            "Merk : Malven panalytical\n" +
-            "Tipe Epsilon 1\n\n" +
-            "XRF Handheld\n" +
-            "Merk :Olympus\n" +
-            "Tipe : DPO-2000-CC"        }
+            "Merk : Thermo Fisher\n" +
+            "Tipe : Axia HV"}
             />
         <Table title="Informasi Uji Sampel" headers={sampleHeaders} data={sampleData} />
 
