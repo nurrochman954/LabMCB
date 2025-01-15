@@ -1,0 +1,201 @@
+generator client {
+ provider = "prisma-client-js"
+}
+
+datasource db {
+ provider = "postgresql"
+ url      = env("DATABASE_URL")
+}
+
+model User {
+ id            String       @id @default(cuid())
+ fullName      String
+ email         String
+ phone         String
+ institution   String
+ address       String
+ role          Role         @default(USER)
+ userCreatedAt DateTime     @default(now())
+ userUpdatedAt DateTime     @updatedAt
+ complaints    Complaint[]
+ rentals       Rental[]
+ sampleTests   SampleTest[]
+
+ @@map("users")
+}
+
+model SampleTest {
+ id                  Int            @id @default(autoincrement())
+ userId              String
+ analysisTypes       AnalysisType[] // Array jenis analisis
+ sampleName          String
+ sampleType          SampleType
+ testDescription     String?
+ status              TestStatus     @default(SUBMITTED)
+ deliveryMethod      DeliveryMethod
+ coverLetter         String?
+ resultFile          String?
+ sampleTestCreatedAt DateTime       @default(now())
+ user                User           @relation(fields: [userId], references: [id])
+ testTimelines       TestTimeline[]
+ payments            Payment[]
+
+ @@map("sample_tests")
+}
+
+model RentalItem {
+ id          Int            @id @default(autoincrement())
+ rentalId    Int
+ equipment   RentalEquipment
+ quantity    Int
+ rental      Rental         @relation(fields: [rentalId], references: [id])
+
+ @@map("rental_items")
+}
+
+model Rental {
+ id              Int              @id @default(autoincrement())
+ userId          String
+ startDate       DateTime
+ endDate         DateTime
+ rentalStatus    RentalStatus     @default(SUBMITTED)
+ agreementFile   String?
+ rentalCreatedAt DateTime         @default(now())
+ user            User             @relation(fields: [userId], references: [id])
+ rentalItems     RentalItem[]
+ rentalTimelines RentalTimeline[]
+ payments        Payment[]
+
+ @@map("rentals")
+}
+
+model Payment {
+ id               Int           @id @default(autoincrement())
+ invoiceNumber    String        @unique
+ referenceType    ReferenceType
+ referenceId      Int
+ paymentStatus    PaymentStatus @default(UNPAID)
+ invoiceFile      String?
+ paymentProof     String?
+ paymentDueDate   DateTime
+ paymentCreatedAt DateTime      @default(now())
+ paymentUpdatedAt DateTime      @updatedAt
+ rental           Rental?       @relation(fields: [rentalId], references: [id])
+ rentalId         Int?
+ sampleTest       SampleTest?   @relation(fields: [sampleTestId], references: [id])
+ sampleTestId     Int?
+
+ @@map("payments")
+}
+
+model Complaint {
+ id                   Int           @id @default(autoincrement())
+ userId               String
+ complaintReferenceId Int
+ complaintType        ComplaintType
+ complaintDescription String
+ complaintCreatedAt   DateTime      @default(now())
+ user                 User          @relation(fields: [userId], references: [id])
+
+ @@map("complaints")
+}
+
+model TestTimeline {
+ id                    Int        @id @default(autoincrement())
+ testId                Int
+ testStatus            TestStatus
+ testTimelineCreatedAt DateTime   @default(now())
+ test                  SampleTest @relation(fields: [testId], references: [id])
+
+ @@map("test_timelines")
+}
+
+model RentalTimeline {
+ id                      Int          @id @default(autoincrement())
+ rentalId                Int
+ rentalStatus            RentalStatus
+ rentalTimelineCreatedAt DateTime     @default(now())
+ rental                  Rental       @relation(fields: [rentalId], references: [id])
+
+ @@map("rental_timelines")
+}
+
+enum Role {
+ ADMIN
+ USER
+}
+
+enum SampleType {
+ LIQUID
+ SOLID
+ PASTE
+ GEL
+ GAS
+}
+
+enum TestStatus {
+ SUBMITTED
+ REVIEWING
+ APPROVED
+ TESTING
+ COMPLETED
+}
+
+enum DeliveryMethod {
+ SELF
+ LAB_DELIVERY
+}
+
+enum PaymentStatus {
+ UNPAID
+ WAITING_VERIFICATION
+ PAID
+ REJECTED
+}
+
+enum RentalStatus {
+ SUBMITTED
+ REVIEWING
+ APPROVED
+ IN_USE
+ RETURNED
+}
+
+enum ReferenceType {
+ RENTAL
+ SAMPLE_TEST
+}
+
+enum ComplaintType {
+ RENTAL
+ SAMPLE_TEST
+}
+
+enum AnalysisType {
+ XRF
+ XRD
+ SEM_EDS
+ UV_VIS
+ UTM
+ FTIR
+ TG_DSC
+ RAMAN
+ NMR
+ GC_MS
+ UPLC_MSMS
+ CPC
+ FREEZE_DRYER
+ MICRODRILL_DRMS
+ COLONY_COUNTER
+ MIKROSKOP_TRINOKULER
+ ROTARY_VACUUM_EVAPORATOR
+}
+
+enum RentalEquipment {
+ XRF_HANDHELD
+ MICRODRILL_DRMS
+ ULTRASONIC_HARDNESS_TESTER
+ UPV
+ THERMAL_CAMERA
+ SCHMIDT_HAMMER
+}
