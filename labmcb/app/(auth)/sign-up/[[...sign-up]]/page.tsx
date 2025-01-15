@@ -9,7 +9,7 @@ export default function SignUpPage() {
       className="flex min-h-screen w-full items-center justify-center bg-cover bg-center bg-no-repeat" 
       style={{ backgroundImage: 'url(/assets/borobudur.svg)' }}
     >
-      {/* Background overlay */}
+      {/* Background overlay */} 
       <div className="absolute inset-0 bg-black bg-opacity-50" />
 
       {/* Main content */}
@@ -31,23 +31,6 @@ export default function SignUpPage() {
             </header>
 
             <Clerk.GlobalError className="block text-sm font-medium text-red-500" />
-
-            <Clerk.Connection 
-              name="google"
-              className="w-full flex items-center justify-center gap-2 rounded-md bg-white px-3.5 py-2 text-sm font-medium text-zinc-900 shadow-sm ring-1 ring-inset ring-zinc-300 hover:bg-gray-50"
-            >
-              <img src="/assets/google.png" alt="Google Logo" className="size-5" />
-              Daftar dengan Google
-            </Clerk.Connection>
-
-            <div className="relative">
-              <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-zinc-300" />
-              </div>
-              <div className="relative flex justify-center text-sm">
-                <span className="bg-white px-2 text-zinc-500">atau daftar dengan email</span>
-              </div>
-            </div>
 
             <div className="space-y-4">
               <Clerk.Field name="username" className="space-y-2">
