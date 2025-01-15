@@ -4,16 +4,18 @@ const Footer = () => {
       <div className="container mx-auto px-4 flex flex-col md:flex-row justify-between items-center">
         {/* Logo dan Institusi */}
         <div className="flex items-center space-x-4">
+          <a href="https://iha.kemdikbud.go.id/">
           <img
             src="/assets/iha.png"
             alt="Indonesian Heritage Agency"
             className="h-12 pl-9"
-          />
+          /></a>
+          <a href="https://www.kemdikbud.go.id/">
           <img
             src="/assets/kembud3.png"
             alt="Kementerian Pendidikan dan Kebudayaan"
             className="h-10 "
-          />
+          /></a>
           {/* Tulisan Kementerian */}
           <div className="text-left">
             <span
