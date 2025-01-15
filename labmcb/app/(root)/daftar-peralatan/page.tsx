@@ -101,28 +101,28 @@ const DaftarPeralatan = () => {
             />
             <PeralatanCard
               imageSrc="/assets/noimg.png"
-              title="Ultrasonic Hardnest Tester"
+              title="Rotary Vacuum Evaporator"
               linkTo="/daftar-peralatan/rotary_vacuum_evaporator"
             />
             <PeralatanCard
               imageSrc="/assets/noimg.png"
-              title="Rotary Vacuum Evaporator"
-              linkTo="/daftar-peralatan/"
+              title="Ultrasonic Hardnest Tester"
+              linkTo="/daftar-peralatan/UHT"
             />
             <PeralatanCard
               imageSrc="/assets/noimg.png"
               title="UPV"
-              linkTo="/daftar-peralatan/"
+              linkTo="/daftar-peralatan/UPV"
             />
             <PeralatanCard
               imageSrc="/assets/noimg.png"
               title="Thermal Camera"
-              linkTo="/daftar-peralatan/"
+              linkTo="/daftar-peralatan/Thermal-Camera"
             />
             <PeralatanCard
               imageSrc="/assets/noimg.png"
               title="Schmidt Hammer"
-              linkTo="/daftar-peralatan/"
+              linkTo="/daftar-peralatan/Schmidt-Hammer"
             />
           </div>
         </div>

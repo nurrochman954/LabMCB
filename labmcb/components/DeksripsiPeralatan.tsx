@@ -13,52 +13,42 @@ const DeskripsiPeralatan: React.FC<InfoSectionProps> = ({
   imageUrl,
   leftText,
   rightText,
-  mainTitle = "XRD (X-Ray Diffraction)",
+  mainTitle,
   specTitle = "Spesifikasi",
   descTitle = "Deskripsi",
 }) => {
   return (
     <div style={{ display: "flex", justifyContent: "center", margin: "20px" }}>
       <div style={{ width: "60%", display: "flex", flexDirection: "column", alignItems: "center" }}>
-        {/* Judul Besar */}
-        <h1 style={{ textAlign: "center", fontSize: "24px", fontWeight: "bold", marginTop: "20px" }}>
-          {mainTitle}
-        </h1>
-
-        {/* Konten */}
-        <div style={{ display: "flex", width: "100%", marginTop: "20px" }}>
+        {/* Gambar dan Spesifikasi */}
+        <div style={{ display: "flex", flexDirection: "row", maxWidth: "800px", width: "100%", marginBottom: "20px" }}>
           {/* Gambar */}
-          <div style={{ width: "50%", paddingRight: "20px" }}>
+          <div style={{ flex: "1", paddingRight: "20px" }}>
             <img
               src={imageUrl}
               alt="Info"
               style={{
                 width: "100%",
-                height: "auto",
-                objectFit: "cover",
+                maxWidth: "400px",
+                maxHeight: "300px",
+                objectFit: "contain",
                 borderRadius: "8px",
               }}
             />
           </div>
 
-          {/* Teks */}
-          <div style={{ width: "50%", paddingLeft: "20px" }}>
-            {/* Deskripsi */}
-            <div>
-              <h2 style={{ fontSize: "20px", fontWeight: "bold" }}>
-                {descTitle}
-              </h2>
-              <p style={{ textAlign: "justify", whiteSpace: "pre-wrap"}}>{rightText}</p>
-            </div>
-
-            {/* Spesifikasi */}
-            <div style={{ marginTop: "20px" }}>
-              <h2 style={{ fontSize: "20px", fontWeight: "bold" }}>
-                {specTitle}
-              </h2>
-              <p style={{ textAlign: "justify", whiteSpace: "pre-wrap"}}>{leftText}</p>
-            </div>
+          {/* Judul dan Spesifikasi */}
+          <div style={{ flex: "2", verticalAlign: "center"}}>
+            <h1 style={{ fontSize: "24px", fontWeight: "bold", marginBottom: "10px" }}>{mainTitle}</h1>
+            <h2 style={{ fontSize: "20px", fontWeight: "bold", marginBottom: "10px" }}>{specTitle}</h2>
+            <p style={{ textAlign: "justify", whiteSpace: "pre-wrap"}}>{leftText}</p>
           </div>
+        </div>
+
+        {/* Deskripsi */}
+        <div style={{ maxWidth: "1200px", width: "100%" }}>
+          <h2 style={{ fontSize: "20px", fontWeight: "bold", marginBottom: "10px" }}>{descTitle}</h2>
+          <p style={{ textAlign: "justify", whiteSpace: "pre-wrap" }}>{rightText}</p>
         </div>
       </div>
     </div>
