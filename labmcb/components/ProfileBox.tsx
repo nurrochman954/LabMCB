@@ -10,7 +10,7 @@ const ProfileBox: React.FC<ProfileBoxProps> = ({ text, imageUrl }) => {
   const gradientStyle: React.CSSProperties = {
     height: '120px',
     marginBottom: '12px',
-    background: 'radial-gradient(circle, #FED9B7 0%, #F8AD96 45%, #F7A38E 57%, #F59986 63%, #F17C6F 86%, #F07167 100%)',
+    background: 'linear-gradient(to right, #FDD5B2, #F27C70)',
     display: 'flex',
     alignItems: 'flex-end',
     padding: '0 20px 20px 20px',
