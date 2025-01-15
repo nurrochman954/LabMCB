@@ -3,9 +3,23 @@ import React, { useState } from 'react';
 
 const Tracking: React.FC = () => {
     const [isOpen, setIsOpen] = useState(false);
+    const [isPopupOpen, setIsPopupOpen] = useState(false);
+    const [aduan, setAduan] = useState('');
+
 
     const toggleAccordion = () => {
         setIsOpen((prev) => !prev);
+    };
+
+    const handleAduanChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+        setAduan(e.target.value);
+    };
+
+    const handleSubmit = () => {
+        // Logika untuk mengirim aduan
+        console.log('Aduan:', aduan);
+        setAduan('');
+        setIsPopupOpen(false); // Tutup pop-up setelah mengirim
     };
 
     return (
@@ -128,13 +142,28 @@ const Tracking: React.FC = () => {
                     </div>
 
                     <div style={styles.footer}>
-                        <button style={{
+                    <button style={{
                             color: 'grey',
                             marginLeft: '550px',
-                        }}>
+                        }} onClick={() => setIsPopupOpen(true)}>
                             Ajukan Pengaduan
                         </button>
                     </div>
+                    {isPopupOpen && (
+                        <div style={styles.popup}>
+                            <div style={styles.popupContent}>
+                                
+                                <textarea
+                                    value={aduan}
+                                    onChange={handleAduanChange}
+                                    placeholder="Tulis Aduan"
+                                    style={styles.textarea}
+                                />
+                                <button onClick={handleSubmit} style={styles.submitButton}>Kirim</button>
+                                <button onClick={() => setIsPopupOpen(false)} style={styles.closeButton}>×</button>
+                            </div>
+                        </div>
+                    )}
                 </div>
             )}
         </div>
@@ -184,6 +213,58 @@ const styles: { [key: string]: React.CSSProperties } = {
     },
     footer: {
         marginTop: '20px',
+    },
+    popup: {
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        backgroundColor: 'rgba(0, 0, 0, 0.5)', // Background overlay
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        zIndex: 1000, // Ensure it's on top
+    },
+    popupContent: {
+        backgroundColor: 'white',
+        padding: '20px',
+        borderRadius: '10px',
+        width: '400px',
+        position: 'relative',
+        
+    },
+    textarea: {
+        width: '100%',
+        height: '100px',
+        padding: '10px',
+        borderRadius: '5px',
+        border: '1px solid #ccc',
+        backgroundColor: '#D9D9D9',
+        marginTop : '20px'
+    },
+    submitButton: {
+        backgroundColor: '#00AFB9',
+        color: 'white',
+        padding: '10px 20px',
+        border: 'none',
+        borderRadius: '5px',
+        cursor: 'pointer',
+        marginTop: '10px',
+        width: '75px',
+        height : '35px', 
+        display: 'flex', // Menambahkan display flex
+        alignItems: 'center', // Menyelaraskan teks secara vertikal
+        justifyContent: 'center', 
+    },
+    closeButton: {
+        position: 'absolute',
+        top: '10px',
+        right: '20px',
+        background: 'none',
+        border: 'none',
+        fontSize: '20px',
+        cursor: 'pointer',
     },
 };
 
