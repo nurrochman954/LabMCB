@@ -1,28 +1,24 @@
-import React from "react";
-import Header from "../../components/Header";
-import Footer from "../../components/Footer";
-import TopBar from "../../components/TopBar";
-import Hero from "../../components/Hero";
-import TentangKami from "../../components/TentangKami";
-import Berita from "@/components/Berita";
+'use client'
+import React, { useState } from 'react';
+import PopUpNoSurat from "@/components/PopUpNoSurat";
 
-const Home = () => {
-  const slides = [
-    { src: "/assets/berita1.jpg" },
-    { src: "/assets/berita2.jpg" },
-    { src: "/assets/berita3.jpeg"},
-  ];
+const admin = () => {
+  
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
 
+  const handleOpenPopup = () => {
+    setIsPopupOpen(true);
+  };
+
+  const handleClosePopup = () => {
+    setIsPopupOpen(false);
+  };
   return (
-    <>
-      <Header />
-      <TopBar />
-      <Hero />
-      <Berita slides={slides}/>
-      <TentangKami />
-      <Footer />
-    </>
+    <div>
+    <button onClick={handleOpenPopup}>NomorSurat</button>
+    {isPopupOpen && <PopUpNoSurat onClose={handleClosePopup} />}
+  </div>
   );
 };
 
-export default Home;
+export default admin;
