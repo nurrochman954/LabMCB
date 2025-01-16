@@ -36,6 +36,7 @@ const ComplaintPopup: React.FC<ComplaintPopupProps> = ({ onClose }) => {
           <button
             onClick={onClose}
             className="bg-[#50BCB8] text-white px-4 py-2 rounded-[14px] w-[120px] h-[40px] flex items-center justify-center shadow-2xl ml-3"
+            style={{ boxShadow: '0 2px 5px rgba(0, 0, 0, 0.5)' }}
           >
             Selesai
           </button>
