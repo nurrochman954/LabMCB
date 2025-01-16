@@ -40,63 +40,66 @@ const AdminTracking: React.FC = () => {
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'space-between', // Mengatur jarak antara teks dan ikon
-                        marginBottom: '5px'
+                        marginBottom: '10px',
                          }}>
                         <span style={{ fontSize: '16px', fontWeight: 'normal' }}>
                             Admin Laboratorium telah menerima surat pengantar dan sampel
                         </span>
-                        <div style={{ display: 'flex', alignItems: 'center', marginRight: '42.6px' }}>
-                            <button style={{ width: '25px', height: '25px', background: 'url(\'./assets/checkbox.png\') no-repeat center center', backgroundSize: 'contain', border: 'none', cursor: 'pointer' }}></button>
+                        <div style={{ display: 'flex', alignItems: 'center', marginRight: '50px' }}>
+                            <button style={{ width: '35px', height: '35px', background: 'url(\'./assets/checkbox.png\') no-repeat center center', backgroundSize: 'contain', border: 'none', cursor: 'pointer' }}></button>
                         </div>
                     </div>
                     <div style={{
                         display: 'flex',
                         alignItems: 'center',
+                        marginBottom: '10px',
                         justifyContent: 'space-between', // Mengatur jarak antara teks dan ikon
                          }}>
                         <span style={{ fontSize: '16px', fontWeight: 'normal' }}>
                             Sedang diproses oleh Supervisor
                         </span>
-                        <div style={{ display: 'flex', alignItems: 'center', marginRight: '42.6px' }}>
-                            <button style={{ width: '25px', height: '25px', background: 'url(\'./assets/checkbox.png\') no-repeat center center', backgroundSize: 'contain', border: 'none', cursor: 'pointer' }}></button>
+                        <div style={{ display: 'flex', alignItems: 'center', marginRight: '50px' }}>
+                            <button style={{ width: '35px', height: '35px', background: 'url(\'./assets/checkbox.png\') no-repeat center center', backgroundSize: 'contain', border: 'none', cursor: 'pointer' }}></button>
                         </div>
                     </div>
                     <div style={{
                         display: 'flex',
                         alignItems: 'center',
+                        marginBottom: '10px',
                         justifyContent: 'space-between', // Mengatur jarak antara teks dan ikon
                          }}>
                         <span style={{ fontSize: '16px', fontWeight: 'normal' }}>
                         Supervisor menyetujui analisis sampel
                         </span>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                            <button style={{ width: '25px', height: '25px', background: 'url(\'./assets/checkbox.png\') no-repeat center center', backgroundSize: 'contain', border: 'none', cursor: 'pointer' }}></button>
-                            <button style={{ width: '33px', height: '33px', background: 'url(\'./assets/crossbox.png\') no-repeat center center', backgroundSize: 'contain', border: 'none', cursor: 'pointer' }}></button>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
+                            <button style={{ width: '35px', height: '35px', background: 'url(\'./assets/checkbox.png\') no-repeat center center', backgroundSize: 'contain', border: 'none', cursor: 'pointer' }}></button>
+                            <button style={{ width: '35px', height: '35px', background: 'url(\'./assets/crossbox.png\') no-repeat center center', backgroundSize: 'contain', border: 'none', cursor: 'pointer' }}></button>
                         </div>
                     </div>
                     <div style={{
                         display: 'flex',
                         alignItems: 'center',
+                        marginBottom: '10px',
                         justifyContent: 'space-between', // Mengatur jarak antara teks dan ikon
                          }}>
                         <span style={{ fontSize: '16px', fontWeight: 'normal' }}>
                         Laboran melakukan proses uji dan analisis pada sampel
                         </span>
-                        <div style={{ display: 'flex', alignItems: 'center', marginRight: '42.6px' }}>
-                            <button style={{ width: '25px', height: '25px', background: 'url(\'./assets/checkbox.png\') no-repeat center center', backgroundSize: 'contain', border: 'none', cursor: 'pointer' }}></button>
+                        <div style={{ display: 'flex', alignItems: 'center', marginRight: '50px' }}>
+                            <button style={{ width: '35px', height: '35px', background: 'url(\'./assets/checkbox.png\') no-repeat center center', backgroundSize: 'contain', border: 'none', cursor: 'pointer' }}></button>
                         </div>
                     </div>
                     <div style={{
                         display: 'flex',
                         alignItems: 'center',
+                        marginBottom: '10px',
                         justifyContent: 'space-between', 
-                        marginTop: '5px'// Mengatur jarak antara teks dan ikon
                          }}>
                         <span style={{ fontSize: '16px', fontWeight: 'normal' }}>
                         Customer perlu membayar
                         </span>
-                        <div style={{ display: 'flex', alignItems: 'center', marginRight: '42.6px' }}>
-                            <button style={{ width: '25px', height: '25px', background: 'url(\'./assets/checkbox.png\') no-repeat center center', backgroundSize: 'contain', border: 'none', cursor: 'pointer' }}></button>
+                        <div style={{ display: 'flex', alignItems: 'center', marginRight: '50px' }}>
+                            <button style={{ width: '35px', height: '35px', background: 'url(\'./assets/checkbox.png\') no-repeat center center', backgroundSize: 'contain', border: 'none', cursor: 'pointer' }}></button>
                         </div>
                     </div>
                     <div style={styles.paymentSection}>
@@ -113,13 +116,14 @@ const AdminTracking: React.FC = () => {
                     <div style={{
                         display: 'flex',
                         alignItems: 'center',
+                        marginBottom: '10px',
                         justifyContent: 'space-between', // Mengatur jarak antara teks dan ikon
                          }}>
                         <span style={{ fontSize: '16px', fontWeight: 'normal' }}>
                         Admin Laboratorium telah menerima surat pengantar dan sample
                         </span>
-                        <div style={{ display: 'flex', alignItems: 'center', marginRight: '42.6px' }}>
-                            <button style={{ width: '25px', height: '25px', background: 'url(\'./assets/checkbox.png\') no-repeat center center', backgroundSize: 'contain', border: 'none', cursor: 'pointer' }}></button>
+                        <div style={{ display: 'flex', alignItems: 'center', marginRight: '50px' }}>
+                            <button style={{ width: '35px', height: '35px', background: 'url(\'./assets/checkbox.png\') no-repeat center center', backgroundSize: 'contain', border: 'none', cursor: 'pointer' }}></button>
                         </div>
                     </div>
                     <div style={styles.finalStep}>
