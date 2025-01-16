@@ -1,5 +1,5 @@
 import React from 'react';
-import UnduhSurat from "./UnduhSuratButton";
+import UnduhSurat from "./TombolUnduhSurat";
 
 const BoxPanduan = () => {
   return (
