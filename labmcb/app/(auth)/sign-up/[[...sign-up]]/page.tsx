@@ -33,6 +33,26 @@ export default function SignUpPage() {
             <Clerk.GlobalError className="block text-sm font-medium text-red-500" />
 
             <div className="space-y-4">
+              <Clerk.Field name="firstName" className="space-y-2">
+                <Clerk.Label className="text-sm font-semibold text-zinc-950">
+                  Nama Depan
+                </Clerk.Label>
+                <Clerk.Input 
+                  className="w-full rounded-md bg-white px-3.5 py-2 text-sm font-medium outline-none ring-1 ring-inset ring-zinc-300 hover:ring-zinc-400 focus:ring-[1.5px] focus:ring-zinc-950 data-[invalid]:ring-red-400"
+                />
+                <Clerk.FieldError className="block text-sm font-medium text-red-500" />
+              </Clerk.Field>
+
+              <Clerk.Field name="lastName" className="space-y-2">
+                <Clerk.Label className="text-sm font-semibold text-zinc-950">
+                  Nama Belakang
+                </Clerk.Label>
+                <Clerk.Input 
+                  className="w-full rounded-md bg-white px-3.5 py-2 text-sm font-medium outline-none ring-1 ring-inset ring-zinc-300 hover:ring-zinc-400 focus:ring-[1.5px] focus:ring-zinc-950 data-[invalid]:ring-red-400"
+                />
+                <Clerk.FieldError className="block text-sm font-medium text-red-500" />
+              </Clerk.Field>
+
               <Clerk.Field name="username" className="space-y-2">
                 <Clerk.Label className="text-sm font-semibold text-zinc-950">
                   Username
@@ -59,6 +79,18 @@ export default function SignUpPage() {
                 </Clerk.Label>
                 <Clerk.Input 
                   className="w-full rounded-md bg-white px-3.5 py-2 text-sm font-medium outline-none ring-1 ring-inset ring-zinc-300 hover:ring-zinc-400 focus:ring-[1.5px] focus:ring-zinc-950 data-[invalid]:ring-red-400"
+                  type="password"
+                />
+                <Clerk.FieldError className="block text-sm font-medium text-red-500" />
+              </Clerk.Field>
+
+              <Clerk.Field name="passwordConfirm" className="space-y-2">
+                <Clerk.Label className="text-sm font-semibold text-zinc-950">
+                  Konfirmasi Password
+                </Clerk.Label>
+                <Clerk.Input 
+                  className="w-full rounded-md bg-white px-3.5 py-2 text-sm font-medium outline-none ring-1 ring-inset ring-zinc-300 hover:ring-zinc-400 focus:ring-[1.5px] focus:ring-zinc-950 data-[invalid]:ring-red-400"
+                  type="password"
                 />
                 <Clerk.FieldError className="block text-sm font-medium text-red-500" />
               </Clerk.Field>
