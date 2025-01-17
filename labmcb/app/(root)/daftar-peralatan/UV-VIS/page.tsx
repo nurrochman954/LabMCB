@@ -23,7 +23,7 @@ const DaftarPeralatan = () => {
       <div style={{ padding: "20px", backgroundColor: "#f0f0f0", flex: 1 }}>
       <DeskripsiPeralatan
         mainTitle="UV-Vis (Ultraviolet-Visible)"
-        imageUrl="https://www.worldoftest.com/sites/default/files/2023-10/UV%20VIS%20Spectrophotometers%20QE-1000UV.png"
+        imageUrl="/assets/UV_vis.jpg"
         rightText={
             "Spektrofotometer UV-Vis adalah suatu instrument yang digunakan untuk mengukur absorban suatu sampel pada panjang gelombang tertentu pada panjang gelombang di daerah UV (200-400 nm) dan daerah visible (400-800 nm). Sampel yang diuji dengan alat ini adalah sampel cair yang didalamnya mengandung  senyawa yang bergugus kromofor dan dapat digunakan untuk sampel berwarna. UV-Vis dengan sample padat berfungsi untuk mengetahui panjang gelombang setiap  material sehingga dapat ditentukan nilai energi celah pita setiap material. Output berupa grafik spektrum panjang gelombang.\n\n" +
             "Syarat sampel (kualitatif) padat:\n" +

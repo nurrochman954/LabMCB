@@ -21,7 +21,7 @@ const DaftarPeralatan = () => {
       <div style={{ padding: "20px", backgroundColor: "#f0f0f0", flex: 1 }}>
       <DeskripsiPeralatan
         mainTitle="Colony Counter"
-        imageUrl="https://tokoalatpengujian.wordpress.com/wp-content/uploads/2017/11/universal-testing-machine.jpg?w=1081"
+        imageUrl="/assets/coloni_counter.jpg"
         rightText={
             "Merupakan alat bantu yang digunakan untuk menghitung koloni bakteri secara otomatis yang ditumbuhkan di media yang disimpan dalam cawan petri. Digunakan juga untuk diameter zona hambat pada pengujian antibakteri, antijamur, dll. Output berupa jumlah koloni jamur/bakteri dalam biakan cawan petri.\n\n" +
             "Syarat sampel:\n" +

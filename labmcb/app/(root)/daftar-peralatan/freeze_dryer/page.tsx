@@ -23,7 +23,7 @@ const DaftarPeralatan = () => {
       <div style={{ padding: "20px", backgroundColor: "#f0f0f0", flex: 1}}>
       <DeskripsiPeralatan
         mainTitle="Freeze Dryer"
-        imageUrl="https://tokoalatpengujian.wordpress.com/wp-content/uploads/2017/11/universal-testing-machine.jpg?w=1081"
+        imageUrl="/assets/freeze_dryer.jpg"
         rightText={
             "Pengeringan sampel melalui proses sublimasi. Pengeringan menggunakan alat freeze dryer lebih baik dibandingkan dengan oven karena kadar airnya lebih rendah. Pengeringan menggunakan alat freeze dryer/pengering beku lebih aman terhadap risiko terjadinya degradasi senyawa dalam ekstrak. Hal ini dikarenakan suhu yang digunakan untuk mengeringkan ekstrak cukup rendah. Output berupa sampel dalam kondisi kering.\n\n" +
             "Syarat sampel:\n" +

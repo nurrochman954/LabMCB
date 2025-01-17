@@ -22,7 +22,7 @@ const DaftarPeralatan = () => {
       <div style={{ padding: "20px", backgroundColor: "#f0f0f0", flex: 1}}>
       <DeskripsiPeralatan
         mainTitle="Raman"
-        imageUrl="https://tokoalatpengujian.wordpress.com/wp-content/uploads/2017/11/universal-testing-machine.jpg?w=1081"
+        imageUrl="/assets/raman.jpg"
         rightText={
             "Spektrum Raman digunakan identifikasi senyawa kimia yang ada dalam sampel, sehingga bertindak sebagai “sidik jari kimia” yang dapat digunakan untuk mengidentifikasi, mengukur, dan mengkarakterisasi semua senyawa kimia berbeda yang ada dalam sampel. Mikroskop Raman dapat menganalisis sampel apapun yang dapat ditempatkan pada tahap sampel, tanpa persiapan sampel sama sekali. Bahkan dapat digunakan untuk menganalisis sampel yang dikelilingi kaca, didalam kemasan transparan, atau didalam air. Output berupa grafik dan prediksi\n\n" +
             "Syarat sampel:\n" +

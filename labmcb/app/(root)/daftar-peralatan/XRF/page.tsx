@@ -27,7 +27,7 @@ const DaftarPeralatan = () => {
       <div style={{ padding: "20px", backgroundColor: "#f0f0f0", flex : 1 }}>
       <DeskripsiPeralatan
         mainTitle="XRF (X-ray Fluorescence)"
-        imageUrl="https://www.tawada-ndt.com/wp-content/uploads/2023/06/Handheld-XRF-Jan.png"
+        imageUrl="/assets/XRF_benchtop.jpg"
         rightText={
           "Metode XRF digunakan untuk menentukan komposisi unsur suatu material.Output berupa komposisi unsur dan oksida.\n\n" +
           "Syarat sampel XRF (Benchtop):\n" +

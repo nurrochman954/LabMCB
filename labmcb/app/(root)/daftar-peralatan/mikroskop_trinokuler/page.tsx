@@ -22,7 +22,7 @@ const DaftarPeralatan = () => {
       <div style={{ padding: "20px", backgroundColor: "#f0f0f0", flex: 1}}>
       <DeskripsiPeralatan
         mainTitle="Mikroskop Trinokuler"
-        imageUrl="https://tokoalatpengujian.wordpress.com/wp-content/uploads/2017/11/universal-testing-machine.jpg?w=1081"
+        imageUrl="/assets/mikroskop_trinokuler.jpg"
         rightText={
             "Mikroskop trinokuler memiliki eyetube yang bisa disambungkan dengan monitor komputer atau proyektor dengan memasang kamera di salah satu eyetube-nya. Mikroskop trinokular digunakan di laboratorium untuk mengetahui struktur tak kasat mata pada sampel. Digunakan untuk penampang mikroskopis arah serat kayu transversal, tangensial, dan radial. Output berupa foto mikroskopik.\n\n" +
             "Syarat sampel:\n" +

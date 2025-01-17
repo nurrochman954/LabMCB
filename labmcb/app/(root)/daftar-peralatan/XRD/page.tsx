@@ -23,7 +23,7 @@ const DaftarPeralatan = () => {
       <div style={{ padding: "20px", backgroundColor: "#f0f0f0", flex: 1 }}>
       <DeskripsiPeralatan
         mainTitle="XRD (X-Ray Diffraction)"
-        imageUrl="https://www.bruker.com/content/bruker/int/en/products-and-solutions/diffractometers-and-x-ray-microscopes/x-ray-diffractometers/d8-discover-family/_jcr_content/teaserImage.coreimg.jpeg/1600195403526.jpeg"
+        imageUrl="/assets/XRD.jpg"
         rightText={
             "XRD memberikan informasi mengenai karakteristik material terutama mineralogi dan kekristalannya. Output berupa grafik XRD tanpa interpretasi data dan grafik XRD dengan interpretasi data.\n" +
             "Syarat sampel:\n" +

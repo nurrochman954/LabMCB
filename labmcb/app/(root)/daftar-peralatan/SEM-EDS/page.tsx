@@ -24,7 +24,7 @@ const DaftarPeralatan = () => {
       <div style={{ padding: "20px", backgroundColor: "#f0f0f0", flex: 1}}>
       <DeskripsiPeralatan
         mainTitle="SEM-EDS (Scanning Electron Microscope- Energy Dispersive X-Ray  )"
-        imageUrl="https://instanano.com/wp-content/uploads/2022/07/sem-instrument.jpg"
+        imageUrl="/assets/SEM.jpg"
         rightText={
             "Scanning Electron Microscope (SEM) adalah jenis mikroskop elektron yang menghasilkan gambar sampel dengan memindai permukaan dengan sinar elektron yang terfokus dengan perbesaran hingga skala besar. Energy Dispersive X-Ray (EDX) digunakan untuk analisis unsur kimia bahan. Dengan EDS maka komposisi unsur dapat diketahui pada titik yang dianalisis.\n" +
             "Syarat sampel:\n" +

@@ -22,7 +22,7 @@ const DaftarPeralatan = () => {
       <div style={{ padding: "20px", backgroundColor: "#f0f0f0", flex: 1}}>
       <DeskripsiPeralatan
         mainTitle="GC–MS (Gas Chromatography-Mass Spectrometry)"
-        imageUrl="https://tokoalatpengujian.wordpress.com/wp-content/uploads/2017/11/universal-testing-machine.jpg?w=1081"
+        imageUrl="/assets/GCMS.jpg"
         rightText={
             "Mengonfirmasikan senyawa target. Output berupa grafik chromatogram kualitatif.\n\n" +
             "Syarat sampel GC-MS:\n" +

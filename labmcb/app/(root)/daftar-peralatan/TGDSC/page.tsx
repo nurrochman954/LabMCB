@@ -21,7 +21,7 @@ const DaftarPeralatan = () => {
       <div style={{ padding: "20px", backgroundColor: "#f0f0f0", flex: 1 }}>
       <DeskripsiPeralatan
         mainTitle="TG/DSC (Thermogravimetric/Differential Scanning Calorimetry)"
-        imageUrl="https://image.made-in-china.com/202f0j00viGqONbtMyke/Full-Automatic-DSC-Differential-Scanning-Calorimeter-Testing-DSC-Calorimeter-Analysis-Machine.webp"
+        imageUrl="/assets/TGDSC.jpg"
         rightText={
             "Thermogravimetri adalah teknik untuk mengukur perubahan berat dari suatu senyawa sebagai fungsi dari suhu ataupun waktu. Teknik yang berhubungan dengan DTA adalah differential scanning calorimetry (DSC). Pada DSC, peralatan didesain untuk memungkinkan pengukuran kuantitatif perubahan entalpi yang timbul dalam sampel sebagai fungsi dari suhu maupun waktu.Output berupa thermografik, berupa rekaman diagram yang contineau; reaksi dekomposisi satu tahap yang skematik.\n\n" +
             "Syarat sampel:\n" +

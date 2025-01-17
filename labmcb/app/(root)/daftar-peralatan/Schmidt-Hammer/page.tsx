@@ -20,7 +20,7 @@ const DaftarPeralatan = () => {
       <div style={{ padding: "20px", backgroundColor: "#f0f0f0", flex : 1}}>
       <DeskripsiPeralatan
         mainTitle="Schmidt Hammer"
-        imageUrl="https://www.tawada-ndt.com/wp-content/uploads/2023/06/Handheld-XRF-Jan.png"
+        imageUrl="/assets/noimg.png"
         rightText={
           "Untuk mengukur kekuatan material. Output berupa data kekuatan material" 
         }

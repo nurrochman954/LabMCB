@@ -21,7 +21,7 @@ const DaftarPeralatan = () => {
       <div style={{ padding: "20px", backgroundColor: "#f0f0f0" , flex: 1  }}>
       <DeskripsiPeralatan
         mainTitle="Thermal Camera"
-        imageUrl="https://www.tawada-ndt.com/wp-content/uploads/2023/06/Handheld-XRF-Jan.png"
+        imageUrl="/assets/noimg.png"
         rightText={
           "Menampilkan gambar suhu permukaan dari suatu objek. Alat ini sering digunakan untuk mengetahui perbedaan suhu permukaan material yang dapat dianalisa lebih lanjut untuk mengetahui kondisi bagian dalam objek tersebut. Output berupa foto thermal" 
         }

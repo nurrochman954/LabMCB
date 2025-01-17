@@ -22,7 +22,7 @@ const DaftarPeralatan = () => {
       <div style={{ padding: "20px", backgroundColor: "#f0f0f0", flex: 1}}>
       <DeskripsiPeralatan
         mainTitle="UTM (Universal Testing Machine)"
-        imageUrl="https://tokoalatpengujian.wordpress.com/wp-content/uploads/2017/11/universal-testing-machine.jpg?w=1081"
+        imageUrl="/assets/UTM.jpg"
         rightText={
             "Alat untuk menguji kuat tarik/kuat tekan/kuat lentur suatu bahan atau material. Output berupa grafik dan data kuat tekan/kuat tarik/kuat lentur\n\n" +
             "Syarat sampel:\n" +

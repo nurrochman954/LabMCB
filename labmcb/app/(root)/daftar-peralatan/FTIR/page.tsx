@@ -23,7 +23,7 @@ const DaftarPeralatan = () => {
       <div style={{ padding: "20px", backgroundColor: "#f0f0f0", flex: 1}}>
       <DeskripsiPeralatan
         mainTitle="FTIR (Fourier Transform InfraRed)"
-        imageUrl="https://www.tribonet.org/wp-content/uploads/2022/10/word-image-63811-1.png.webp"
+        imageUrl="/assets/FTIR.jpg"
         rightText={
             "Alat yang berfungsi untuk mengidentifikasi senyawa dan analisis gugus fungsi dalam senyawa kimia. Output berupa spektrum absorben/transmitten dan nilai peak.\n\n" +
             "Syarat sampel:\n" +

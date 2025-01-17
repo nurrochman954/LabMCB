@@ -22,10 +22,10 @@ const DaftarPeralatan = () => {
       <Header />
       <TopBar />
 
-      <div style={{ padding: "20px", backgroundColor: "#f0f0f0", flex: 1 }}>
+      <div style={{ padding: "20px", backgroundColor: "#f0f0f0", }}>
       <DeskripsiPeralatan
         mainTitle="Microdrill/ DRMS"
-        imageUrl="https://www.tawada-ndt.com/wp-content/uploads/2023/06/Handheld-XRF-Jan.png"
+        imageUrl="/assets/noimg.png"
         rightText={
             "Berfungsi untuk melakukan pengukuran ketahanan pengeboran yang sederhana namun spesifik. Sistem pengukuran ketahanan pengeboran untuk pengujian penting dalam rangka untuk mengkarakterisasi batu dan material lainnya secara mendalam. Output berupa grafik kekerasan material.\n\n" +
             "Syarat sampel:\n" +

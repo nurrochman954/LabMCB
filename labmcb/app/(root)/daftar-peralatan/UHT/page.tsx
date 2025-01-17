@@ -20,7 +20,7 @@ const DaftarPeralatan = () => {
       <div style={{ padding: "20px", backgroundColor: "#f0f0f0", flex: 1 }}>
       <DeskripsiPeralatan
         mainTitle="Ultrasonic Hardnest Tester"
-        imageUrl="https://www.tawada-ndt.com/wp-content/uploads/2023/06/Handheld-XRF-Jan.png"
+        imageUrl="/assets/noimg.png"
         rightText={
           "Mengukur kekerasan dari berbagai jenis material terutama logam dan alloy. Jenis logam yang dapat diukur dengan akurat dan terstandar meliputi steel, alloy steel, stainless steel, cast iron, aluminum, brass, bronze dan copper. Output berupa data kekerasan" 
         }

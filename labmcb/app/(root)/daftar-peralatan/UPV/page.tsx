@@ -20,7 +20,7 @@ const DaftarPeralatan = () => {
       <div style={{ padding: "20px", backgroundColor: "#f0f0f0", flex: 1 }}>
         <DeskripsiPeralatan
           mainTitle="UPV (Ultrasonic Pulse Velocity)"
-          imageUrl="https://www.tawada-ndt.com/wp-content/uploads/2023/06/Handheld-XRF-Jan.png"
+          imageUrl="/assets/noimg.png"
           rightText={
             "Nondestructive testing untuk mengetahui kualitas  dan kekuatan material (beton, batu, material lainnya) serta kedalaman retakan. Output berupa kecepatan rambat gelombang."
           }

@@ -21,7 +21,7 @@ const DaftarPeralatan = () => {
       <div style={{ padding: "20px", backgroundColor: "#f0f0f0", flex : 1}}>
       <DeskripsiPeralatan
         mainTitle="Rotary Vacuum Evaporator"
-        imageUrl="https://tokoalatpengujian.wordpress.com/wp-content/uploads/2017/11/universal-testing-machine.jpg?w=1081"
+        imageUrl="/assets/noimg.png"
         rightText={
             "Merupakan alat untuk memisahkan pelarut dari larutan untuk mendapatkan larutan yang lebih pekat dengan cara mengubah pelarut dari cair menjadi uap. Output berupa ekstraksi.\n\n" +
             "Syarat sampel:\n" +

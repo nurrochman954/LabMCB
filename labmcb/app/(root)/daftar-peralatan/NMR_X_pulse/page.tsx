@@ -21,7 +21,7 @@ const DaftarPeralatan = () => {
       <div style={{ padding: "20px", backgroundColor: "#f0f0f0", flex: 1 }}>
       <DeskripsiPeralatan
         mainTitle="NMR (Nuclear Magnetic Resonance)"
-        imageUrl="https://tokoalatpengujian.wordpress.com/wp-content/uploads/2017/11/universal-testing-machine.jpg?w=1081"
+        imageUrl="/assets/NMR_X_pulse.jpg"
         rightText={
             "Menentukan struktur kimia dari molekul dalam senyawa. Output berupa spektum prediksi stuktur molekul\n\n" +
             "Syarat sampel:\n" +
