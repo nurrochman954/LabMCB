@@ -17,8 +17,8 @@ const ButtonDU: React.FC<ButtonDUProps> = ({
 }) => {
   // Define class names for primary and secondary variants
   const classNames = variant === 'primary'
-    ? "bg-softsec text-white px-3 py-1 rounded-md text-lg hover:bg-secondary flex items-center z-50"
-    : "bg-white text-black px-3 py-1 rounded-md text-lg hover:bg-softsec border-2 border-softsec flex items-center z-50";
+    ? "bg-softsec text-white px-3 py-1 rounded-md text-lg hover:bg-secondary flex items-center z-100"
+    : "bg-white text-black px-3 py-1 rounded-md text-lg hover:bg-softsec border-2 border-softsec flex items-center z-100";
 
   // Define icons for different variants
   const imageSrc = variant === 'primary' ? "/assets/fileputih.png" : "/assets/unduhhitam.png";
