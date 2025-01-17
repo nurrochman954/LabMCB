@@ -5,6 +5,7 @@ import TopBar from "@/components/TopBar";
 import ProfileBox from "@/components/ProfileBox";
 import HalamanSayaJudul from "@/components/HalamanSayaJudul";
 import Tracking from "@/components/Tracking";
+import PenyewaanTracking from '@/components/PenyewaanTracking'
 
 const HalamanSaya: React.FC = () => {
     return (
@@ -17,7 +18,9 @@ const HalamanSaya: React.FC = () => {
             />
             <HalamanSayaJudul />
             <Tracking />
-            <div style={{ flexGrow: 1 }} /> {/* This div allows the content to grow and push the footer down */}
+            
+            <PenyewaanTracking/>  {/* This div allows the content to grow and push the footer down */}
+            <div style={{ flexGrow: 1 }}/>
             <Footer />
         </div>
     );

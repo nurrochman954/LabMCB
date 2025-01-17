@@ -75,7 +75,7 @@ const Tracking: React.FC = () => {
                 }}
                 onClick={toggleAccordion} // Toggle on click
             >
-                Nomor Permohonan
+                Nomor Penyewaan
             </h2>
 
             {isOpen && ( // Conditionally render the tracking information
@@ -144,33 +144,9 @@ const Tracking: React.FC = () => {
                             </div>
                         </div>
 
-                        <StatusItem color="gray" text="Hasil Uji Sampel" direction="up" />
-                        <div style={styles.finalStep}>
-                            <button
-                                style={{
-                                    backgroundImage: `url(/assets/downloadinvoicepng.png)`,
-                                    backgroundSize: '35px 25px',
-                                    backgroundRepeat: 'no-repeat',
-                                    backgroundPosition: 'left',
-                                    backgroundColor: 'white',
-                                    color: 'black',
-                                    padding: '10px 0px 10px 20px',
-                                    border: '3px solid #50BCB8',
-                                    borderRadius: '10px',
-                                    cursor: 'pointer',
-                                    fontSize: '16px',
-                                    width: '160px',
-                                    height: '38px',
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    justifyContent: 'center',
-                                    boxShadow: '0 2px 5px rgba(0, 0, 0, 0.5)',
-                                    marginLeft: '25px'
-                                }}
-                            >
-                                File Uji Sampel
-                            </button>
-                        </div>
+                        <StatusItem color="gray" text="Proses Pengiriman" direction="up" />
+                        <StatusItem color="gray" text="Proses Pengembalian" direction="up" />
+                        <StatusItem color="gray" text="Pengembalian Alat-Alat Berhasil" direction="up" />
                     </div>
 
                     <div style={styles.footer}>
