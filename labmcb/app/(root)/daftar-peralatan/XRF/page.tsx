@@ -20,11 +20,11 @@ const DaftarPeralatan = () => {
   ];
 
   return (
-    <>  
+    <>   <div style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
       <Header />
       <TopBar />
 
-      <div style={{ padding: "20px", backgroundColor: "#f0f0f0" }}>
+      <div style={{ padding: "20px", backgroundColor: "#f0f0f0", flex : 1 }}>
       <DeskripsiPeralatan
         mainTitle="XRF (X-ray Fluorescence)"
         imageUrl="https://www.tawada-ndt.com/wp-content/uploads/2023/06/Handheld-XRF-Jan.png"
@@ -51,7 +51,7 @@ const DaftarPeralatan = () => {
         <Table title="Informasi Penyewaan Peralatan" headers={rentalHeaders} data={rentalData} />
       </div>
         <KontakKami/>
-      <Footer />
+      <Footer /></div>
     </>
   );
 };

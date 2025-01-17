@@ -16,11 +16,11 @@ const DaftarPeralatan = () => {
 
 
   return (
-    <>  
+    <>   <div style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
       <Header />
       <TopBar />
 
-      <div style={{ padding: "20px", backgroundColor: "#f0f0f0" }}>
+      <div style={{ padding: "20px", backgroundColor: "#f0f0f0", flex: 1}}>
       <DeskripsiPeralatan
         mainTitle="FTIR (Fourier Transform InfraRed)"
         imageUrl="https://www.tribonet.org/wp-content/uploads/2022/10/word-image-63811-1.png.webp"
@@ -42,7 +42,7 @@ const DaftarPeralatan = () => {
         <Table title="Informasi Uji Sampel" headers={sampleHeaders} data={sampleData} />
       </div>
         <KontakKami/>
-      <Footer />
+      <Footer /></div>
     </>
   );
 };

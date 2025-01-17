@@ -17,11 +17,11 @@ const DaftarPeralatan = () => {
 
 
   return (
-    <>  
+    <>   <div style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
       <Header />
       <TopBar />
 
-      <div style={{ padding: "20px", backgroundColor: "#f0f0f0" }}>
+      <div style={{ padding: "20px", backgroundColor: "#f0f0f0", flex: 1}}>
       <DeskripsiPeralatan
         mainTitle="SEM-EDS (Scanning Electron Microscope- Energy Dispersive X-Ray  )"
         imageUrl="https://instanano.com/wp-content/uploads/2022/07/sem-instrument.jpg"
@@ -41,7 +41,7 @@ const DaftarPeralatan = () => {
 
       </div>
         <KontakKami/>
-      <Footer />
+      <Footer /></div>
     </>
   );
 };

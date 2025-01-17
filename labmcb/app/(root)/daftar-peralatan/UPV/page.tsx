@@ -13,26 +13,25 @@ const DaftarPeralatan = () => {
   ];
 
   return (
-    <>  
+    <div style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
       <Header />
       <TopBar />
-
-      <div style={{ padding: "20px", backgroundColor: "#f0f0f0" }}>
-      <DeskripsiPeralatan
-        mainTitle="UPV (Ultrasonic Pulse Velocity)"
-        imageUrl="https://www.tawada-ndt.com/wp-content/uploads/2023/06/Handheld-XRF-Jan.png"
-        rightText={
-          "Nondestructive testing untuk mengetahui kualitas  dan kekuatan material (beton, batu, material lainnya) serta kedalaman retakan. Output berupa kecepatan rambat gelombang." 
-        }
-        leftText={
-            "Merk : Proceq"}
-            />
-
+      
+      <div style={{ padding: "20px", backgroundColor: "#f0f0f0", flex: 1 }}>
+        <DeskripsiPeralatan
+          mainTitle="UPV (Ultrasonic Pulse Velocity)"
+          imageUrl="https://www.tawada-ndt.com/wp-content/uploads/2023/06/Handheld-XRF-Jan.png"
+          rightText={
+            "Nondestructive testing untuk mengetahui kualitas  dan kekuatan material (beton, batu, material lainnya) serta kedalaman retakan. Output berupa kecepatan rambat gelombang."
+          }
+          leftText={"Merk : Proceq"}
+        />
         <Table title="Informasi Penyewaan Peralatan" headers={rentalHeaders} data={rentalData} />
       </div>
-        <KontakKami/>
+
+      <KontakKami />
       <Footer />
-    </>
+    </div>
   );
 };
 

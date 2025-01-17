@@ -14,11 +14,11 @@ const DaftarPeralatan = () => {
 
 
   return (
-    <>  
+    <>   <div style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
       <Header />
       <TopBar />
 
-      <div style={{ padding: "20px", backgroundColor: "#f0f0f0" }}>
+      <div style={{ padding: "20px", backgroundColor: "#f0f0f0", flex: 1 }}>
       <DeskripsiPeralatan
         mainTitle="NMR (Nuclear Magnetic Resonance)"
         imageUrl="https://tokoalatpengujian.wordpress.com/wp-content/uploads/2017/11/universal-testing-machine.jpg?w=1081"
@@ -38,7 +38,7 @@ const DaftarPeralatan = () => {
         <Table title="Informasi Uji Sampel" headers={sampleHeaders} data={sampleData} />
       </div>
         <KontakKami/>
-      <Footer />
+      <Footer /></div>
     </>
   );
 };

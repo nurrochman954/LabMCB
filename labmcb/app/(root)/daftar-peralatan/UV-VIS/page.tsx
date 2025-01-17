@@ -16,11 +16,11 @@ const DaftarPeralatan = () => {
 
 
   return (
-    <>  
+    <>   <div style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
       <Header />
       <TopBar />
 
-      <div style={{ padding: "20px", backgroundColor: "#f0f0f0" }}>
+      <div style={{ padding: "20px", backgroundColor: "#f0f0f0", flex: 1 }}>
       <DeskripsiPeralatan
         mainTitle="UV-Vis (Ultraviolet-Visible)"
         imageUrl="https://www.worldoftest.com/sites/default/files/2023-10/UV%20VIS%20Spectrophotometers%20QE-1000UV.png"
@@ -40,7 +40,7 @@ const DaftarPeralatan = () => {
         <Table title="Informasi Uji Sampel" headers={sampleHeaders} data={sampleData} />
       </div>
         <KontakKami/>
-      <Footer />
+      <Footer /></div>
     </>
   );
 };

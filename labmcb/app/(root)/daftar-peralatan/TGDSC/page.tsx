@@ -14,11 +14,11 @@ const DaftarPeralatan = () => {
 
 
   return (
-    <>  
+    <>   <div style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
       <Header />
       <TopBar />
 
-      <div style={{ padding: "20px", backgroundColor: "#f0f0f0" }}>
+      <div style={{ padding: "20px", backgroundColor: "#f0f0f0", flex: 1 }}>
       <DeskripsiPeralatan
         mainTitle="TG/DSC (Thermogravimetric/Differential Scanning Calorimetry)"
         imageUrl="https://image.made-in-china.com/202f0j00viGqONbtMyke/Full-Automatic-DSC-Differential-Scanning-Calorimeter-Testing-DSC-Calorimeter-Analysis-Machine.webp"
@@ -36,7 +36,7 @@ const DaftarPeralatan = () => {
         <Table title="Informasi Uji Sampel" headers={sampleHeaders} data={sampleData} />
       </div>
         <KontakKami/>
-      <Footer />
+      <Footer /></div>
     </>
   );
 };
