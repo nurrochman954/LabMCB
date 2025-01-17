@@ -67,6 +67,9 @@ const EquipmentRentalForm: React.FC = () => {
           }
         };
 
+        const [isHovered, setIsHovered] = useState(false);
+                  
+          
     return (
         <>
           <Header />
@@ -351,24 +354,26 @@ const EquipmentRentalForm: React.FC = () => {
       
       <div style={{ display: 'flex', justifyContent: 'center' }}>
       <button
-        onClick={handleSubmit}
-        style={{
-          backgroundColor: '#00AFB9',
-          color: 'white',
-          padding: '5px 20px',
-          border: 'none',
-          borderRadius: '10px',
-          cursor: 'pointer',
-          fontSize: '20px',
-          width : '150px', 
-          height : '50px',
-          textAlign: 'center', // Memastikan teks berada di tengah
-          lineHeight: '30px',
-          boxShadow: '0 2px 5px rgba(0, 0, 0, 0.5)',
-        }}
-      >
-        Kirim
-      </button>
+      onClick={handleSubmit}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      style={{
+        backgroundColor: isHovered ? '#00AFB9': '#50BCB8',
+        color: 'white',
+        padding: '5px 20px',
+        border: 'none',
+        borderRadius: '10px',
+        cursor: 'pointer',
+        fontSize: '20px',
+        width: '150px',
+        height: '50px',
+        textAlign: 'center',
+        lineHeight: '30px',
+        boxShadow: '0 2px 5px rgba(0, 0, 0, 0.5)',
+      }}
+    >
+      Kirim
+    </button>
       </div>
     </div>
     

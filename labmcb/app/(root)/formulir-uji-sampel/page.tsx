@@ -4,6 +4,8 @@ import Footer from "@/components/Footer";
 import TopBar from "@/components/TopBar";
 import React, { useState } from 'react';
 
+
+
 const SampleRequestForm: React.FC = () => {
   const [sampleCount, setSampleCount] = useState(0); // State untuk menyimpan jumlah sampel
   const [selectedMethod, setSelectedMethod] = useState('');
@@ -41,7 +43,8 @@ const SampleRequestForm: React.FC = () => {
               setPhoneNumber(value);
             }
           };
-
+          const [isHovered, setIsHovered] = useState(false);
+          
   
 
   return (
@@ -383,25 +386,27 @@ const SampleRequestForm: React.FC = () => {
         *Template file dapat diunduh pada Halaman Panduan
       </div>
       <div style={{ display: 'flex', justifyContent: 'center' }}>
-      <button
-        onClick={handleSubmit}
-        style={{
-          backgroundColor: '#00AFB9',
-          color: 'white',
-          padding: '5px 20px',
-          border: 'none',
-          borderRadius: '10px',
-          cursor: 'pointer',
-          fontSize: '20px',
-          width : '150px', 
-          height : '50px',
-          textAlign: 'center', // Memastikan teks berada di tengah
-          lineHeight: '30px',
-          boxShadow: '0 2px 5px rgba(0, 0, 0, 0.5)',
-        }}
-      >
-        Kirim
-      </button>
+       <button
+      onClick={handleSubmit}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      style={{
+        backgroundColor: isHovered ? '#00AFB9': '#50BCB8',
+        color: 'white',
+        padding: '5px 20px',
+        border: 'none',
+        borderRadius: '10px',
+        cursor: 'pointer',
+        fontSize: '20px',
+        width: '150px',
+        height: '50px',
+        textAlign: 'center',
+        lineHeight: '30px',
+        boxShadow: '0 2px 5px rgba(0, 0, 0, 0.5)',
+      }}
+    >
+      Kirim
+    </button>
       </div>
       </div>
           

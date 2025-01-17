@@ -1,16 +1,59 @@
 'use client'
 import React, { useState } from 'react';
 import ButtonDU from './TombolDU';
-
+import PopUpNoSurat from '@/components/PopUpNoSurat'
 const AdminTracking: React.FC = () => {
     const [isOpen, setIsOpen] = useState(false);
-
+    const [isPopupOpen, setIsPopupOpen] = useState(false);
+    const [isButtonVisible, setIsButtonVisible] = useState(true);
+    const [isButtonVisibleSupervisor, setIsButtonVisibleSupervisor] = useState(true);
+    const [areButtonsSupervisorAccepted, setAreButtonsSupervisorAccepted] = useState(true);
+    const [isButtonVisiblelaboran, setIsButtonVisibleLaboran] = useState(true);
+    const [isButtonCustomer, setIsButtonCustomer] = useState(true);
+    const [isButtonFile, SetIsButtonFile] = useState (true);
     const toggleAccordion = () => {
         setIsOpen(prev => !prev);
-    };
+ };
+        
+  // Fungsi untuk membuka popup
+  const handleOpenPopup = () => setIsPopupOpen(true);
+  
+  // Fungsi untuk menutup popup
+  const handleClosePopup = () => setIsPopupOpen(false);
+
+  const handlePopupConfirm = () => {
+    setIsButtonVisible(false);  // Menyembunyikan tombol setelah konfirmasi
+    handleClosePopup(); // Menutup popup setelah konfirmasi
+    
+
+
+        };
+        const handleSupervisorChecked = () => {
+            setIsButtonVisibleSupervisor(false); // Menyembunyikan tombol setelah dipilih
+        };
+
+        const handleSupervisorAccepted = () => {
+            setAreButtonsSupervisorAccepted(false); // Menyembunyikan kedua tombol (checkbox dan crossbox)
+        };
+
+        const handleLaboran = () => {
+            setIsButtonVisibleLaboran(false);
+        };
+
+        const handleCustomer = () => {
+            setIsButtonCustomer (false)
+        };
+
+        const handleFile = () => {
+            SetIsButtonFile(false)
+        };
 
     return (
-        <div style={{
+        <div className="flex justify-center items-center">
+            <div className="w-3/5 px-6 py-4">
+            <h2 className="text-2xl font-bold mb-4">Permohonan Analisis dan Penyewaan Alat</h2>
+            <h3 className="text-xl  mb-4">Terbaru</h3>
+         <div style={{
             backgroundColor: '#FAEBD7',
             padding: '20px',
             borderRadius: '10px',
@@ -18,7 +61,8 @@ const AdminTracking: React.FC = () => {
             width: '750px',
             transition: 'all 0.3s ease',
             overflow: 'hidden',
-            position: 'relative', // Ensure the transition works smoothly
+            position: 'relative',
+            marginBottom : '20px' // Ensure the transition works smoothly
         }}>
             <h2
                 style={{
@@ -46,8 +90,13 @@ const AdminTracking: React.FC = () => {
                             Admin Laboratorium telah menerima surat pengantar dan sampel
                         </span>
                         <div style={{ display: 'flex', alignItems: 'center', marginRight: '50px' }}>
-                            <button style={{ width: '35px', height: '35px', background: 'url(\'./assets/checkbox.png\') no-repeat center center', backgroundSize: 'contain', border: 'none', cursor: 'pointer' }}></button>
-                        </div>
+                                    {isButtonVisible && ( // Tombol hanya muncul jika isButtonVisible true
+                                        <button style={{ width: '35px', height: '35px', background: 'url(\'./assets/checkbox.png\') no-repeat center center', backgroundSize: 'contain', border: 'none', cursor: 'pointer' }}
+                                            onClick={handleOpenPopup}
+                                        ></button>
+                                    )}
+                                    {isPopupOpen && <PopUpNoSurat onClose={handleClosePopup} onConfirm={handlePopupConfirm} />}
+                                </div>
                     </div>
                     <div style={{
                         display: 'flex',
@@ -59,8 +108,12 @@ const AdminTracking: React.FC = () => {
                             Sedang diproses oleh Supervisor
                         </span>
                         <div style={{ display: 'flex', alignItems: 'center', marginRight: '50px' }}>
-                            <button style={{ width: '35px', height: '35px', background: 'url(\'./assets/checkbox.png\') no-repeat center center', backgroundSize: 'contain', border: 'none', cursor: 'pointer' }}></button>
-                        </div>
+                        {isButtonVisibleSupervisor && ( // Tombol hanya muncul jika isButtonVisible true
+                                        <button style={{ width: '35px', height: '35px', background: 'url(\'./assets/checkbox.png\') no-repeat center center', backgroundSize: 'contain', border: 'none', cursor: 'pointer' }}
+                                        onClick={handleSupervisorChecked}
+                                        ></button>
+                                    )}            
+                    </div>
                     </div>
                     <div style={{
                         display: 'flex',
@@ -72,9 +125,33 @@ const AdminTracking: React.FC = () => {
                         Supervisor menyetujui analisis sampel
                         </span>
                         <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
-                            <button style={{ width: '35px', height: '35px', background: 'url(\'./assets/checkbox.png\') no-repeat center center', backgroundSize: 'contain', border: 'none', cursor: 'pointer' }}></button>
-                            <button style={{ width: '35px', height: '35px', background: 'url(\'./assets/crossbox.png\') no-repeat center center', backgroundSize: 'contain', border: 'none', cursor: 'pointer' }}></button>
-                        </div>
+                                    {areButtonsSupervisorAccepted && (
+                                        <button 
+                                            style={{ 
+                                                width: '35px', 
+                                                height: '35px', 
+                                                background: 'url(\'./assets/checkbox.png\') no-repeat center center', 
+                                                backgroundSize: 'contain', 
+                                                border: 'none', 
+                                                cursor: 'pointer' 
+                                            }}
+                                            onClick={handleSupervisorAccepted} // Menambahkan event handler yang benar
+                                        ></button>
+                                    )}
+                                    {areButtonsSupervisorAccepted && (
+                                        <button 
+                                            style={{ 
+                                                width: '35px', 
+                                                height: '35px', 
+                                                background: 'url(\'./assets/crossbox.png\') no-repeat center center', 
+                                                backgroundSize: 'contain', 
+                                                border: 'none', 
+                                                cursor: 'pointer' 
+                                            }}
+                                            onClick={handleSupervisorAccepted} // Menambahkan event handler yang benar
+                                        ></button>
+                                    )}
+                                </div>
                     </div>
                     <div style={{
                         display: 'flex',
@@ -86,7 +163,11 @@ const AdminTracking: React.FC = () => {
                         Laboran melakukan proses uji dan analisis pada sampel
                         </span>
                         <div style={{ display: 'flex', alignItems: 'center', marginRight: '50px' }}>
-                            <button style={{ width: '35px', height: '35px', background: 'url(\'./assets/checkbox.png\') no-repeat center center', backgroundSize: 'contain', border: 'none', cursor: 'pointer' }}></button>
+                        {isButtonVisiblelaboran && (
+                            <button style={{ width: '35px', height: '35px', background: 'url(\'./assets/checkbox.png\') no-repeat center center', backgroundSize: 'contain', border: 'none', cursor: 'pointer' }}
+                            onClick={handleLaboran}
+                            ></button>
+                        )}
                         </div>
                     </div>
                     <div style={{
@@ -99,15 +180,17 @@ const AdminTracking: React.FC = () => {
                         Customer perlu membayar
                         </span>
                         <div style={{ display: 'flex', alignItems: 'center', marginRight: '50px' }}>
-                            <button style={{ width: '35px', height: '35px', background: 'url(\'./assets/checkbox.png\') no-repeat center center', backgroundSize: 'contain', border: 'none', cursor: 'pointer' }}></button>
+                            {isButtonCustomer && (
+                            <button style={{ width: '35px', height: '35px', background: 'url(\'./assets/checkbox.png\') no-repeat center center', backgroundSize: 'contain', border: 'none', cursor: 'pointer' }}
+                                onClick = {handleCustomer}
+                            ></button>
+                            )}
                         </div>
                     </div>
-                    <div style={styles.paymentSection}>
-                        <div style={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: '20px',
-                        }}>
+                    <div style={{
+                            marginBottom: '20px',
+                            }}>
+                        <div style={styles.paymentSection}>
                             <ButtonDU text="Download Bukti Pembayaran" variant="secondary" />
                             <ButtonDU text="Unggah Invoice" variant="primary"/>
                         </div>
@@ -123,7 +206,11 @@ const AdminTracking: React.FC = () => {
                         Admin Laboratorium telah menerima surat pengantar dan sample
                         </span>
                         <div style={{ display: 'flex', alignItems: 'center', marginRight: '50px' }}>
-                            <button style={{ width: '35px', height: '35px', background: 'url(\'./assets/checkbox.png\') no-repeat center center', backgroundSize: 'contain', border: 'none', cursor: 'pointer' }}></button>
+                            {isButtonFile && ( 
+                            <button style={{ width: '35px', height: '35px', background: 'url(\'./assets/checkbox.png\') no-repeat center center', backgroundSize: 'contain', border: 'none', cursor: 'pointer' }}
+                                onClick ={handleFile}
+                            ></button>
+                            )}
                         </div>
                     </div>
                     <div style={styles.finalStep}>
@@ -131,6 +218,10 @@ const AdminTracking: React.FC = () => {
                     </div>
                 </div>
             )}
+        </div>
+        <h3 className="text-xl  mb-4">Selesai</h3>
+        </div>
+        
         </div>
     );
 };
@@ -162,7 +253,9 @@ finalStep: {
 },
 
 paymentSection: {
-    marginBottom: '20px',
+    marginBottom: '20px', 
+    gap: '20px',
+    display: 'flex',
 },
 
 text: {
