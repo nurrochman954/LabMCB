@@ -2,6 +2,8 @@
 import React, { useState } from 'react';
 import ButtonDU from './TombolDU';
 import PopUpNoSurat from '@/components/PopUpNoSurat'
+import DetailPermohonan from '@/components/DetailPermohonanPopup'
+
 const AdminTracking: React.FC = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [isPopupOpen, setIsPopupOpen] = useState(false);
@@ -11,10 +13,19 @@ const AdminTracking: React.FC = () => {
     const [isButtonVisiblelaboran, setIsButtonVisibleLaboran] = useState(true);
     const [isButtonCustomer, setIsButtonCustomer] = useState(true);
     const [isButtonFile, SetIsButtonFile] = useState (true);
+    const [isDetailOpen, setIsDetailOpen] = useState(false);
+
+    const handleOpenDetail = () => {
+        setIsDetailOpen(true);
+    };
+
+    const handleCloseDetail = () => {
+        setIsDetailOpen(false);
+    };
     const toggleAccordion = () => {
         setIsOpen(prev => !prev);
  };
-        
+
   // Fungsi untuk membuka popup
   const handleOpenPopup = () => setIsPopupOpen(true);
   
@@ -64,19 +75,26 @@ const AdminTracking: React.FC = () => {
             position: 'relative',
             marginBottom : '20px' // Ensure the transition works smoothly
         }}>
-            <h2
-                style={{
-                    fontWeight: 'bold',
-                    fontSize: '20px',
-                    textAlign: 'left',
-                    margin: 0,
-                    cursor: 'pointer',
-                }}
+            <div className="flex justify-between items-center">
+            {/* Left Column */}
+            <div className="flex flex-col">
+                <h2
+                className="font-bold text-left text-[20px] cursor-pointer m-0"
                 onClick={toggleAccordion}
-            >
+                >
                 Athaya Harmana Putri
-            </h2>
-            <p style={styles.Nomor}>Nomor Permohonan Analisis : XXXXXXX</p>
+                </h2>
+                <p className="text-sm mt-1">Nomor Permohonan Analisis : XXXXXXX</p>
+            </div>
+
+            {/* Right Column */}
+            <img
+                src="assets/ExternalLink.png"
+                alt="Open Popup"
+                className="h-8 w-10 mr-10"
+                onClick={handleOpenDetail}
+            />
+            </div>
 
             {isOpen && (
                 <div style={{ marginTop: '10px' }}>
@@ -222,6 +240,8 @@ const AdminTracking: React.FC = () => {
         <h3 className="text-xl  mb-4">Selesai</h3>
         </div>
         
+        {/* Render DetailPermohonan jika isDetailOpen = true */}
+        {isDetailOpen && <DetailPermohonan onClose={handleCloseDetail} />}
         </div>
     );
 };
