@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import ButtonDU from './TombolDU';
 import PopUpNoSurat from '@/components/PopUpNoSurat'
-const AdminTracking: React.FC = () => {
+const AdminTrackingSewaAlat: React.FC = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [isPopupOpen, setIsPopupOpen] = useState(false);
     const [isButtonVisible, setIsButtonVisible] = useState(true);
@@ -51,7 +51,7 @@ const AdminTracking: React.FC = () => {
     return (
         <div className="flex justify-center items-center">
             <div className="w-3/5 px-6 py-4">
-            <h2 className="text-2xl font-bold mb-4">Permohonan Analisis</h2>
+            <h2 className="text-2xl font-bold mb-4">Penyewaan Alat</h2>
             <h3 className="text-xl  mb-4">Terbaru</h3>
          <div style={{
             backgroundColor: '#FAEBD7',
@@ -74,9 +74,9 @@ const AdminTracking: React.FC = () => {
                 }}
                 onClick={toggleAccordion}
             >
-                Athaya Harmana Putri
+                Nur Rochman
             </h2>
-            <p style={styles.Nomor}>Nomor Permohonan Analisis : XXXXXXX</p>
+            <p style={styles.Nomor}>Nomor Penyewaan Alat : XXXXXXX</p>
 
             {isOpen && (
                 <div style={{ marginTop: '10px' }}>
@@ -87,7 +87,7 @@ const AdminTracking: React.FC = () => {
                         marginBottom: '10px',
                          }}>
                         <span style={{ fontSize: '16px', fontWeight: 'normal' }}>
-                            Admin Laboratorium telah menerima surat pengantar dan sampel
+                        Admin Laboratorium telah menerima surat perjanjian kerja sama/MOU 
                         </span>
                         <div style={{ display: 'flex', alignItems: 'center', marginRight: '50px' }}>
                                     {isButtonVisible && ( // Tombol hanya muncul jika isButtonVisible true
@@ -105,7 +105,7 @@ const AdminTracking: React.FC = () => {
                         justifyContent: 'space-between', // Mengatur jarak antara teks dan ikon
                          }}>
                         <span style={{ fontSize: '16px', fontWeight: 'normal' }}>
-                            Sedang diproses oleh Supervisor
+                        Sedang diproses oleh Manager ISO 
                         </span>
                         <div style={{ display: 'flex', alignItems: 'center', marginRight: '50px' }}>
                         {isButtonVisibleSupervisor && ( // Tombol hanya muncul jika isButtonVisible true
@@ -122,7 +122,7 @@ const AdminTracking: React.FC = () => {
                         justifyContent: 'space-between', // Mengatur jarak antara teks dan ikon
                          }}>
                         <span style={{ fontSize: '16px', fontWeight: 'normal' }}>
-                        Supervisor menyetujui analisis sampel
+                        Manager ISO menyetujui analisis sampel
                         </span>
                         <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
                                     {areButtonsSupervisorAccepted && (
@@ -157,23 +157,6 @@ const AdminTracking: React.FC = () => {
                         display: 'flex',
                         alignItems: 'center',
                         marginBottom: '10px',
-                        justifyContent: 'space-between', // Mengatur jarak antara teks dan ikon
-                         }}>
-                        <span style={{ fontSize: '16px', fontWeight: 'normal' }}>
-                        Laboran melakukan proses uji dan analisis pada sampel
-                        </span>
-                        <div style={{ display: 'flex', alignItems: 'center', marginRight: '50px' }}>
-                        {isButtonVisiblelaboran && (
-                            <button style={{ width: '35px', height: '35px', background: 'url(\'./assets/checkbox.png\') no-repeat center center', backgroundSize: 'contain', border: 'none', cursor: 'pointer' }}
-                            onClick={handleLaboran}
-                            ></button>
-                        )}
-                        </div>
-                    </div>
-                    <div style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        marginBottom: '10px',
                         justifyContent: 'space-between', 
                          }}>
                         <span style={{ fontSize: '16px', fontWeight: 'normal' }}>
@@ -195,28 +178,63 @@ const AdminTracking: React.FC = () => {
                             <ButtonDU text="Unggah Invoice" variant="primary"/>
                         </div>
                     </div>
-                        
                     <div style={{
                         display: 'flex',
                         alignItems: 'center',
-                        marginBottom: '10px',
                         justifyContent: 'space-between', // Mengatur jarak antara teks dan ikon
+                        marginBottom: '10px',
                          }}>
                         <span style={{ fontSize: '16px', fontWeight: 'normal' }}>
-                        Admin Laboratorium telah menerima surat pengantar dan sample
+                        Proses Pengiriman 
                         </span>
                         <div style={{ display: 'flex', alignItems: 'center', marginRight: '50px' }}>
-                            {isButtonFile && ( 
-                            <button style={{ width: '35px', height: '35px', background: 'url(\'./assets/checkbox.png\') no-repeat center center', backgroundSize: 'contain', border: 'none', cursor: 'pointer' }}
-                                onClick ={handleFile}
-                            ></button>
-                            )}
-                        </div>
+                                    {isButtonVisible && ( // Tombol hanya muncul jika isButtonVisible true
+                                        <button style={{ width: '35px', height: '35px', background: 'url(\'./assets/checkbox.png\') no-repeat center center', backgroundSize: 'contain', border: 'none', cursor: 'pointer' }}
+                                            onClick={handleOpenPopup}
+                                        ></button>
+                                    )}
+                                    {isPopupOpen && <PopUpNoSurat onClose={handleClosePopup} onConfirm={handlePopupConfirm} />}
+                                </div>
                     </div>
-                    <div style={styles.finalStep}>
-                            <ButtonDU text="File Uji Sample" variant="primary"/>
+                    <div style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'space-between', // Mengatur jarak antara teks dan ikon
+                        marginBottom: '10px',
+                         }}>
+                        <span style={{ fontSize: '16px', fontWeight: 'normal' }}>
+                        Proses Pengembalian
+                        </span>
+                        <div style={{ display: 'flex', alignItems: 'center', marginRight: '50px' }}>
+                                    {isButtonVisible && ( // Tombol hanya muncul jika isButtonVisible true
+                                        <button style={{ width: '35px', height: '35px', background: 'url(\'./assets/checkbox.png\') no-repeat center center', backgroundSize: 'contain', border: 'none', cursor: 'pointer' }}
+                                            onClick={handleOpenPopup}
+                                        ></button>
+                                    )}
+                                    {isPopupOpen && <PopUpNoSurat onClose={handleClosePopup} onConfirm={handlePopupConfirm} />}
+                                </div>
                     </div>
+                    <div style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'space-between', // Mengatur jarak antara teks dan ikon
+                        marginBottom: '10px',
+                         }}>
+                        <span style={{ fontSize: '16px', fontWeight: 'normal' }}>
+                        Pengembalian alat-alat berhasil
+                        </span>
+                        <div style={{ display: 'flex', alignItems: 'center', marginRight: '50px' }}>
+                                    {isButtonVisible && ( // Tombol hanya muncul jika isButtonVisible true
+                                        <button style={{ width: '35px', height: '35px', background: 'url(\'./assets/checkbox.png\') no-repeat center center', backgroundSize: 'contain', border: 'none', cursor: 'pointer' }}
+                                            onClick={handleOpenPopup}
+                                        ></button>
+                                    )}
+                                    {isPopupOpen && <PopUpNoSurat onClose={handleClosePopup} onConfirm={handlePopupConfirm} />}
+                                </div>
+                    </div>
+                    
                 </div>
+                
             )}
         </div>
         <h3 className="text-xl  mb-4">Selesai</h3>
@@ -270,4 +288,4 @@ iconButton: {
 },
 }
 
-export default AdminTracking;
+export default AdminTrackingSewaAlat;

@@ -7,6 +7,7 @@ import AdminTracking from '@/components/AdminTracking';
 
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import AdminTrackingSewaAlat from '@/components/AdminTrackingSewaAlat';
 
 const admin = () => {
 
@@ -26,6 +27,7 @@ const admin = () => {
         
           {isFilterOpen && <Filter onClose={handleCloseFilter} />}
         <AdminTracking/>
+        <AdminTrackingSewaAlat/>
         </div>
       
       <Footer />
