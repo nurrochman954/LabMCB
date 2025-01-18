@@ -1,7 +1,7 @@
 import React from 'react';
 import ButtonDU from './TombolDU';
 
-const DetailPermohonan: React.FC<{ onClose: () => void }> = ({ onClose }) => {
+const DetailPenyewaan: React.FC<{ onClose: () => void }> = ({ onClose }) => {
     return (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
             <div className="bg-white rounded-lg p-6 w-[600px] relative">
@@ -16,7 +16,7 @@ const DetailPermohonan: React.FC<{ onClose: () => void }> = ({ onClose }) => {
                 {/* Content */}
                 <div className="space-y-4 mt-4">
                     <div className="flex items-center">
-                        <div className="w-1/3 font-bold">Nama Lengkap</div>
+                        <div className="w-1/3 font-bold">Ini sewa</div>
                         <div className="w-auto px-2">:</div>
                         <div className="w-2/3 text-left">Putri</div>
                     </div>
@@ -89,4 +89,4 @@ const DetailPermohonan: React.FC<{ onClose: () => void }> = ({ onClose }) => {
     );
 };
 
-export default DetailPermohonan;
+export default DetailPenyewaan;
