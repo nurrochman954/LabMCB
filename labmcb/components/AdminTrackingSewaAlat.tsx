@@ -95,7 +95,7 @@ const AdminTrackingSewaAlat: React.FC = () => {
             <img
                 src="assets/ExternalLink.png"
                 alt="Open Popup"
-                className="h-8 w-10 mr-10"
+                className="h-8 w-10 mr-12"
                 onClick={handleOpenDetail}
             />
             </div>

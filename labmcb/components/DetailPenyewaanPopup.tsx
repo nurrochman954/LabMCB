@@ -45,37 +45,22 @@ const DetailPenyewaan: React.FC<{ onClose: () => void }> = ({ onClose }) => {
                         <div className="w-2/3 text-left">Presiden</div>
                     </div>
                     <div className="flex items-center">
-                        <div className="w-1/3 font-bold">Metode Pengirim</div>
+                        <div className="w-1/3 font-bold">Tanggal Penyewaan</div>
                         <div className="w-2 px-2">:</div>
-                        <div className="w-2/3 text-left">Jasa Ekspedisi - 712783138473204</div>
+                        <div className="w-2/3 text-left">12 November 2024 - 15 Januari 2025</div>
                     </div>
 
                     <hr className="border-gray-300 my-4" />
 
                     <div className="flex items-center">
-                        <div className="w-1/3 font-bold">Nama Sampel</div>
+                        <div className="w-1/3 font-bold">Nama Alat</div>
                         <div className="w-2 px-2">:</div>
-                        <div className="w-2/3 text-left">Batu Alam</div>
+                        <div className="w-2/3 text-left">XRF</div>
                     </div>
                     <div className="flex items-center">
-                        <div className="w-1/3 font-bold">Jumlah Sampel</div>
+                        <div className="w-1/3 font-bold">Kuantitas</div>
                         <div className="w-2 px-2">:</div>
-                        <div className="w-2/3 text-left">5</div>
-                    </div>
-                    <div className="flex items-center">
-                        <div className="w-1/3 font-bold">Bentuk Sampel</div>
-                        <div className="w-2 px-2">:</div>
-                        <div className="w-2/3 text-left">Padat</div>
-                    </div>
-                    <div className="flex items-center">
-                        <div className="w-1/3 font-bold">Jenis Sampel</div>
-                        <div className="w-2 px-2">:</div>
-                        <div className="w-2/3 text-left">XRF, SEM</div>
-                    </div>
-                    <div className="flex items-center">
-                        <div className="w-1/3 font-bold">Catatan Tambahan</div>
-                        <div className="w-2 px-2">:</div>
-                        <div className="w-2/3 text-left">-</div>
+                        <div className="w-2/3 text-left">2</div>
                     </div>
                 </div>
 
