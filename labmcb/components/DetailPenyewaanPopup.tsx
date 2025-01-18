@@ -67,7 +67,7 @@ const DetailPenyewaan: React.FC<{ onClose: () => void }> = ({ onClose }) => {
                 <hr className="border-gray-300 my-4" />
 
                 <div className="mt-6 text-center">
-                    <ButtonDU variant='secondary' text='unduh surat pengantar'  onClick={() => alert("Button clicked!")} />
+                    <ButtonDU variant='secondary' text='unduh surat perjanjian'  onClick={() => alert("Button clicked!")} />
                 </div>
             </div>
         </div>
