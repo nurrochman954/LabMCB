@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 interface PopupProps {
   onClose: () => void;
-  onConfirm: () => void;
+  onConfirm: (nomorPermohonan: string) => void;  // Ubah parameter
 }
 
 const Popup: React.FC<PopupProps> = ({ onClose, onConfirm }) => {
@@ -10,9 +10,8 @@ const Popup: React.FC<PopupProps> = ({ onClose, onConfirm }) => {
 
   // Fungsi konfirmasi untuk memproses nomor permohonan
   const handleConfirm = () => {
-    console.log('Nomor Permohonan:', nomorPermohonan);
-    onConfirm(); // Panggil onConfirm untuk aksi setelah konfirmasi
-    onClose(); // Tutup popup setelah konfirmasi
+    onConfirm(nomorPermohonan);  // Kirim nomor permohonan
+    onClose();
   };
 
   return (
