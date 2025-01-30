@@ -1,153 +1,135 @@
 generator client {
-  provider = "prisma-client-js"
+ provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+ provider = "postgresql" 
+ url      = env("DATABASE_URL")
 }
 
-// Model utama pengguna
 model User {
-  id            String         @id @default(cuid())
-  clerkId       String         @unique
-  username      String         @unique
-  fullName      String
-  email         String         @unique
-  userCreatedAt DateTime       @default(now())
-  userUpdatedAt DateTime       @updatedAt
-  rentals       RentalForm[]
-  sampleTests   SampleTestForm[]
+ id            String         @id @default(cuid())
+ clerkId       String         @unique
+ username      String         @unique
+ fullName      String
+ email         String         @unique
+ userCreatedAt DateTime       @default(now())
+ userUpdatedAt DateTime       @updatedAt
+ rentals       RentalForm[]
+ sampleTests   SampleTestForm[]
 
-  @@map("users")
+ @@map("users")
 }
 
-// Model untuk form pengujian sampel
 model SampleTestForm {
-  id                  Int              @id @default(autoincrement())
-  userId              String
-  testName            String
-  testEmail           String
-  testPhone           String
-  testAddress         String
-  analysisTypes       AnalysisType[]
-  sampleName          String
-  sampleType          SampleType
-  sampleQuantity      Int
-  testDescription     String?
-  deliveryMethod      DeliveryMethod
-  coverLetter         String?
-  resultFile          String?
-  createdAt           DateTime         @default(now())
-  
-  // Relasi
-  user                User             @relation(fields: [userId], references: [id])
-  timelines           TestTimeline[]
-  payments            Payment[]
-  complaints          Complaint[]
+ id                  Int              @id @default(autoincrement())
+ userId              String
+ testName            String
+ testEmail           String
+ testPhone           String
+ testAddress         String
+ testInstanceName    String
+ analysisTypes       AnalysisType[]
+ sampleName          String
+ sampleType          SampleType
+ sampleQuantity      Int
+ samplePreparation   SamplePreparation?
+ testDescription     String?
+ deliveryMethod      DeliveryMethod
+ coverLetter         String?
+ sampleRequestNumber String?
+ resultFile          String?
+ invoiceFile         String?         
+ paymentProof        String?         
+ createdAt           DateTime         @default(now())
+ user                User             @relation(fields: [userId], references: [id])
+ timelines           TestTimeline[]
+ complaints          Complaint[]
 
-  @@map("sample_test_forms")
+ @@map("sample_test_forms")
 }
 
-// Model untuk form penyewaan alat
+
 model RentalForm {
-  id               Int              @id @default(autoincrement())
-  userId           String
-  rentalName       String
-  rentalEmail      String
-  rentalPhone      String
-  rentalAddress    String
-  rentalInstance   String
-  equipment        RentalEquipment[]
-  startDate        DateTime
-  endDate          DateTime
-  quantity         Int
-  agreementFile    String?
-  createdAt        DateTime         @default(now())
-  
-  // Relasi
-  user             User             @relation(fields: [userId], references: [id])
-  timelines        RentalTimeline[]
-  payments         Payment[]
-  complaints       Complaint[]
+ id               Int              @id @default(autoincrement())
+ userId           String
+ rentalName       String
+ rentalEmail      String
+ rentalPhone      String
+ rentalAddress    String
+ rentalInstance   String
+ equipment        RentalEquipment[]
+ startDate        DateTime
+ endDate          DateTime
+ quantity         Int
+ agreementFile    String?
+ rentalRequestNumber String?
+ invoiceFile      String?         
+ paymentProof     String?
+ createdAt        DateTime         @default(now())
+ user             User             @relation(fields: [userId], references: [id])
+ timelines        RentalTimeline[]
+ complaints       Complaint[]
 
-  @@map("rental_forms")
+ @@map("rental_forms")
 }
 
-// Model untuk pembayaran
-model Payment {
-  id                 Int              @id @default(autoincrement())
-  invoiceNumber      String           @unique
-  invoiceFile        String?
-  paymentProof       String?
-  createdAt          DateTime         @default(now())
-  updatedAt          DateTime         @updatedAt
-  
-  rentalForm         RentalForm?      @relation(fields: [rentalFormId], references: [id])
-  rentalFormId       Int?
-  sampleTestForm     SampleTestForm?  @relation(fields: [sampleTestFormId], references: [id])
-  sampleTestFormId   Int?
-  
-  @@map("payments")
-}
-
-// Model untuk komplain
 model Complaint {
-  id                    Int              @id @default(autoincrement())
-  complaintDescription  String
-  complaintCreateAt     DateTime         @default(now())
-  
-  rentalForm            RentalForm?      @relation(fields: [rentalFormId], references: [id])
-  rentalFormId          Int?
-  sampleTestForm        SampleTestForm?  @relation(fields: [sampleTestFormId], references: [id])
-  sampleTestFormId      Int?
+ id                    Int              @id @default(autoincrement())
+ complaintDescription  String
+ complaintCreateAt     DateTime         @default(now())
+ rentalForm            RentalForm?      @relation(fields: [rentalFormId], references: [id])
+ rentalFormId          Int?
+ sampleTestForm        SampleTestForm?  @relation(fields: [sampleTestFormId], references: [id])
+ sampleTestFormId      Int?
 
-  @@map("complaints")
+ @@map("complaints")
 }
 
-// Timeline untuk proses pengujian
 model TestTimeline {
-  id                    Int            @id @default(autoincrement())
-  testId                Int
-  testStatus            TestStatus
-  testTimelineCreatedAt DateTime       @default(now())
-  test                  SampleTestForm @relation(fields: [testId], references: [id])
+ id                    Int            @id @default(autoincrement())
+ testId                Int
+ testStatus            TestStatus
+ testTimelineCreatedAt DateTime       @default(now())
+ test                  SampleTestForm @relation(fields: [testId], references: [id])
 
-  @@map("test_timelines")
+ @@map("test_timelines")
 }
 
-// Timeline untuk proses penyewaan
 model RentalTimeline {
-  id                      Int            @id @default(autoincrement())
-  rentalId                Int
-  rentalStatus            RentalStatus
-  rentalTimelineCreatedAt DateTime       @default(now())
-  rental                  RentalForm     @relation(fields: [rentalId], references: [id])
+ id                      Int            @id @default(autoincrement())
+ rentalId                Int
+ rentalStatus            RentalStatus
+ rentalTimelineCreatedAt DateTime       @default(now())
+ rental                  RentalForm     @relation(fields: [rentalId], references: [id])
 
-  @@map("rental_timelines")
+ @@map("rental_timelines")
 }
+
 
 // ENUM yang digunakan dalam sistem
 enum TestStatus {
   SUBMITTED
+  RECEIVED
   REVIEWING
   APPROVED
+  REJECTED
   TESTING
   COMPLETED
   UNPAID
   WAITING_VERIFICATION
   PAID
-  REJECTED_PAYMENT
 }
 
 enum RentalStatus {
   SUBMITTED
+  RECEIVED
   REVIEWING
   APPROVED
+  REJECTED
   UNPAID
   WAITING_VERIFICATION
   PAID
-  REJECTED_PAYMENT
   DELIVERY
   IN_USE
   RETURNED
@@ -164,6 +146,11 @@ enum SampleType {
 enum DeliveryMethod {
   SELF
   LAB_DELIVERY
+}
+
+enum SamplePreparation {
+  YES
+  NO
 }
 
 enum RentalEquipment {
