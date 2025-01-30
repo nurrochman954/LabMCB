@@ -2,48 +2,67 @@ import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { auth } from '@clerk/nextjs/server';
 import { sampleTestSchema } from '@/lib/validations/sample-test';
-import { ZodError } from 'zod';
 
 export async function POST(request: Request) {
   try {
-    // Auth check
     const { userId: clerkId } = await auth();
+    
     if (!clerkId) {
       return NextResponse.json(
         { success: false, error: 'Unauthorized' },
-        { status: 401 }
+        { 
+          status: 401,
+          headers: { 'Content-Type': 'application/json' }
+        }
       );
     }
 
-    // Find User.id from Clerk ID
-    const localUser = await prisma.user.findFirst({
+    const rawData = await request.json();
+    const validatedData = sampleTestSchema.parse(rawData);
+
+    const user = await prisma.user.findUnique({
       where: { clerkId },
+      select: { id: true }  // Optimize by selecting only needed field
     });
 
-    if (!localUser) {
+    if (!user) {
       return NextResponse.json(
         { success: false, error: 'User not found' },
-        { status: 404 }
+        { 
+          status: 404,
+          headers: { 'Content-Type': 'application/json' }
+        }
       );
     }
 
-    // Parse and validate request body
-    const rawData = await request.json();
-    console.log('Received data:', rawData);
-
-    const validatedData = sampleTestSchema.parse(rawData);
-    console.log('Validated data:', validatedData);
-
-    // Database operation
     const result = await prisma.$transaction(async (tx) => {
+      // Generate sampleRequestNumber
+      const date = new Date();
+      const year = date.getFullYear().toString().slice(-2);
+      const month = (date.getMonth() + 1).toString().padStart(2, '0');
+      const count = await tx.sampleTestForm.count() + 1;
+      const sampleRequestNumber = `ST${year}${month}${count.toString().padStart(4, '0')}`;
+
       const sampleTest = await tx.sampleTestForm.create({
         data: {
-          userId: localUser.id, // Use local User.id
-          ...validatedData,
+          userId: user.id,
+          testName: validatedData.testName,
+          testEmail: validatedData.testEmail,
+          testPhone: validatedData.testPhone,
+          testAddress: validatedData.testAddress,
+          testInstanceName: validatedData.testInstanceName,
+          analysisTypes: validatedData.analysisTypes,
+          sampleName: validatedData.sampleName,
+          sampleType: validatedData.sampleType,
+          sampleQuantity: validatedData.sampleQuantity,
+          samplePreparation: validatedData.samplePreparation,
+          testDescription: validatedData.testDescription,
+          deliveryMethod: validatedData.deliveryMethod,
+          coverLetter: validatedData.coverLetter,
+          resultFile: validatedData.resultFile,
+          sampleRequestNumber
         },
       });
-
-      console.log('Sample test created:', sampleTest);
 
       const timeline = await tx.testTimeline.create({
         data: {
@@ -52,39 +71,96 @@ export async function POST(request: Request) {
         },
       });
 
-      console.log('Timeline created:', timeline);
-
       return { sampleTest, timeline };
     });
 
     return NextResponse.json({
       success: true,
-      data: result,
+      data: result
+    }, {
+      headers: { 'Content-Type': 'application/json' }
     });
-  } catch (error: unknown) {
+
+  } catch (error) {
     console.error('API Error:', error);
-
-    // Handle Zod validation errors
-    if (error instanceof ZodError) {
-      return NextResponse.json(
-        { success: false, error: 'Validation error', details: error.errors },
-        { status: 400 }
-      );
-    }
-
-    // Handle other errors
     return NextResponse.json(
-      {
-        success: false,
-        error: 'Failed to create sample test',
-        details:
-          process.env.NODE_ENV === 'development'
-            ? error instanceof Error
-              ? error.message
-              : String(error)
-            : undefined,
+      { 
+        success: false, 
+        error: error instanceof Error ? error.message : 'Internal server error' 
       },
-      { status: 500 }
+      { 
+        status: 500,
+        headers: { 'Content-Type': 'application/json' }
+      }
     );
   }
 }
+
+export async function GET() {
+  try {
+    const sampleTests = await prisma.sampleTestForm.findMany({
+      include: {
+        user: {
+          select: {
+            username: true,
+            email: true
+          }
+        },
+        timelines: {
+          orderBy: {
+            testTimelineCreatedAt: 'desc'
+          },
+          take: 1
+        }
+      },
+      orderBy: {
+        createdAt: 'desc'
+      }
+    });
+
+    const formattedTests = sampleTests.map(test => ({
+      id: test.id,
+      testName: test.testName,
+      sampleRequestNumber: test.sampleRequestNumber,
+      username: test.user.username,
+      currentStatus: test.timelines[0]?.testStatus || 'SUBMITTED',
+      createdAt: test.createdAt
+    }));
+
+    return NextResponse.json(formattedTests, {
+      headers: { 'Content-Type': 'application/json' }
+    });
+  } catch (error) {
+    console.error('Error:', error);
+    return NextResponse.json(
+      { error: 'Failed to fetch sample tests' },
+      { 
+        status: 500,
+        headers: { 'Content-Type': 'application/json' }
+      }
+    );
+  }
+}
+
+export async function PATCH(
+  request: Request,
+  { params }: { params: { id: string } }
+ ) {
+  try {
+    const { sampleRequestNumber } = await request.json();
+    const id = parseInt(params.id);
+ 
+    const updated = await prisma.sampleTestForm.update({
+      where: { id },
+      data: { sampleRequestNumber }
+    });
+ 
+    return NextResponse.json({ success: true, data: updated });
+ 
+  } catch (error) {
+    return NextResponse.json(
+      { success: false, error: 'Failed to update request number' },
+      { status: 500 }
+    );
+  }
+ }
