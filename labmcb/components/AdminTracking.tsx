@@ -1,293 +1,290 @@
-'use client'
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import ButtonDU from './TombolDU';
-import PopUpNoSurat from '@/components/PopUpNoSurat'
-import DetailPermohonan from '@/components/DetailPermohonanPopup'
+import PopUpNoSurat from '@/components/PopUpNoSurat';
+import DetailPermohonan from '@/components/DetailPermohonanPopup';
+import FileUploadAdmin from './FileUploadAdmin';
+import type { SampleTest, TestTimelineData, TrackingStatus } from '../types';
+
+const statusMapping = {
+  isAdminReceived: 'RECEIVED',
+  isSupervisorProcessing: 'REVIEWING',
+  isSupervisorApproved: 'APPROVED',
+  isSupervisorRejected: 'REJECTED',
+  isLaboranTesting: 'TESTING',
+  isPaymentNeeded: 'UNPAID',
+  isFileUploaded: 'COMPLETED'
+} as const;
 
 const AdminTracking: React.FC = () => {
-    const [isOpen, setIsOpen] = useState(false);
-    const [isPopupOpen, setIsPopupOpen] = useState(false);
-    const [isButtonVisible, setIsButtonVisible] = useState(true);
-    const [isButtonVisibleSupervisor, setIsButtonVisibleSupervisor] = useState(true);
-    const [areButtonsSupervisorAccepted, setAreButtonsSupervisorAccepted] = useState(true);
-    const [isButtonVisiblelaboran, setIsButtonVisibleLaboran] = useState(true);
-    const [isButtonCustomer, setIsButtonCustomer] = useState(true);
-    const [isButtonFile, SetIsButtonFile] = useState (true);
-    const [isDetailOpen, setIsDetailOpen] = useState(false);
+  const [sampleTests, setSampleTests] = useState<SampleTest[]>([]);
+  const [openTestId, setOpenTestId] = useState<number | null>(null);
+  const [isDetailOpen, setIsDetailOpen] = useState(false);
+  const [selectedDetailId, setSelectedDetailId] = useState<number | null>(null);
+  const [trackingStatus, setTrackingStatus] = useState<TrackingStatus>({});
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [isRejectPopupOpen, setIsRejectPopupOpen] = useState(false);
+  const [currentTestId, setCurrentTestId] = useState<number | null>(null);
 
-    const handleOpenDetail = () => {
-        setIsDetailOpen(true);
-    };
+  // Helper function to check if a test is completed or rejected
+  const isTestFinished = (testId: number) => {
+    return trackingStatus[testId]?.isFileUploaded || trackingStatus[testId]?.isSupervisorRejected;
+  };
 
-    const handleCloseDetail = () => {
-        setIsDetailOpen(false);
-    };
-    const toggleAccordion = () => {
-        setIsOpen(prev => !prev);
- };
+  // Filter tests into active and completed
+  const activeTests = sampleTests.filter(test => !isTestFinished(test.id));
+  const completedTests = sampleTests.filter(test => isTestFinished(test.id));
 
-  // Fungsi untuk membuka popup
-  const handleOpenPopup = () => setIsPopupOpen(true);
   
-  // Fungsi untuk menutup popup
-  const handleClosePopup = () => setIsPopupOpen(false);
+  useEffect(() => {
+    const fetchInitialData = async () => {
+      try {
+        const testsResponse = await fetch('/api/sample-test');
+        const tests = await testsResponse.json();
+        setSampleTests(tests);
 
-  const handlePopupConfirm = () => {
-    setIsButtonVisible(false);  // Menyembunyikan tombol setelah konfirmasi
-    handleClosePopup(); // Menutup popup setelah konfirmasi
-    
+        const initialStatus: TrackingStatus = {};
+        for (const test of tests) {
+          const timelineResponse = await fetch(`/api/sample-test/${test.id}/timeline`);
+          const timelines = await timelineResponse.json();
 
+          initialStatus[test.id] = {
+            isAdminReceived: timelines.some((t: TestTimelineData) => t.testStatus === 'RECEIVED'),
+            isSupervisorProcessing: timelines.some((t: TestTimelineData) => t.testStatus === 'REVIEWING'),
+            isSupervisorApproved: timelines.some((t: TestTimelineData) => t.testStatus === 'APPROVED'),
+            isSupervisorRejected: timelines.some((t: TestTimelineData) => t.testStatus === 'REJECTED'),
+            isLaboranTesting: timelines.some((t: TestTimelineData) => t.testStatus === 'TESTING'),
+            isPaymentNeeded: timelines.some((t: TestTimelineData) => t.testStatus === 'UNPAID'),
+            isFileUploaded: timelines.some((t: TestTimelineData) => t.testStatus === 'COMPLETED')
+          };
+        }
+        setTrackingStatus(initialStatus);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
 
-        };
-        const handleSupervisorChecked = () => {
-            setIsButtonVisibleSupervisor(false); // Menyembunyikan tombol setelah dipilih
-        };
+    fetchInitialData();
+  }, []);
 
-        const handleSupervisorAccepted = () => {
-            setAreButtonsSupervisorAccepted(false); // Menyembunyikan kedua tombol (checkbox dan crossbox)
-        };
+  const handleStatusChange = async (testId: number, status: keyof typeof statusMapping) => {
+    try {
+      const response = await fetch(`/api/sample-test/${testId}/timeline`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status: statusMapping[status] })
+      });
 
-        const handleLaboran = () => {
-            setIsButtonVisibleLaboran(false);
-        };
+      const result = await response.json();
+      if (!result.success) throw new Error(result.error);
 
-        const handleCustomer = () => {
-            setIsButtonCustomer (false)
-        };
+      setTrackingStatus(prev => ({
+        ...prev,
+        [testId]: { 
+          ...prev[testId], 
+          [status]: true,
+          // Reset subsequent statuses if rejected
+          ...(status === 'isSupervisorRejected' && {
+            isLaboranTesting: false,
+            isPaymentNeeded: false,
+            isFileUploaded: false
+          })
+        }
+      }));
+    } catch (error) {
+      console.error('Status update error:', error);
+    }
+  };
 
-        const handleFile = () => {
-            SetIsButtonFile(false)
-        };
+  const handleToggleAccordion = (testId: number) => {
+    setOpenTestId(openTestId === testId ? null : testId);
+  };
 
+  const handleOpenDetail = (testId: number) => {
+    setSelectedDetailId(testId);
+    setIsDetailOpen(true);
+  };
+
+  const handlePopupOpen = (testId: number) => {
+    setCurrentTestId(testId);
+    setIsPopupOpen(true);
+  };
+
+  const handlePopupConfirm = async (testId: number, nomorPermohonan: string) => {
+    try {
+      await fetch(`/api/sample-test/${testId}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ sampleRequestNumber: nomorPermohonan })
+      });
+
+      setSampleTests(prev => prev.map(test =>
+        test.id === testId ? { ...test, sampleRequestNumber: nomorPermohonan } : test
+      ));
+
+      handleStatusChange(testId, 'isAdminReceived');
+      setIsPopupOpen(false);
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
+
+  const renderStatusRow = (
+    testId: number,
+    status: keyof typeof statusMapping,
+    text: string,
+    condition: boolean,
+    prevStatus?: keyof typeof statusMapping
+  ) => {
+    const canUpdate = prevStatus ? trackingStatus[testId]?.[prevStatus] : true;
+    const isCompleted = trackingStatus[testId]?.[status];
+    const isRejected = trackingStatus[testId]?.isSupervisorRejected;
+
+    // Special render for supervisor approval step
+    if (status === 'isSupervisorApproved') {
+      return (
+        <div className="flex items-center justify-between mb-3">
+          <span className="text-base font-normal">{text}</span>
+          {!isCompleted && !isRejected && canUpdate && (
+            <div className="flex items-center gap-4 mr-12">
+              <button
+                className="w-8 h-8 bg-center bg-no-repeat bg-contain border-none cursor-pointer"
+                style={{ backgroundImage: "url('./assets/checkbox.png')" }}
+                onClick={() => handleStatusChange(testId, 'isSupervisorApproved')}
+              />
+              <button
+                className="w-8 h-8 bg-center bg-no-repeat bg-contain border-none cursor-pointer"
+                style={{ backgroundImage: "url('./assets/crossbox.png')" }}
+                onClick={() => handleStatusChange(testId, 'isSupervisorRejected')}
+              />
+            </div>
+          )}
+        </div>
+      );
+    }
+
+    // For other status rows
     return (
-        <div className="flex justify-center items-center">
-            <div className="w-3/5 px-6 py-4">
-            <h2 className="text-2xl font-bold mb-4">Permohonan Analisis</h2>
-            <h3 className="text-xl  mb-4">Terbaru</h3>
-         <div style={{
-            backgroundColor: '#FAEBD7',
-            padding: '20px',
-            borderRadius: '10px',
-            border: '1px solid #ccc',
-            width: '750px',
-            transition: 'all 0.3s ease',
-            overflow: 'hidden',
-            position: 'relative',
-            marginBottom : '20px' // Ensure the transition works smoothly
-        }}>
-            <div className="flex justify-between items-center">
-            {/* Left Column */}
-            <div className="flex flex-col">
-                <h2
-                className="font-bold text-left text-[20px] cursor-pointer m-0"
-                onClick={toggleAccordion}
-                >
-                Athaya Harmana Putri
-                </h2>
-                <p className="text-sm mt-1">Nomor Permohonan Analisis : XXXXXXX</p>
-            </div>
-
-            {/* Right Column */}
-            <img
-                src="assets/ExternalLink.png"
-                alt="Open Popup"
-                className="h-8 w-10 mr-12"
-                onClick={handleOpenDetail}
-            />
-            </div>
-
-            {isOpen && (
-                <div style={{ marginTop: '10px' }}>
-                    <div style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'space-between', // Mengatur jarak antara teks dan ikon
-                        marginBottom: '10px',
-                         }}>
-                        <span style={{ fontSize: '16px', fontWeight: 'normal' }}>
-                            Admin Laboratorium telah menerima surat pengantar dan sampel
-                        </span>
-                        <div style={{ display: 'flex', alignItems: 'center', marginRight: '50px' }}>
-                                    {isButtonVisible && ( // Tombol hanya muncul jika isButtonVisible true
-                                        <button style={{ width: '35px', height: '35px', background: 'url(\'./assets/checkbox.png\') no-repeat center center', backgroundSize: 'contain', border: 'none', cursor: 'pointer' }}
-                                            onClick={handleOpenPopup}
-                                        ></button>
-                                    )}
-                                    {isPopupOpen && <PopUpNoSurat onClose={handleClosePopup} onConfirm={handlePopupConfirm} />}
-                                </div>
-                    </div>
-                    <div style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        marginBottom: '10px',
-                        justifyContent: 'space-between', // Mengatur jarak antara teks dan ikon
-                         }}>
-                        <span style={{ fontSize: '16px', fontWeight: 'normal' }}>
-                            Sedang diproses oleh Supervisor
-                        </span>
-                        <div style={{ display: 'flex', alignItems: 'center', marginRight: '50px' }}>
-                        {isButtonVisibleSupervisor && ( // Tombol hanya muncul jika isButtonVisible true
-                                        <button style={{ width: '35px', height: '35px', background: 'url(\'./assets/checkbox.png\') no-repeat center center', backgroundSize: 'contain', border: 'none', cursor: 'pointer' }}
-                                        onClick={handleSupervisorChecked}
-                                        ></button>
-                                    )}            
-                    </div>
-                    </div>
-                    <div style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        marginBottom: '10px',
-                        justifyContent: 'space-between', // Mengatur jarak antara teks dan ikon
-                         }}>
-                        <span style={{ fontSize: '16px', fontWeight: 'normal' }}>
-                        Supervisor menyetujui analisis sampel
-                        </span>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
-                                    {areButtonsSupervisorAccepted && (
-                                        <button 
-                                            style={{ 
-                                                width: '35px', 
-                                                height: '35px', 
-                                                background: 'url(\'./assets/checkbox.png\') no-repeat center center', 
-                                                backgroundSize: 'contain', 
-                                                border: 'none', 
-                                                cursor: 'pointer' 
-                                            }}
-                                            onClick={handleSupervisorAccepted} // Menambahkan event handler yang benar
-                                        ></button>
-                                    )}
-                                    {areButtonsSupervisorAccepted && (
-                                        <button 
-                                            style={{ 
-                                                width: '35px', 
-                                                height: '35px', 
-                                                background: 'url(\'./assets/crossbox.png\') no-repeat center center', 
-                                                backgroundSize: 'contain', 
-                                                border: 'none', 
-                                                cursor: 'pointer' 
-                                            }}
-                                            onClick={handleSupervisorAccepted} // Menambahkan event handler yang benar
-                                        ></button>
-                                    )}
-                                </div>
-                    </div>
-                    <div style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        marginBottom: '10px',
-                        justifyContent: 'space-between', // Mengatur jarak antara teks dan ikon
-                         }}>
-                        <span style={{ fontSize: '16px', fontWeight: 'normal' }}>
-                        Laboran melakukan proses uji dan analisis pada sampel
-                        </span>
-                        <div style={{ display: 'flex', alignItems: 'center', marginRight: '50px' }}>
-                        {isButtonVisiblelaboran && (
-                            <button style={{ width: '35px', height: '35px', background: 'url(\'./assets/checkbox.png\') no-repeat center center', backgroundSize: 'contain', border: 'none', cursor: 'pointer' }}
-                            onClick={handleLaboran}
-                            ></button>
-                        )}
-                        </div>
-                    </div>
-                    <div style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        marginBottom: '10px',
-                        justifyContent: 'space-between', 
-                         }}>
-                        <span style={{ fontSize: '16px', fontWeight: 'normal' }}>
-                        Customer perlu membayar
-                        </span>
-                        <div style={{ display: 'flex', alignItems: 'center', marginRight: '50px' }}>
-                            {isButtonCustomer && (
-                            <button style={{ width: '35px', height: '35px', background: 'url(\'./assets/checkbox.png\') no-repeat center center', backgroundSize: 'contain', border: 'none', cursor: 'pointer' }}
-                                onClick = {handleCustomer}
-                            ></button>
-                            )}
-                        </div>
-                    </div>
-                    <div style={{
-                            marginBottom: '20px',
-                            }}>
-                        <div style={styles.paymentSection}>
-                            <ButtonDU text="Download Bukti Pembayaran" variant="secondary" />
-                            <ButtonDU text="Unggah Invoice" variant="primary"/>
-                        </div>
-                    </div>
-                        
-                    <div style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        marginBottom: '10px',
-                        justifyContent: 'space-between', // Mengatur jarak antara teks dan ikon
-                         }}>
-                        <span style={{ fontSize: '16px', fontWeight: 'normal' }}>
-                        Admin Laboratorium telah menerima surat pengantar dan sample
-                        </span>
-                        <div style={{ display: 'flex', alignItems: 'center', marginRight: '50px' }}>
-                            {isButtonFile && ( 
-                            <button style={{ width: '35px', height: '35px', background: 'url(\'./assets/checkbox.png\') no-repeat center center', backgroundSize: 'contain', border: 'none', cursor: 'pointer' }}
-                                onClick ={handleFile}
-                            ></button>
-                            )}
-                        </div>
-                    </div>
-                    <div style={styles.finalStep}>
-                            <ButtonDU text="File Uji Sample" variant="primary"/>
-                    </div>
-                </div>
-            )}
-        </div>
-        <h3 className="text-xl  mb-4">Selesai</h3>
-        </div>
-        
-        {/* Render DetailPermohonan jika isDetailOpen = true */}
-        {isDetailOpen && <DetailPermohonan onClose={handleCloseDetail} />}
-        </div>
+      <div className="flex items-center justify-between mb-3">
+        <span className="text-base font-normal">{text}</span>
+        {!isCompleted && !isRejected && canUpdate && (
+          <button
+            className="w-8 h-8 bg-center bg-no-repeat bg-contain border-none cursor-pointer mr-12"
+            style={{ backgroundImage: "url('./assets/checkbox.png')" }}
+            onClick={() => {
+              if (status === 'isAdminReceived') {
+                handlePopupOpen(testId);
+              } else {
+                handleStatusChange(testId, status);
+              }
+            }}
+          />
+        )}
+      </div>
     );
-};
+  };
 
-const StatusItem: React.FC<{ text: string}> = ({ text }) => (
-    <div style={styles.statusItem}>
-        <span style={styles.text}>{text}</span>
+  const renderTestCard = (test: SampleTest) => (
+    <div key={test.id} className="bg-[#FAEBD7] p-5 rounded-lg border border-gray-300 w-[750px] mb-5">
+      <div className="flex justify-between items-center">
+        <div className="flex flex-col">
+          <h2 className="font-bold text-left text-[20px] cursor-pointer m-0" onClick={() => handleToggleAccordion(test.id)}>
+            {test.testName}
+          </h2>
+          <p className="text-sm mt-1">Nomor Permohonan Analisis: {test.sampleRequestNumber}</p>
+          {trackingStatus[test.id]?.isSupervisorRejected && (
+            <p className="text-sm mt-1 text-red-600">Status: Ditolak</p>
+          )}
+          {trackingStatus[test.id]?.isFileUploaded && (
+            <p className="text-sm mt-1 text-green-600">Status: Selesai</p>
+          )}
+        </div>
+        <img
+          src="assets/ExternalLink.png"
+          alt="Open Detail"
+          className="h-8 w-10 mr-12 cursor-pointer"
+          onClick={() => handleOpenDetail(test.id)}
+        />
+      </div>
+  
+      {openTestId === test.id && (
+        <div className="mt-4">
+          {renderStatusRow(test.id, 'isAdminReceived', 'Admin Laboratorium telah menerima surat pengantar dan sampel', false)}
+          {renderStatusRow(test.id, 'isSupervisorProcessing', 'Sedang diproses oleh Supervisor', false, 'isAdminReceived')}
+          {renderStatusRow(test.id, 'isSupervisorApproved', 'Supervisor menyetujui analisis sampel', false, 'isSupervisorProcessing')}
+          {renderStatusRow(test.id, 'isLaboranTesting', 'Laboran melakukan proses uji dan analisis pada sampel', false, 'isSupervisorApproved')}
+          {renderStatusRow(test.id, 'isPaymentNeeded', 'Customer perlu membayar', false, 'isLaboranTesting')}
+  
+          {trackingStatus[test.id]?.isLaboranTesting && (
+            <div className="mb-5">
+              <div className="flex gap-4">
+                <ButtonDU text="Download Bukti Pembayaran" variant="secondary" />
+                <FileUploadAdmin
+                  testId={test.id}
+                  buttonText="Unggah Invoice"
+                  uploadPreset="labmcbpreset"
+                  folder="invoice"
+                  fileType="invoice"
+                />
+              </div>
+            </div>
+          )}
+  
+          {renderStatusRow(test.id, 'isFileUploaded', 'Admin Laboratorium telah mengunggah file hasil uji', false, 'isPaymentNeeded')}
+  
+          {trackingStatus[test.id]?.isPaymentNeeded && (
+            <div className="mb-5">
+              <FileUploadAdmin
+                testId={test.id}
+                buttonText="Upload File Uji"
+                uploadPreset="labmcbpreset"
+                folder="test_results"
+                fileType="result"
+              />
+            </div>
+          )}
+        </div>
+      )}
     </div>
-);
-
-const styles: {[key:string]: React.CSSProperties} = {
-    Nomor: {
-    marginBottom: '20px',
-    fontSize: '18px',
-},
-
-status: {
-    marginBottom: '20px',
-    fontSize: '16px',
-},
-
-statusItem: {
-    display: 'flex',
-    alignItems: 'center',
-    margin: '5px 0',
-},
-finalStep: {
-    marginBottom: '20px',
-},
-
-paymentSection: {
-    marginBottom: '20px', 
-    gap: '20px',
-    display: 'flex',
-},
-
-text: {
-    flexGrow: 1,
-},
-
-iconButton: {
-    width: '24px',
-    height: '24px',
-    cursor: 'pointer',
-    padding: 0,
-},
+  );
+  
+  return (
+    <div className="flex justify-center items-center">
+      <div className="w-3/5 px-6 py-4">
+        <h2 className="text-2xl font-bold mb-4">Permohonan Analisis</h2>
+        
+        {activeTests.length > 0 && (
+          <>
+            <h3 className="text-xl mb-4">Terbaru</h3>
+            {activeTests.map(renderTestCard)}
+          </>
+        )}
+  
+        {completedTests.length > 0 && (
+          <>
+            <h3 className="text-xl mb-4">Selesai</h3>
+            {completedTests.map(renderTestCard)}
+          </>
+        )}
+  
+        {sampleTests.length === 0 && (
+          <p className="text-gray-500 text-center">Tidak ada permohonan analisis</p>
+        )}
+      </div>
+  
+      {isDetailOpen && selectedDetailId && (
+        <DetailPermohonan
+          id={selectedDetailId}
+          onClose={() => setIsDetailOpen(false)}
+        />
+      )}
+  
+      {isPopupOpen && currentTestId && (
+        <PopUpNoSurat
+          onClose={() => setIsPopupOpen(false)}
+          onConfirm={(nomorPermohonan) => handlePopupConfirm(currentTestId, nomorPermohonan)}
+        />
+      )}
+    </div>
+  );
 }
-
 export default AdminTracking;
