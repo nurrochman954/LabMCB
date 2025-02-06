@@ -49,7 +49,7 @@ export async function PATCH(
     const {
       sampleRequestNumber,
       invoiceFile,
-      proofOfPayment,
+      paymentProof,
       resultFile
     } = body;
 
@@ -60,7 +60,7 @@ export async function PATCH(
 
     // Jika invoiceFile dikirim sebagai null, hapus dari database
     if (invoiceFile !== undefined) updateData.invoiceFile = invoiceFile;
-    if (proofOfPayment) updateData.proofOfPayment = proofOfPayment;
+    if (paymentProof !== undefined) updateData.paymentProof = paymentProof;
     // Jika resultFile dikirim sebagai null, hapus dari database
     if (resultFile !== undefined) updateData.resultFile = resultFile;
 
