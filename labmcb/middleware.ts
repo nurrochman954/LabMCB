@@ -2,9 +2,9 @@ import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server'
 import { NextResponse } from 'next/server'
 
 // Perbaiki pattern matching
-const isAdminRoute = createRouteMatcher(['/admin(.*)'])
-const isUserRoute = createRouteMatcher(['/(.*)']) // Ubah ini
-const isApiRoute = createRouteMatcher(['/api/(.*)'])
+const isAdminRoute = createRouteMatcher(['/admin/:path*'])
+const isUserRoute = createRouteMatcher(['/:path*'])
+const isApiRoute = createRouteMatcher(['/api/:path*'])
 
 export default clerkMiddleware(async (auth, req) => {
   const { sessionClaims } = await auth();
