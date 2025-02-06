@@ -5,8 +5,17 @@
         "destination": "/api/:path*"
       },
       {
-        "source": "/(.*)",
-        "destination": "/"
+        "source": "/admin/:path*",
+        "destination": "/admin/:path*"
+      },
+      {
+        "source": "/root/:path*",
+        "destination": "/root/:path*"
+      },
+      {
+        "source": "/:path*",
+        "destination": "/index"
       }
-    ]
+    ],
+    "cleanUrls": true
   }
