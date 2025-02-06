@@ -1,4 +1,6 @@
+'use client';
 import React from "react";
+import { useUser } from "@clerk/nextjs";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import TopBar from "@/components/TopBar";
@@ -8,13 +10,14 @@ import Tracking from "@/components/Tracking";
 import PenyewaanTracking from '@/components/PenyewaanTracking'
 
 const HalamanSaya: React.FC = () => {
+    const { user } = useUser();
     return (
         <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
             <Header />
             <TopBar />
             <ProfileBox 
-                text="Joko widodo"
-                imageUrl="https://cdn0-production-images-kly.akamaized.net/zmTJIzsJi7IfBJCh0uBylr9u1jU=/1200x900/smart/filters:quality(75):strip_icc():format(webp)/kly-media-production/medias/5050791/original/062807400_1734171357-shin-tae-yong_26cccc2.jpg"
+                text={user?.fullName || ""}
+                imageUrl={user?.imageUrl}
             />
             <HalamanSayaJudul />
             <Tracking />
