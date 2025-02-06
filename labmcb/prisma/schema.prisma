@@ -8,17 +8,18 @@ datasource db {
 }
 
 model User {
- id            String         @id @default(cuid())
- clerkId       String         @unique
- username      String         @unique
- fullName      String
- email         String         @unique
- userCreatedAt DateTime       @default(now())
- userUpdatedAt DateTime       @updatedAt
- rentals       RentalForm[]
- sampleTests   SampleTestForm[]
+  id            String         @id @default(cuid())
+  clerkId       String         @unique
+  username      String         @unique
+  fullName      String
+  email         String         @unique
+  imageUrl      String?        // Optional field
+  userCreatedAt DateTime       @default(now())
+  userUpdatedAt DateTime       @updatedAt
+  rentals       RentalForm[]
+  sampleTests   SampleTestForm[]
 
- @@map("users")
+  @@map("users")
 }
 
 model SampleTestForm {
@@ -51,27 +52,39 @@ model SampleTestForm {
 
 
 model RentalForm {
- id               Int              @id @default(autoincrement())
- userId           String
- rentalName       String
- rentalEmail      String
- rentalPhone      String
- rentalAddress    String
- rentalInstance   String
- equipment        RentalEquipment[]
- startDate        DateTime
- endDate          DateTime
- quantity         Int
- agreementFile    String?
- rentalRequestNumber String?
- invoiceFile      String?         
- paymentProof     String?
- createdAt        DateTime         @default(now())
- user             User             @relation(fields: [userId], references: [id])
- timelines        RentalTimeline[]
- complaints       Complaint[]
+  id                  Int                   @id @default(autoincrement())
+  userId              String
+  rentalName          String
+  rentalEmail         String
+  rentalPhone         String
+  rentalAddress       String
+  rentalInstance      String
+  equipmentOrders     RentalEquipmentOrder[]  // Relasi baru
+  startDate           DateTime
+  endDate             DateTime
+  agreementFile       String?
+  rentalRequestNumber String?
+  invoiceFile         String?         
+  paymentProof        String?
+  createdAt           DateTime              @default(now())
+  updatedAt           DateTime              @updatedAt
+  user                User                  @relation(fields: [userId], references: [id])
+  timelines           RentalTimeline[]
+  complaints          Complaint[]
 
- @@map("rental_forms")
+  @@map("rental_forms")
+}
+
+model RentalEquipmentOrder {
+  id               Int         @id @default(autoincrement())
+  rentalFormId     Int
+  equipmentType    RentalEquipment
+  quantity         Int
+  rentalForm       RentalForm @relation(fields: [rentalFormId], references: [id])
+  createdAt        DateTime   @default(now())
+  updatedAt        DateTime   @updatedAt
+
+  @@map("rental_equipment_orders")
 }
 
 model Complaint {
@@ -114,11 +127,9 @@ enum TestStatus {
   REVIEWING
   APPROVED
   REJECTED
-  TESTING
-  COMPLETED
-  UNPAID
-  WAITING_VERIFICATION
+  TESTED
   PAID
+  COMPLETED
 }
 
 enum RentalStatus {
@@ -127,8 +138,6 @@ enum RentalStatus {
   REVIEWING
   APPROVED
   REJECTED
-  UNPAID
-  WAITING_VERIFICATION
   PAID
   DELIVERY
   IN_USE
