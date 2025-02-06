@@ -141,7 +141,7 @@ export const FileUpload: React.FC<FileUploadProps> = ({
                     className="flex items-center gap-2 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition-colors"
                 >
                     <Eye size={16} />
-                    View
+                    Lihat
                 </a>
 
                 <button

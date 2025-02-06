@@ -3,8 +3,9 @@ import { CldUploadWidget } from 'next-cloudinary';
 import { Eye, X } from 'lucide-react';
 import type { UploadedFile } from '../types';
 
+// Update interface props
 interface FileUploadAdminProps {
-  testId: number;
+  id: number;  // Ubah dari testId ke id
   onFileUpload?: (fileInfo: {
     url: string;
     filename?: string;
@@ -14,28 +15,52 @@ interface FileUploadAdminProps {
   buttonText: string;
   uploadPreset: string;
   folder?: string;
-  fileType: 'invoice' | 'result';
+  fileType: 'invoice' | 'result' | 'paymentProof';
+  formType: 'sample-test' | 'equipment-rental';  // Tambahkan prop formType
+  onUploadSuccess?: () => Promise<void>;
 }
 
+// Update penggunaan props di component
 const FileUploadAdmin: React.FC<FileUploadAdminProps> = ({
-  testId,
+  id,  // Ubah dari testId ke id
   onFileUpload,
   buttonText,
   uploadPreset,
   folder = 'samples',
   fileType,
+  formType,  // Tambahkan formType
+  onUploadSuccess
 }) => {
   const [currentFile, setCurrentFile] = useState<UploadedFile | null>(null);
 
-  // Ambil file dari database saat komponen pertama kali dimuat
+  // Mendapatkan endpoint yang sesuai berdasarkan formType
+  const getEndpoint = () => {
+    return formType === 'sample-test' 
+      ? `/api/sample-test/${id}`
+      : `/api/equipment-rental/${id}`;
+  };
+  
   useEffect(() => {
     const fetchFile = async () => {
       try {
-        const response = await fetch(`/api/sample-test/${testId}`);
+        const response = await fetch(getEndpoint());
         const data = await response.json();
         
         if (data) {
-          const fileUrl = fileType === 'invoice' ? data.invoiceFile : data.resultFile;
+          let fileUrl;
+          switch (fileType) {
+            case 'invoice':
+              fileUrl = data.invoiceFile;
+              break;
+            case 'result':
+              fileUrl = data.resultFile;
+              break;
+            case 'paymentProof':
+              fileUrl = data.paymentProof;
+              break;
+            default:
+              fileUrl = null;
+          }
           
           if (fileUrl) {
             setCurrentFile({
@@ -44,7 +69,7 @@ const FileUploadAdmin: React.FC<FileUploadAdminProps> = ({
               type: fileUrl.endsWith('.pdf') ? 'pdf' : 'image',
               filename: fileUrl.split('/').pop() || '',
               format: fileUrl.split('.').pop() || '',
-              public_id: '', // Tidak ada public_id di DB, hanya untuk upload baru
+              public_id: '',
             });
           }
         }
@@ -54,7 +79,7 @@ const FileUploadAdmin: React.FC<FileUploadAdminProps> = ({
     };
 
     fetchFile();
-  }, [testId, fileType]);
+  }, [id, fileType, formType]);
 
   const handleSuccess = async (result: any) => {
     try {
@@ -63,25 +88,30 @@ const FileUploadAdmin: React.FC<FileUploadAdminProps> = ({
       const info = result.info;
       const fileUrl = info.secure_url;
   
-      // Add debug logs
-      console.log('FileType:', fileType);
-      console.log('Update Data:', fileType === 'invoice' 
-        ? { invoiceFile: fileUrl }
-        : { resultFile: fileUrl });
+      let updateData = {};
+      switch (fileType) {
+        case 'invoice':
+          updateData = { invoiceFile: fileUrl };
+          break;
+        case 'result':
+          updateData = { resultFile: fileUrl };
+          break;
+        case 'paymentProof':
+          updateData = { paymentProof: fileUrl };
+          break;
+      }
   
-      const updateData = fileType === 'invoice'
-        ? { invoiceFile: fileUrl }
-        : { resultFile: fileUrl };
-  
-      // Log the actual request
       console.log('Sending update with:', updateData);
   
-      await fetch(`/api/sample-test/${testId}`, {
+      const response = await fetch(getEndpoint(), {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(updateData),
       });
-      // ...
+
+      if (!response.ok) {
+        throw new Error('Failed to update file in database');
+      }
 
       const newFile: UploadedFile = {
         url: fileUrl,
@@ -93,28 +123,46 @@ const FileUploadAdmin: React.FC<FileUploadAdminProps> = ({
       };
 
       setCurrentFile(newFile);
+      
+      if (onUploadSuccess) {
+        await onUploadSuccess();
+      }
     } catch (error) {
       console.error('Error:', error);
+      alert('Gagal menyimpan file ke database. Silakan coba lagi.');
     }
   };
 
   const handleCancel = async () => {
     try {
-      // Hapus dari database
-      const updateData = fileType === 'invoice'
-        ? { invoiceFile: null }
-        : { resultFile: null };
+      let updateData = {};
+      switch (fileType) {
+        case 'invoice':
+          updateData = { invoiceFile: null };
+          break;
+        case 'result':
+          updateData = { resultFile: null };
+          break;
+        case 'paymentProof':
+          updateData = { paymentProof: null };
+          break;
+      }
 
-      await fetch(`/api/sample-test/${testId}`, {
+      const response = await fetch(getEndpoint(), {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(updateData),
       });
 
+      if (!response.ok) {
+        throw new Error('Failed to delete file from database');
+      }
+
       setCurrentFile(null);
       onFileUpload?.(null);
     } catch (error) {
       console.error('Error deleting file:', error);
+      alert('Gagal menghapus file dari database. Silakan coba lagi.');
     }
   };
 
@@ -129,7 +177,7 @@ const FileUploadAdmin: React.FC<FileUploadAdminProps> = ({
             className="flex items-center gap-2 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors"
           >
             <Eye className="w-4 h-4" />
-            View
+            Lihat
           </a>
           <button
             onClick={handleCancel}
