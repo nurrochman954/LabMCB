@@ -1,285 +1,333 @@
-'use client'
-import React, { useState } from 'react';
+'use client';
+import React, { useState, useEffect, CSSProperties } from 'react';
+import DetailPenyewaan from '@/components/DetailPenyewaanPopup';
+import InvoiceSection from './InvoiceSection';
+import ComplaintForm from './PopUpKomplain';
+import { RentalStatus } from '@prisma/client';
+import { useAuth } from "@clerk/nextjs";
 
-const Tracking: React.FC = () => {
-    const [isOpen, setIsOpen] = useState(false);
-    const [isPopupOpen, setIsPopupOpen] = useState(false);
-    const [aduan, setAduan] = useState('');
+interface RentalData {
+  id: number;
+  rentalName: string;
+  rentalRequestNumber: string | null;
+  status: string;
+  createdAt: string;
+}
 
+interface RentalTimeline {
+  id: number;
+  rentalId: number;
+  rentalStatus: RentalStatus;
+  rentalTimelineCreatedAt: string;
+}
 
-    const toggleAccordion = () => {
-        setIsOpen((prev) => !prev);
-    };
+interface UserTrackingStatus {
+  [key: number]: {
+    isAdminReceived: boolean;
+    isManagerProcessing: boolean;
+    isManagerApproved: boolean;
+    isManagerRejected: boolean;
+    isPaymentPaid: boolean;
+    isDeliveryStarted: boolean;
+    isInUse: boolean;
+    isReturned: boolean;
+    createdAt: Date;
+  };
+}
 
-    const handleAduanChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-        setAduan(e.target.value);
-    };
+const statusMapping = {
+  isAdminReceived: 'RECEIVED',
+  isManagerProcessing: 'REVIEWING',
+  isManagerApproved: 'APPROVED',
+  isManagerRejected: 'REJECTED',
+  isPaymentPaid: 'PAID',
+  isDeliveryStarted: 'DELIVERY',
+  isInUse: 'IN_USE',
+  isReturned: 'RETURNED'
+} as const;
 
-    const handleSubmit = () => {
-        // Logika untuk mengirim aduan
-        console.log('Aduan:', aduan);
-        setAduan('');
-        setIsPopupOpen(false); // Tutup pop-up setelah mengirim
-    };
+const formatDate = (dateString: string | Date) => {
+  try {
+    const date = new Date(dateString);
+    if (isNaN(date.getTime())) return '-';
+    return date.toLocaleDateString('id-ID', {
+      day: 'numeric',
+      month: 'long',
+      year: 'numeric'
+    });
+  } catch (error) {
+    console.error('Error formatting date:', error);
+    return '-';
+  }
+};
 
-    const StatusItem: React.FC<{ color: string; text: string; direction?: 'up' | 'down' | 'both' }> = ({
-        color,
-        text,
-        direction = 'both',
-    }) => (
-        <div style={{ position: 'relative', display: 'flex', alignItems: 'center', margin: '20px 0' }}>
-            {/* Garis ke atas */}
-            {direction === 'up'  ? (
-                <div style={{ ...styles.line, top: '-47px' }}></div>
-            ) : null}
-            
-            {/* Lingkaran status */}
-            <div style={{ ...styles.dot, backgroundColor: color }}></div>
-            
-            {/* Garis ke bawah */}
-            {direction === 'down' ? (
-                <div style={{ ...styles.line, bottom: '-47px' }}></div>
-            ) : null}
+interface StatusItemProps {
+  color: string;
+  text: string;
+  direction?: 'up' | 'down' | 'both';
+}
 
-            {direction === 'both' ? (
-                <div style={{ ...styles.line, bottom: '-15px', top:'15px' }}></div>
-            ) : null}
+const StatusItem: React.FC<StatusItemProps> = ({
+  color,
+  text,
+  direction = 'both',
+}) => (
+  <div className="relative flex items-center my-5">
+    <div className="flex items-center flex-1">
+      {direction === 'up' && <div style={styles.lineStyle as CSSProperties}></div>}
+      <div style={{ ...styles.dotStyle as CSSProperties, backgroundColor: color }}></div>
+      {direction === 'down' && (
+        <div style={{ ...styles.lineStyle as CSSProperties, bottom: '-47px', top: 'auto' }}></div>
+      )}
+      {direction === 'both' && (
+        <div style={{ ...styles.lineStyle as CSSProperties, bottom: '-15px', top: '15px' }}></div>
+      )}
+      <span className="flex-grow text-base font-normal">{text}</span>
+    </div>
+  </div>
+);
 
-            {/* Teks status */}
-            <span style={styles.text}>{text}</span>
+const RentalTracking: React.FC = () => {
+  const { userId } = useAuth();
+  const [rentals, setRentals] = useState<RentalData[]>([]);
+  const [openRentalId, setOpenRentalId] = useState<number | null>(null);
+  const [isDetailOpen, setIsDetailOpen] = useState(false);
+  const [selectedDetailId, setSelectedDetailId] = useState<number | null>(null);
+  const [trackingStatus, setTrackingStatus] = useState<UserTrackingStatus>({});
+  const [showComplaintForm, setShowComplaintForm] = useState(false);
+  const [selectedRentalId, setSelectedRentalId] = useState<number | null>(null);
+
+  const fetchInitialData = async () => {
+    try {
+     // if (!userId) return; // Guard clause
+      
+      const response = await fetch('/api/equipment-rental/user');
+      const rentalsData = await response.json();
+      const rentalsToProcess = rentalsData.data || []; // Access .data property
+      setRentals(rentalsToProcess);
+
+      const initialStatus: UserTrackingStatus = {};
+      for (const rental of rentalsToProcess) {
+        const timelineResponse = await fetch(`/api/equipment-rental/${rental.id}/timeline`);
+        const timelines: RentalTimeline[] = await timelineResponse.json();
+
+        const createdAt = timelines.length > 0
+          ? new Date(timelines[0].rentalTimelineCreatedAt)
+          : new Date();
+
+        initialStatus[rental.id] = {
+          isAdminReceived: timelines.some(t => t.rentalStatus === RentalStatus.RECEIVED),
+          isManagerProcessing: timelines.some(t => t.rentalStatus === RentalStatus.REVIEWING),
+          isManagerApproved: timelines.some(t => t.rentalStatus === RentalStatus.APPROVED),
+          isManagerRejected: timelines.some(t => t.rentalStatus === RentalStatus.REJECTED),
+          isPaymentPaid: timelines.some(t => t.rentalStatus === RentalStatus.PAID),
+          isDeliveryStarted: timelines.some(t => t.rentalStatus === RentalStatus.DELIVERY),
+          isInUse: timelines.some(t => t.rentalStatus === RentalStatus.IN_USE),
+          isReturned: timelines.some(t => t.rentalStatus === RentalStatus.RETURNED),
+          createdAt
+        };
+      }
+      setTrackingStatus(initialStatus);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+      setRentals([]);
+    }
+  };
+
+  useEffect(() => {
+    fetchInitialData();
+  }, []);
+
+  const handleToggleAccordion = (rentalId: number) => {
+    setOpenRentalId(openRentalId === rentalId ? null : rentalId);
+  };
+
+  const handleOpenDetail = (rentalId: number) => {
+    setSelectedDetailId(rentalId);
+    setIsDetailOpen(true);
+  };
+
+  const handleComplaintClick = (rentalId: number) => {
+    setSelectedRentalId(rentalId);
+    setShowComplaintForm(true);
+  };
+
+  const handleComplaintSuccess = () => {
+    setShowComplaintForm(false);
+    fetchInitialData();
+  };
+
+  const isRentalFinished = (rentalId: number) => {
+    return trackingStatus[rentalId]?.isReturned || trackingStatus[rentalId]?.isManagerRejected;
+  };
+
+  const getStatusColor = (rentalId: number, status: keyof typeof statusMapping) => {
+    if (trackingStatus[rentalId]?.[status]) return 'green';
+    const prevStatus = getPreviousStatus(status);
+    if (!prevStatus || trackingStatus[rentalId]?.[prevStatus]) return 'red';
+    return 'gray';
+  };
+
+  const getPreviousStatus = (status: keyof typeof statusMapping) => {
+    const statusOrder: (keyof typeof statusMapping)[] = [
+      'isAdminReceived',
+      'isManagerProcessing',
+      'isManagerApproved',
+      'isPaymentPaid',
+      'isDeliveryStarted',
+      'isInUse',
+      'isReturned'
+    ];
+    const currentIndex = statusOrder.indexOf(status);
+    return currentIndex > 0 ? statusOrder[currentIndex - 1] : null;
+  };
+
+  const activeRentals = rentals.filter(rental => !isRentalFinished(rental.id));
+  const completedRentals = rentals.filter(rental => isRentalFinished(rental.id));
+
+  const renderRentalCard = (rental: RentalData) => (
+    <div key={rental.id} className="bg-[#FAEBD7] p-5 rounded-lg border border-gray-300 w-[750px] mb-5">
+      <div className="flex justify-between items-center">
+        <div className="flex flex-col">
+          <h2 className="font-bold text-left text-[20px] cursor-pointer m-0" onClick={() => handleToggleAccordion(rental.id)}>
+            {rental.rentalRequestNumber || 'Nomor permohonan belum diterbitkan'}
+          </h2>
+          <p className="text-sm mt-1">
+            Tanggal Pemesanan: {trackingStatus[rental.id]?.createdAt ? formatDate(trackingStatus[rental.id].createdAt) : '-'}
+          </p>
+          {trackingStatus[rental.id]?.isManagerRejected && (
+            <p className="text-sm mt-1 text-red-600">Status: Ditolak</p>
+          )}
+          {trackingStatus[rental.id]?.isReturned && (
+            <p className="text-sm mt-1 text-green-600">Status: Selesai</p>
+          )}
         </div>
-    );
-    
-    
+        <img
+          src="assets/ExternalLink.png"
+          alt="Open Detail"
+          className="h-8 w-10 mr-12 cursor-pointer"
+          onClick={() => handleOpenDetail(rental.id)}
+        />
+      </div>
 
-    
-    return (
-        
-        <div style={{
-            backgroundColor: '#FAEBD7', // Warna krem
-            padding: '20px',
-            borderRadius: '10px',
-            border: '1px solid #ccc',
-            width: '750px',
-            height: isOpen ? 'auto' : '74px', // Adjust height based on state
-            margin: '10px auto',
-            transition: 'height 0.3s ease', // Smooth transition
-        }}>
-            <h2
-                style={{
-                    fontWeight: 'bold',
-                    fontSize: '20px',
-                    textAlign: 'left',
-                    margin: 0,
-                    cursor: 'pointer',
-                }}
-                onClick={toggleAccordion} // Toggle on click
+      {openRentalId === rental.id && (
+        <div className="mt-4">
+          <StatusItem
+            color={getStatusColor(rental.id, 'isAdminReceived')}
+            text="Admin Laboratorium telah menerima surat perjanjian kerja sama/MOU"
+            direction="down"
+          />
+          <StatusItem
+            color={getStatusColor(rental.id, 'isManagerProcessing')}
+            text="Sedang diproses oleh Manager ISO"
+          />
+          <StatusItem
+            color={getStatusColor(rental.id, 'isManagerApproved')}
+            text="Manager ISO menyetujui penyewaan alat"
+          />
+          <StatusItem
+            color={getStatusColor(rental.id, 'isPaymentPaid')}
+            text="Customer perlu membayar"
+          />
+
+          {trackingStatus[rental.id]?.isManagerApproved && (
+            <div className="mb-5 ml-6">
+              <InvoiceSection
+                id={rental.id}
+                formType="equipment-rental"
+              />
+            </div>
+          )}
+
+          <StatusItem
+            color={getStatusColor(rental.id, 'isDeliveryStarted')}
+            text="Proses Pengiriman"
+          />
+          <StatusItem
+            color={getStatusColor(rental.id, 'isInUse')}
+            text="Sedang Digunakan"
+          />
+          <StatusItem
+            color={getStatusColor(rental.id, 'isReturned')}
+            text="Pengembalian alat-alat berhasil"
+            direction="up"
+          />
+
+          <div className="mt-4 text-right mr-3">
+            <button
+              onClick={() => handleComplaintClick(rental.id)}
+              className="text-gray-600 hover:text-gray-800"
             >
-                Nomor Penyewaan
-            </h2>
-
-            {isOpen && ( // Conditionally render the tracking information
-                <div style={{ marginTop: '10px' }}>
-                    <p style={styles.date}>Tanggal Permohonan: 23 Januari 2025</p>
-
-                    <div style={styles.status}>
-                        <StatusItem color="green" text="Admin Laboratorium telah menerima surat pengantar dan sampel" direction="down" />
-                        <StatusItem color="red" text="Sedang diproses oleh Supervisor" direction="both" />
-                        <StatusItem color="green" text="Supervisor menyetujui analisis sampel"  direction="both" />
-                        <StatusItem color="gray" text="Customer perlu membayar"direction="both" />
-                        
-                        <div style={styles.paymentSection}>
-                            <div style={{
-                                display: 'flex',
-                                alignItems: 'center',
-                                gap: '20px', // Jarak antara tombol
-                            }}>
-                                <button
-                                    style={{
-                                        backgroundImage: `url(/assets/downloadinvoicepng.png)`,
-                                        backgroundSize: '35px 25px',
-                                        backgroundRepeat: 'no-repeat',
-                                        backgroundPosition: 'left',
-                                        backgroundColor: 'white',
-                                        color: 'black',
-                                        padding: '10px 0px 10px 20px',
-                                        border: '3px solid #50BCB8',
-                                        borderRadius: '10px',
-                                        cursor: 'pointer',
-                                        fontSize: '16px',
-                                        width: '95px',
-                                        height: '38px',
-                                        display: 'flex',
-                                        alignItems: 'center',
-                                        justifyContent: 'center',
-                                        boxShadow: '0 2px 5px rgba(0, 0, 0, 0.5)',
-                                        marginLeft: '25px'
-                                    }}
-                                >
-                                    Invoice
-                                </button>
-                                <button
-                                    style={{
-                                        backgroundImage: `url(/assets/UnggahTFpng.png)`,
-                                        backgroundSize: '35px 25px',
-                                        backgroundRepeat: 'no-repeat',
-                                        backgroundPosition: 'left',
-                                        backgroundColor: '#50BCB8',
-                                        color: 'white',
-                                        padding: '10px 0px 10px 20px',
-                                        border: '3px solid #50BCB8',
-                                        borderRadius: '10px',
-                                        cursor: 'pointer',
-                                        fontSize: '16px',
-                                        width: '240px',
-                                        height: '38px',
-                                        display: 'flex',
-                                        alignItems: 'center',
-                                        justifyContent: 'center',
-                                        boxShadow: '0 2px 5px rgba(0, 0, 0, 0.5)',
-                                    }}
-                                >
-                                    Unggah Bukti Pembayaran
-                                </button>
-                            </div>
-                        </div>
-
-                        <StatusItem color="gray" text="Proses Pengiriman" direction="up" />
-                        <StatusItem color="gray" text="Proses Pengembalian" direction="up" />
-                        <StatusItem color="gray" text="Pengembalian Alat-Alat Berhasil" direction="up" />
-                    </div>
-
-                    <div style={styles.footer}>
-                    <button style={{
-                            color: 'grey',
-                            marginLeft: '550px',
-                        }} onClick={() => setIsPopupOpen(true)}>
-                            Ajukan Pengaduan
-                        </button>
-                    </div>
-                    {isPopupOpen && (
-                        <div style={styles.popup}>
-                            <div style={styles.popupContent}>
-                                
-                                <textarea
-                                    value={aduan}
-                                    onChange={handleAduanChange}
-                                    placeholder="Tulis Aduan"
-                                    style={styles.textarea}
-                                />
-                                <button onClick={handleSubmit} style={styles.submitButton}>Kirim</button>
-                                <button onClick={() => setIsPopupOpen(false)} style={styles.closeButton}>×</button>
-                            </div>
-                        </div>
-                    )}
-                </div>
-            )}
+              Ajukan Pengaduan
+            </button>
+          </div>
         </div>
-    );
+      )}
+    </div>
+  );
+
+  return (
+    <div className="w-full flex flex-col items-center">
+      <div style={{ width: '750px' }}>
+        <h2 className="text-2xl font-bold mb-4">Penyewaan Alat</h2>
+
+        {activeRentals.length > 0 && (
+          <>
+            <h3 className="text-xl mb-4">Terbaru</h3>
+            {activeRentals.map(rental => renderRentalCard(rental))}
+          </>
+        )}
+
+        {completedRentals.length > 0 && (
+          <>
+            <h3 className="text-xl mb-4">Selesai</h3>
+            {completedRentals.map(rental => renderRentalCard(rental))}
+          </>
+        )}
+
+        {rentals.length === 0 && (
+          <p className="text-gray-500 text-center">Tidak ada penyewaan alat</p>
+        )}
+      </div>
+
+      {isDetailOpen && selectedDetailId && (
+        <DetailPenyewaan
+          id={selectedDetailId}
+          onClose={() => setIsDetailOpen(false)}
+        />
+      )}
+
+      {showComplaintForm && selectedRentalId && (
+        <ComplaintForm
+          testId={selectedRentalId}
+          formType="equipment-rental"
+          onClose={() => setShowComplaintForm(false)}
+          onSubmitSuccess={handleComplaintSuccess}
+        />
+      )}
+    </div>
+  );
 };
 
-
-
-const styles: { [key: string]: React.CSSProperties } = {
-    title: {
-        marginBottom: '10px',
-        fontSize: '20px',
-        fontWeight: 'bold',
-    },
-    date: {
-        marginBottom: '20px',
-        fontSize: '18px',
-    },
-    status: {
-        marginBottom: '20px',
-        fontSize: '16px',
-    },
-    statusItem: {
-        display: 'flex',
-        alignItems: 'center',
-        margin: '5px 0',
-    },
-    dot: {
-        height: '12px',
-        width: '12px',
-        borderRadius: '50%',
-        zIndex: 2, // Pastikan lingkaran berada di atas garis
-        position: 'relative',
-        marginRight: '10px'
-    },
-    line: {
-        position: 'absolute',
-        left: '6px', 
-        transform: 'translateX(-50%)',// Sesuaikan posisi agar sejajar dengan lingkaran
-        width: '2px', // Lebar garis
-        height: '65px', // Panjang garis
-        backgroundColor: '#ccc', // Warna statis abu-abu
-        zIndex: 1, // Pastikan garis berada di bawah lingkaran
-    },
-    text: {
-        flexGrow: 1,
-    },
-    paymentSection: {
-        marginBottom: '20px',
-    },
-    finalStep: {
-        marginBottom: '20px',
-    },
-    footer: {
-        marginTop: '20px',
-    },
-    popup: {
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-        backgroundColor: 'rgba(0, 0, 0, 0.5)', // Background overlay
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        zIndex: 1000, // Ensure it's on top
-    },
-    popupContent: {
-        backgroundColor: 'white',
-        padding: '20px',
-        borderRadius: '10px',
-        width: '400px',
-        position: 'relative',
-        
-    },
-    textarea: {
-        width: '100%',
-        height: '100px',
-        padding: '10px',
-        borderRadius: '5px',
-        border: '1px solid #ccc',
-        backgroundColor: '#D9D9D9',
-        marginTop : '20px'
-    },
-    submitButton: {
-        backgroundColor: '#00AFB9',
-        color: 'white',
-        padding: '10px 20px',
-        border: 'none',
-        borderRadius: '5px',
-        cursor: 'pointer',
-        marginTop: '10px',
-        width: '75px',
-        height : '35px', 
-        display: 'flex', // Menambahkan display flex
-        alignItems: 'center', // Menyelaraskan teks secara vertikal
-        justifyContent: 'center', 
-    },
-    closeButton: {
-        position: 'absolute',
-        top: '10px',
-        right: '20px',
-        background: 'none',
-        border: 'none',
-        fontSize: '20px',
-        cursor: 'pointer',
-    },
+const styles = {
+  dotStyle: {
+    height: '12px',
+    width: '12px',
+    borderRadius: '50%',
+    zIndex: 2,
+    position: 'relative' as const,
+    marginRight: '10px'
+  },
+  lineStyle: {
+    position: 'absolute' as const,
+    left: '6px',
+    transform: 'translateX(-50%)',
+    width: '2px',
+    height: '65px',
+    backgroundColor: '#ccc',
+    zIndex: 1,
+    top: '-47px'
+  }
 };
 
-export default Tracking;
+export default RentalTracking;
