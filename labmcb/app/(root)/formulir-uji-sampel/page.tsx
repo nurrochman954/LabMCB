@@ -9,12 +9,22 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import TopBar from "@/components/TopBar";
 import { FileUpload } from '@/components/FileUpload';
+import Notification from '@/components/Notifikasi';
+
 
 const SampleRequestForm: React.FC = () => {
   const { userId } = useAuth();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState('');
   const [isHovered, setIsHovered] = useState(false);
+
+  const formatEquipmentName = (name: string) => {
+    return name.split('_').map(word => word.toUpperCase()).join(' ');
+  };
+
+  const formatSampleType = (type: string) => {
+    return type.charAt(0).toUpperCase() + type.slice(1).toLowerCase();
+  };
 
   const [formData, setFormData] = useState<SampleTestFormData>({
     testName: '',
@@ -33,6 +43,12 @@ const SampleRequestForm: React.FC = () => {
     resultFile: null,
     sampleRequestNumber: null
   });
+
+  // Add state for notification
+  const [notification, setNotification] = useState<{
+    message: string;
+    type: 'success' | 'error';
+  } | null>(null)
 
   // Cleanup effect untuk memastikan scroll selalu normal
   useEffect(() => {
@@ -94,7 +110,10 @@ const SampleRequestForm: React.FC = () => {
 
   const handleSubmit = async () => {
     if (!userId) {
-      setError('Silakan login terlebih dahulu');
+      setNotification({
+        message: 'Silakan masuk terlebih dahulu',
+        type: 'success'
+      });
       return;
     }
 
@@ -108,18 +127,22 @@ const SampleRequestForm: React.FC = () => {
     setError('');
 
     try {
-      const dataToSubmit = {
+      const response = await createSampleTestForm(userId, {
         ...formData,
         sampleQuantity: Number(formData.sampleQuantity),
         testDescription: formData.testDescription || null,
         resultFile: formData.resultFile || null,
         sampleRequestNumber: formData.sampleRequestNumber || null
-      };
-
-      const response = await createSampleTestForm(userId, dataToSubmit);
-
+      });
+  
       if (response.success && response.data) {
-        window.location.href = '/halaman-saya';
+        setNotification({
+          message: 'Formulir permohonan uji sampel berhasil dikirim',
+          type: 'success'
+        });
+        setTimeout(() => {
+          window.location.href = '/halaman-saya';
+        }, 2000);
       } else {
         setError(response.error || 'Terjadi kesalahan saat mengirim form');
       }
@@ -482,7 +505,7 @@ const SampleRequestForm: React.FC = () => {
                     onChange={handleSampleTypeChange}
                     style={{ marginRight: '8px' }}
                   />
-                  {type}
+                  {formatSampleType(type)}
                 </label>
               ))}
             </div>
@@ -504,7 +527,7 @@ const SampleRequestForm: React.FC = () => {
                     onChange={(e) => handleAnalysisTypeChange(type, e.target.checked)}
                     style={{ marginRight: '8px' }}
                   />
-                  {type}
+                  {formatEquipmentName(type)}
                 </label>
               ))}
             </div>
@@ -635,7 +658,13 @@ const SampleRequestForm: React.FC = () => {
           </div>
         </div>
       </div>
-
+      {notification && (
+        <Notification
+          message={notification.message}
+          type={notification.type}
+          onClose={() => setNotification(null)}
+        />
+      )}
       <Footer />
     </>
   );
