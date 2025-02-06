@@ -1,309 +1,423 @@
-'use client'
-import React, { useState } from 'react';
+'use client';
+import React, { useState, useEffect, CSSProperties } from 'react';
+import { useAuth } from "@clerk/nextjs";
+import ButtonDU from './TombolDU';
+import PopUpNoSurat from '@/components/PopUpNoSurat';
+import DetailPermohonan from '@/components/DetailPermohonanPopup';
+import InvoiceSection from './InvoiceSection';
+import FileResultDownload from './FileResultDownload';
+import ComplaintForm from './PopUpKomplain';
+import type { SampleTest, TestTimelineData, UserTrackingStatus } from '../types';
+
+const statusMapping = {
+    isAdminReceived: 'RECEIVED',
+    isSupervisorProcessing: 'REVIEWING',
+    isSupervisorApproved: 'APPROVED',
+    isSupervisorRejected: 'REJECTED',
+    isLaboranTested: 'TESTED',
+    isPaymentPaid: 'PAID',
+    isFileUploaded: 'COMPLETED'
+} as const;
+
+interface StatusItemProps {
+    color: string;
+    text: string;
+    direction?: 'up' | 'down' | 'both';
+    showCheckbox?: boolean;
+    onCheck?: () => void;
+}
+
+const formatDate = (dateString: string | Date) => {
+    try {
+        const date = new Date(dateString);
+        if (isNaN(date.getTime())) {
+            return '-';
+        }
+        const options: Intl.DateTimeFormatOptions = {
+            day: 'numeric',
+            month: 'long',
+            year: 'numeric'
+        };
+        return date.toLocaleDateString('id-ID', options);
+    } catch (error) {
+        console.error('Error formatting date:', error);
+        return '-';
+    }
+};
+
+const StatusItem: React.FC<StatusItemProps> = ({
+    color,
+    text,
+    direction = 'both',
+}) => (
+    <div className="relative flex items-center my-5">
+        <div className="flex items-center flex-1">
+            {direction === 'up' && (
+                <div style={styles.lineStyle as CSSProperties}></div>
+            )}
+
+            <div style={{
+                ...styles.dotStyle as CSSProperties,
+                backgroundColor: color
+            }}></div>
+
+            {direction === 'down' && (
+                <div style={{
+                    ...styles.lineStyle as CSSProperties,
+                    bottom: '-47px',
+                    top: 'auto'
+                }}></div>
+            )}
+
+            {direction === 'both' && (
+                <div style={{
+                    ...styles.lineStyle as CSSProperties,
+                    bottom: '-15px',
+                    top: '15px'
+                }}></div>
+            )}
+
+            <span className="flex-grow text-base font-normal">{text}</span>
+        </div>
+    </div>
+);
 
 const Tracking: React.FC = () => {
-    const [isOpen, setIsOpen] = useState(false);
+    const { userId } = useAuth();
+    const [sampleTests, setSampleTests] = useState<SampleTest[]>([]);
+    const [openTestId, setOpenTestId] = useState<number | null>(null);
+    const [isDetailOpen, setIsDetailOpen] = useState(false);
+    const [selectedDetailId, setSelectedDetailId] = useState<number | null>(null);
+    const [trackingStatus, setTrackingStatus] = useState<UserTrackingStatus>({});
     const [isPopupOpen, setIsPopupOpen] = useState(false);
-    const [aduan, setAduan] = useState('');
+    const [currentTestId, setCurrentTestId] = useState<number | null>(null);
+    // State untuk ComplaintForm
+    const [showComplaintForm, setShowComplaintForm] = useState(false);
+    const [selectedTestId, setSelectedTestId] = useState<number | null>(null);
 
-
-    const toggleAccordion = () => {
-        setIsOpen((prev) => !prev);
-    };
-
-    const handleAduanChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-        setAduan(e.target.value);
-    };
-
-    const handleSubmit = () => {
-        // Logika untuk mengirim aduan
-        console.log('Aduan:', aduan);
-        setAduan('');
-        setIsPopupOpen(false); // Tutup pop-up setelah mengirim
-    };
-
-    const StatusItem: React.FC<{ color: string; text: string; direction?: 'up' | 'down' | 'both' }> = ({
-        color,
-        text,
-        direction = 'both',
-    }) => (
-        <div style={{ position: 'relative', display: 'flex', alignItems: 'center', margin: '20px 0' }}>
-            {/* Garis ke atas */}
-            {direction === 'up'  ? (
-                <div style={{ ...styles.line, top: '-47px' }}></div>
-            ) : null}
-            
-            {/* Lingkaran status */}
-            <div style={{ ...styles.dot, backgroundColor: color }}></div>
-            
-            {/* Garis ke bawah */}
-            {direction === 'down' ? (
-                <div style={{ ...styles.line, bottom: '-47px' }}></div>
-            ) : null}
-
-            {direction === 'both' ? (
-                <div style={{ ...styles.line, bottom: '-15px', top:'15px' }}></div>
-            ) : null}
-
-            {/* Teks status */}
-            <span style={styles.text}>{text}</span>
-        </div>
-    );
-    
-    
-
-    
-    return (
+// In Tracking.tsx, modify fetchInitialData:
+const fetchInitialData = async () => {
+    try {
+    //  if (!userId) return; // Add guard clause for userId
+      
+      const testsResponse = await fetch(`/api/sample-test/user`);
+      const testsData = await testsResponse.json();
+      
+      const tests = testsData.data || testsData;
+      setSampleTests(Array.isArray(tests) ? tests : []);
+      
+      const initialStatus: UserTrackingStatus = {};
+      const testsToProcess = Array.isArray(tests) ? tests : [];
+      
+      for (const test of testsToProcess) {
+        const timelineResponse = await fetch(`/api/sample-test/${test.id}/timeline`);
+        const timelines = await timelineResponse.json();
         
-        <div style={{
-            backgroundColor: '#FAEBD7', // Warna krem
-            padding: '20px',
-            borderRadius: '10px',
-            border: '1px solid #ccc',
-            width: '750px',
-            height: isOpen ? 'auto' : '74px', // Adjust height based on state
-            margin: '10px auto',
-            transition: 'height 0.3s ease', // Smooth transition
-        }}>
-            <h2
-                style={{
-                    fontWeight: 'bold',
-                    fontSize: '20px',
-                    textAlign: 'left',
-                    margin: 0,
-                    cursor: 'pointer',
-                }}
-                onClick={toggleAccordion} // Toggle on click
-            >
-                Nomor Permohonan
-            </h2>
+        const createdAt = timelines.length > 0 ? 
+          new Date(timelines[0].testTimelineCreatedAt) : 
+          new Date();
+  
+        initialStatus[test.id] = {
+          isAdminReceived: timelines.some((t: TestTimelineData) => t.testStatus === 'RECEIVED'),
+          isSupervisorProcessing: timelines.some((t: TestTimelineData) => t.testStatus === 'REVIEWING'),
+          isSupervisorApproved: timelines.some((t: TestTimelineData) => t.testStatus === 'APPROVED'),
+          isSupervisorRejected: timelines.some((t: TestTimelineData) => t.testStatus === 'REJECTED'),
+          isLaboranTested: timelines.some((t: TestTimelineData) => t.testStatus === 'TESTED'),
+          isPaymentPaid: timelines.some((t: TestTimelineData) => t.testStatus === 'PAID'),
+          isFileUploaded: timelines.some((t: TestTimelineData) => t.testStatus === 'COMPLETED'),
+          createdAt
+        };
+      }
+      setTrackingStatus(initialStatus);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+      setSampleTests([]);
+    }
+  };
 
-            {isOpen && ( // Conditionally render the tracking information
-                <div style={{ marginTop: '10px' }}>
-                    <p style={styles.date}>Tanggal Permohonan: 23 Januari 2025</p>
+    useEffect(() => {
+        fetchInitialData();
+    }, []);
 
-                    <div style={styles.status}>
-                        <StatusItem color="green" text="Admin Laboratorium telah menerima surat pengantar dan sampel" direction="down" />
-                        <StatusItem color="red" text="Sedang diproses oleh Supervisor" direction="both" />
-                        <StatusItem color="green" text="Supervisor menyetujui analisis sampel"  direction="both" />
-                        <StatusItem color="gray" text="Customer perlu membayar"direction="both" />
-                        
-                        <div style={styles.paymentSection}>
-                            <div style={{
-                                display: 'flex',
-                                alignItems: 'center',
-                                gap: '20px', // Jarak antara tombol
-                            }}>
-                                <button
-                                    style={{
-                                        backgroundImage: `url(/assets/downloadinvoicepng.png)`,
-                                        backgroundSize: '35px 25px',
-                                        backgroundRepeat: 'no-repeat',
-                                        backgroundPosition: 'left',
-                                        backgroundColor: 'white',
-                                        color: 'black',
-                                        padding: '10px 0px 10px 20px',
-                                        border: '3px solid #50BCB8',
-                                        borderRadius: '10px',
-                                        cursor: 'pointer',
-                                        fontSize: '16px',
-                                        width: '95px',
-                                        height: '38px',
-                                        display: 'flex',
-                                        alignItems: 'center',
-                                        justifyContent: 'center',
-                                        boxShadow: '0 2px 5px rgba(0, 0, 0, 0.5)',
-                                        marginLeft: '25px'
-                                    }}
-                                >
-                                    Invoice
-                                </button>
-                                <button
-                                    style={{
-                                        backgroundImage: `url(/assets/UnggahTFpng.png)`,
-                                        backgroundSize: '35px 25px',
-                                        backgroundRepeat: 'no-repeat',
-                                        backgroundPosition: 'left',
-                                        backgroundColor: '#50BCB8',
-                                        color: 'white',
-                                        padding: '10px 0px 10px 20px',
-                                        border: '3px solid #50BCB8',
-                                        borderRadius: '10px',
-                                        cursor: 'pointer',
-                                        fontSize: '16px',
-                                        width: '240px',
-                                        height: '38px',
-                                        display: 'flex',
-                                        alignItems: 'center',
-                                        justifyContent: 'center',
-                                        boxShadow: '0 2px 5px rgba(0, 0, 0, 0.5)',
-                                    }}
-                                >
-                                    Unggah Bukti Pembayaran
-                                </button>
+    const handleStatusChange = async (testId: number, status: keyof typeof statusMapping) => {
+        try {
+            const response = await fetch(`/api/sample-test/${testId}/timeline`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ status: statusMapping[status] })
+            });
+
+            const result = await response.json();
+            if (!result.success) throw new Error(result.error);
+
+            setTrackingStatus(prev => ({
+                ...prev,
+                [testId]: { ...prev[testId], [status]: true }
+            }));
+        } catch (error) {
+            console.error('Status update error:', error);
+        }
+    };
+
+    const handleToggleAccordion = (testId: number) => {
+        setOpenTestId(openTestId === testId ? null : testId);
+    };
+
+    const handleOpenDetail = (testId: number) => {
+        setSelectedDetailId(testId);
+        setIsDetailOpen(true);
+    };
+
+    const handlePopupOpen = (testId: number) => {
+        setCurrentTestId(testId);
+        setIsPopupOpen(true);
+    };
+
+    const handlePopupConfirm = async (testId: number, nomorPermohonan: string) => {
+        try {
+            await fetch(`/api/sample-test/${testId}`, {
+                method: 'PATCH',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ sampleRequestNumber: nomorPermohonan })
+            });
+
+            setSampleTests(prev => prev.map(test =>
+                test.id === testId ? { ...test, sampleRequestNumber: nomorPermohonan } : test
+            ));
+
+            handleStatusChange(testId, 'isAdminReceived');
+            setIsPopupOpen(false);
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    };
+
+    const isTestFinished = (testId: number) => {
+        return trackingStatus[testId]?.isFileUploaded || trackingStatus[testId]?.isSupervisorRejected;
+    };
+
+    const getStatusColor = (testId: number, status: keyof typeof statusMapping) => {
+        if (trackingStatus[testId]?.[status]) return 'green';
+        const prevStatus = getPreviousStatus(status);
+        if (!prevStatus || trackingStatus[testId]?.[prevStatus]) return 'red';
+        return 'gray';
+    };
+
+    const getPreviousStatus = (status: keyof typeof statusMapping) => {
+        const statusOrder: (keyof typeof statusMapping)[] = [
+            'isAdminReceived',
+            'isSupervisorProcessing',
+            'isSupervisorApproved',
+            'isLaboranTested',
+            'isPaymentPaid',
+            'isFileUploaded'
+        ];
+        const currentIndex = statusOrder.indexOf(status);
+        return currentIndex > 0 ? statusOrder[currentIndex - 1] : null;
+    };
+
+    // Handler untuk komplain
+    const handleComplaintClick = (testId: number) => {
+        setSelectedTestId(testId);
+        setShowComplaintForm(true);
+    };
+
+    const handleComplaintSuccess = () => {
+        setShowComplaintForm(false);
+        fetchInitialData(); // Refresh data setelah submit komplain
+    };
+
+    const activeTests = Array.isArray(sampleTests) ? sampleTests.filter(test => !isTestFinished(test.id)) : [];
+    const completedTests = Array.isArray(sampleTests) ? sampleTests.filter(test => isTestFinished(test.id)) : [];
+
+    const renderTestCard = (test: SampleTest) => (
+        <div
+            className="bg-[#FAEBD7] rounded-lg border border-gray-300 w-[750px] mb-5"
+            style={{
+                padding: '20px',
+                width: '750px',
+                minHeight: '74px',
+                margin: '0 auto',
+                marginBottom: '20px',
+            }}
+        >
+            <div className="flex justify-between items-center">
+                <div className="flex flex-col">
+                    <h2
+                        className="font-bold text-left text-[20px] cursor-pointer m-0"
+                        onClick={() => handleToggleAccordion(test.id)}
+                    >
+                        {test.sampleRequestNumber || 'Nomor permohonan belum diterbitkan'}
+                    </h2>
+                    <p className="text-sm mt-1">
+                        Tanggal Permohonan: {
+                            trackingStatus[test.id]?.createdAt ?
+                                formatDate(trackingStatus[test.id]?.createdAt) :
+                                '-'
+                        }
+                    </p>
+                    {trackingStatus[test.id]?.isSupervisorRejected && (
+                        <p className="text-sm mt-1 text-red-600">Status: Ditolak</p>
+                    )}
+                    {trackingStatus[test.id]?.isFileUploaded && (
+                        <p className="text-sm mt-1 text-green-600">Status: Selesai</p>
+                    )}
+                </div>
+                <img
+                    src="assets/ExternalLink.png"
+                    alt="Open Detail"
+                    className="h-8 w-10 mr-12 cursor-pointer"
+                    onClick={() => handleOpenDetail(test.id)}
+                />
+            </div>
+
+            {openTestId === test.id && (
+                <div>
+                    <div className="mt-4">
+                        <StatusItem
+                            color={getStatusColor(test.id, 'isAdminReceived')}
+                            text="Admin Laboratorium telah menerima surat pengantar dan sampel"
+                            direction="down"
+                            showCheckbox={!trackingStatus[test.id]?.isAdminReceived}
+                            onCheck={() => handlePopupOpen(test.id)}
+                        />
+                        <StatusItem
+                            color={getStatusColor(test.id, 'isSupervisorProcessing')}
+                            text="Sedang diproses oleh Supervisor"
+                            showCheckbox={!trackingStatus[test.id]?.isSupervisorProcessing && trackingStatus[test.id]?.isAdminReceived}
+                            onCheck={() => handleStatusChange(test.id, 'isSupervisorProcessing')}
+                        />
+                        <StatusItem
+                            color={getStatusColor(test.id, 'isSupervisorApproved')}
+                            text="Supervisor menyetujui analisis sampel"
+                            showCheckbox={!trackingStatus[test.id]?.isSupervisorApproved && trackingStatus[test.id]?.isSupervisorProcessing}
+                            onCheck={() => handleStatusChange(test.id, 'isSupervisorApproved')}
+                        />
+                        <StatusItem
+                            color={getStatusColor(test.id, 'isLaboranTested')}
+                            text="Laboran selesai melakukan proses uji dan analisis pada sampel"
+                            showCheckbox={!trackingStatus[test.id]?.isLaboranTested && trackingStatus[test.id]?.isSupervisorApproved}
+                            onCheck={() => handleStatusChange(test.id, 'isLaboranTested')}
+                        />
+                        <StatusItem
+                            color={getStatusColor(test.id, 'isPaymentPaid')}
+                            text="Customer perlu membayar"
+                            showCheckbox={!trackingStatus[test.id]?.isPaymentPaid && trackingStatus[test.id]?.isLaboranTested}
+                            onCheck={() => handleStatusChange(test.id, 'isPaymentPaid')}
+                        />
+
+                        {trackingStatus[test.id]?.isLaboranTested && (
+                            <div className="mb-5 ml-6">
+                                <InvoiceSection
+                                    id={test.id}
+                                    formType="sample-test"
+                                />
                             </div>
-                        </div>
+                        )}
 
-                        <StatusItem color="gray" text="Hasil Uji Sampel" direction="up" />
-                        <div style={styles.finalStep}>
-                            <button
-                                style={{
-                                    backgroundImage: `url(/assets/downloadinvoicepng.png)`,
-                                    backgroundSize: '35px 25px',
-                                    backgroundRepeat: 'no-repeat',
-                                    backgroundPosition: 'left',
-                                    backgroundColor: 'white',
-                                    color: 'black',
-                                    padding: '10px 0px 10px 20px',
-                                    border: '3px solid #50BCB8',
-                                    borderRadius: '10px',
-                                    cursor: 'pointer',
-                                    fontSize: '16px',
-                                    width: '160px',
-                                    height: '38px',
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    justifyContent: 'center',
-                                    boxShadow: '0 2px 5px rgba(0, 0, 0, 0.5)',
-                                    marginLeft: '25px'
-                                }}
-                            >
-                                File Uji Sampel
-                            </button>
-                        </div>
+                        <StatusItem
+                            color={getStatusColor(test.id, 'isFileUploaded')}
+                            text="Admin Laboratorium telah mengunggah file hasil uji"
+                            direction="up"
+                            showCheckbox={!trackingStatus[test.id]?.isFileUploaded && trackingStatus[test.id]?.isPaymentPaid}
+                            onCheck={() => handleStatusChange(test.id, 'isFileUploaded')}
+                        />
+
+                        {trackingStatus[test.id]?.isFileUploaded && (
+                            <FileResultDownload testId={test.id} />
+                        )}
                     </div>
 
-                    <div style={styles.footer}>
-                    <button style={{
-                            color: 'grey',
-                            marginLeft: '550px',
-                        }} onClick={() => setIsPopupOpen(true)}>
+                    <div className="mt-4" style={{ textAlign: 'right', marginRight: '12px' }}>
+                        <button
+                            onClick={() => handleComplaintClick(test.id)}
+                            className="text-gray-600 hover:text-gray-800"
+                        >
                             Ajukan Pengaduan
                         </button>
                     </div>
-                    {isPopupOpen && (
-                        <div style={styles.popup}>
-                            <div style={styles.popupContent}>
-                                
-                                <textarea
-                                    value={aduan}
-                                    onChange={handleAduanChange}
-                                    placeholder="Tulis Aduan"
-                                    style={styles.textarea}
-                                />
-                                <button onClick={handleSubmit} style={styles.submitButton}>Kirim</button>
-                                <button onClick={() => setIsPopupOpen(false)} style={styles.closeButton}>×</button>
-                            </div>
-                        </div>
-                    )}
                 </div>
+            )}
+        </div>
+    );
+
+    return (
+        <div className="w-full flex flex-col items-center">
+            <div style={{ width: '750px' }}>
+                <h2 className="text-2xl font-bold mb-4">Permohonan Analisis</h2>
+
+                {activeTests.length > 0 && (
+                    <>
+                        <h3 className="text-xl mb-4">Terbaru</h3>
+                        {activeTests.map((test) => (
+                            <div key={test.id}>
+                                {renderTestCard(test)}
+                            </div>
+                        ))}
+                    </>
+                )}
+
+                {completedTests.length > 0 && (
+                    <>
+                        <h3 className="text-xl mb-4">Selesai</h3>
+                        {completedTests.map((test) => (
+                            <div key={test.id}>
+                                {renderTestCard(test)}
+                            </div>
+                        ))}
+                    </>
+                )}
+
+                {sampleTests.length === 0 && (
+                    <p className="text-gray-500 text-center">Tidak ada permohonan analisis</p>
+                )}
+            </div>
+
+            {isDetailOpen && selectedDetailId && (
+                <DetailPermohonan
+                    id={selectedDetailId}
+                    onClose={() => setIsDetailOpen(false)}
+                />
+            )}
+
+            {isPopupOpen && currentTestId && (
+                <PopUpNoSurat
+                    onClose={() => setIsPopupOpen(false)}
+                    onConfirm={(nomorPermohonan) => handlePopupConfirm(currentTestId, nomorPermohonan)}
+                />
+            )}
+
+            {showComplaintForm && selectedTestId && (
+                <ComplaintForm
+                    testId={selectedTestId}
+                    formType="sample-test"
+                    onClose={() => setShowComplaintForm(false)}
+                    onSubmitSuccess={handleComplaintSuccess}
+                />
             )}
         </div>
     );
 };
 
-
-
-const styles: { [key: string]: React.CSSProperties } = {
-    title: {
-        marginBottom: '10px',
-        fontSize: '20px',
-        fontWeight: 'bold',
-    },
-    date: {
-        marginBottom: '20px',
-        fontSize: '18px',
-    },
-    status: {
-        marginBottom: '20px',
-        fontSize: '16px',
-    },
-    statusItem: {
-        display: 'flex',
-        alignItems: 'center',
-        margin: '5px 0',
-    },
-    dot: {
+const styles = {
+    dotStyle: {
         height: '12px',
         width: '12px',
         borderRadius: '50%',
-        zIndex: 2, // Pastikan lingkaran berada di atas garis
-        position: 'relative',
+        zIndex: 2,
+        position: 'relative' as const,
         marginRight: '10px'
     },
-    line: {
-        position: 'absolute',
-        left: '6px', 
-        transform: 'translateX(-50%)',// Sesuaikan posisi agar sejajar dengan lingkaran
-        width: '2px', // Lebar garis
-        height: '65px', // Panjang garis
-        backgroundColor: '#ccc', // Warna statis abu-abu
-        zIndex: 1, // Pastikan garis berada di bawah lingkaran
-    },
-    text: {
-        flexGrow: 1,
-    },
-    paymentSection: {
-        marginBottom: '20px',
-    },
-    finalStep: {
-        marginBottom: '20px',
-    },
-    footer: {
-        marginTop: '20px',
-    },
-    popup: {
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-        backgroundColor: 'rgba(0, 0, 0, 0.5)', // Background overlay
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        zIndex: 1000, // Ensure it's on top
-    },
-    popupContent: {
-        backgroundColor: 'white',
-        padding: '20px',
-        borderRadius: '10px',
-        width: '400px',
-        position: 'relative',
-        
-    },
-    textarea: {
-        width: '100%',
-        height: '100px',
-        padding: '10px',
-        borderRadius: '5px',
-        border: '1px solid #ccc',
-        backgroundColor: '#D9D9D9',
-        marginTop : '20px'
-    },
-    submitButton: {
-        backgroundColor: '#00AFB9',
-        color: 'white',
-        padding: '10px 20px',
-        border: 'none',
-        borderRadius: '5px',
-        cursor: 'pointer',
-        marginTop: '10px',
-        width: '75px',
-        height : '35px', 
-        display: 'flex', // Menambahkan display flex
-        alignItems: 'center', // Menyelaraskan teks secara vertikal
-        justifyContent: 'center', 
-    },
-    closeButton: {
-        position: 'absolute',
-        top: '10px',
-        right: '20px',
-        background: 'none',
-        border: 'none',
-        fontSize: '20px',
-        cursor: 'pointer',
-    },
+    lineStyle: {
+        position: 'absolute' as const,
+        left: '6px',
+        transform: 'translateX(-50%)',
+        width: '2px',
+        height: '65px',
+        backgroundColor: '#ccc',
+        zIndex: 1,
+        top: '-47px'
+    }
 };
 
 export default Tracking;
