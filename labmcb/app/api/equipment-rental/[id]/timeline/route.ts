@@ -3,12 +3,17 @@ import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { RentalStatus } from '@prisma/client';
 
+type RouteParams = {
+  params: Promise<{ id: string }>;
+};
+
 export async function GET(
   request: Request,
-  context: { params: { id: string } }
+  context: RouteParams
 ) {
   try {
-    const rentalId = parseInt(context.params.id);
+    const { id } = await context.params;
+    const rentalId = parseInt(id);
     const timeline = await prisma.rentalTimeline.findMany({
       where: { rentalId },
       orderBy: { rentalTimelineCreatedAt: 'desc' }
@@ -25,10 +30,11 @@ export async function GET(
 
 export async function POST(
   request: Request,
-  { params }: { params: { id: string } }
+  context: RouteParams
 ) {
   try {
-    const rentalId = parseInt(params.id);
+    const { id } = await context.params;
+    const rentalId = parseInt(id);
     const { status } = await request.json();
 
     if (!Object.values(RentalStatus).includes(status)) {

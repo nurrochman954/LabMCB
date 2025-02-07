@@ -2,16 +2,23 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 
+// Definisikan tipe untuk params
+type RouteParams = {
+  params: Promise<{
+    formType: string;
+    id: string;
+  }>;
+};
+
 export async function POST(
   request: Request,
-  { params }: { params: { formType: string; id: string } }
+  context: RouteParams  // Gunakan tipe yang sudah didefinisikan
 ) {
   try {
+    const { formType, id } = await context.params;
+    const formId = parseInt(id);
     const { description } = await request.json();
-    const formId = parseInt(params.id);
-    const formType = params.formType;
 
-    // Validasi formType
     if (formType !== 'sample-test' && formType !== 'equipment-rental') {
       return NextResponse.json(
         { success: false, error: 'Invalid form type' },
@@ -38,14 +45,13 @@ export async function POST(
   }
 }
 
-// Untuk mendapatkan daftar complaint berdasarkan formType dan id
 export async function GET(
   request: Request,
-  { params }: { params: { formType: string; id: string } }
+  context: RouteParams  // Gunakan tipe yang sudah didefinisikan
 ) {
   try {
-    const formId = parseInt(params.id);
-    const formType = params.formType;
+    const { formType, id } = await context.params;
+    const formId = parseInt(id);
 
     const complaints = await prisma.complaint.findMany({
       where: formType === 'sample-test'

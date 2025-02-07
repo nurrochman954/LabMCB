@@ -1,3 +1,4 @@
+// app/api/sample-test/route.ts
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { auth } from '@clerk/nextjs/server';
@@ -141,26 +142,3 @@ export async function GET() {
     );
   }
 }
-
-export async function PATCH(
-  request: Request,
-  { params }: { params: { id: string } }
- ) {
-  try {
-    const { sampleRequestNumber } = await request.json();
-    const id = parseInt(params.id);
- 
-    const updated = await prisma.sampleTestForm.update({
-      where: { id },
-      data: { sampleRequestNumber }
-    });
- 
-    return NextResponse.json({ success: true, data: updated });
- 
-  } catch (error) {
-    return NextResponse.json(
-      { success: false, error: 'Failed to update request number' },
-      { status: 500 }
-    );
-  }
- }

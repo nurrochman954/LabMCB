@@ -2,15 +2,20 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 
+type RouteParams = {
+  params: Promise<{ id: string }>;
+};
+
 export async function GET(
   request: Request,
-  context: { params: { id: string } }
+  context: RouteParams
 ) {
   try {
-    const id = parseInt(context.params.id);
+    const { id } = await context.params;
+    const rentalId = parseInt(id);
 
     const rental = await prisma.rentalForm.findUnique({
-      where: { id },
+      where: { id: rentalId },
       include: {
         user: { select: { username: true, email: true }},
         timelines: {
@@ -38,10 +43,11 @@ export async function GET(
 
 export async function PATCH(
   request: Request,
-  { params }: { params: { id: string } }
+  context: RouteParams
 ) {
   try {
-    const id = parseInt(params.id);
+    const { id } = await context.params;
+    const rentalId = parseInt(id);
     const body = await request.json();
     
     console.log('Received update body:', body);
@@ -59,7 +65,7 @@ export async function PATCH(
     if (paymentProof !== undefined) updateData.paymentProof = paymentProof;
 
     const updatedRental = await prisma.rentalForm.update({
-      where: { id },
+      where: { id: rentalId },
       data: updateData
     });
 

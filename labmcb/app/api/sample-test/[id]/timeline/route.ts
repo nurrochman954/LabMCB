@@ -3,12 +3,17 @@ import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { TestStatus } from '@prisma/client';
 
+type RouteParams = {
+  params: Promise<{ id: string }>;
+};
+
 export async function GET(
   request: Request,
-  context: { params: { id: string } }
+  context: RouteParams
 ) {
   try {
-    const testId = parseInt(context.params.id);
+    const { id } = await context.params;
+    const testId = parseInt(id);
     const timeline = await prisma.testTimeline.findMany({
       where: { testId },
       orderBy: { testTimelineCreatedAt: 'desc' }
@@ -25,10 +30,11 @@ export async function GET(
 
 export async function POST(
   request: Request,
-  { params }: { params: { id: string } }
+  context: RouteParams
 ) {
   try {
-    const testId = parseInt(params.id);
+    const { id } = await context.params;
+    const testId = parseInt(id);
     const { status } = await request.json();
 
     if (!Object.values(TestStatus).includes(status)) {
