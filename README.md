@@ -1,20 +1,30 @@
 # LabMCB
 Laboratorium Museum dan Cagar Budaya
 
-Kloning Repositori
+# Panduan Pengaturan Proyek
 
-Buka terminal atau command prompt
-Kloning repositori menggunakan perintah berikut:
-bashCopygit clone https://github.com/nurrochman954/LabMCB.git
+## 📥 Kloning Repositori
 
-Pengaturan Proyek
+1. Buka terminal atau command prompt
+2. Kloning repositori menggunakan perintah berikut:
+   ```bash
+   git clone https://github.com/nurrochman954/LabMCB.git
+   ```
 
-Masuk ke direktori proyek:
-bashCopycd LabMCB
-cd labmcb
+## 🔧 Pengaturan Proyek
 
-Instal dependensi proyek:
-bashCopynpm install
+1. Masuk ke direktori proyek:
+   ```bash
+   cd LabMCB
+   cd labmcb
+   ```
 
-Jalankan server pengembangan:
-bashCopynpm run dev
+2. Instal dependensi proyek:
+   ```bash
+   npm install
+   ```
+
+3. Jalankan server pengembangan:
+   ```bash
+   npm run dev
+   ```
